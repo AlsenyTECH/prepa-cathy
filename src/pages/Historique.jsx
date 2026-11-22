@@ -60,7 +60,7 @@ export default function Historique() {
       <main className="papier historique">
         <div className="wrap">
           <div className="chiffres">
-            <div className="carte"><span className="gros">{fmtNote(moyenne)}</span><p>moyenne sur les {dernieres.length || 0} dernières corrigées</p></div>
+            <div className="carte"><span className="gros">{fmtNote(moyenne)}</span><p>{dernieres.length ? `moyenne sur ${dernieres.length > 1 ? `les ${dernieres.length} dernières copies corrigées` : 'ta copie corrigée'}` : 'pas encore de copie corrigée'}</p></div>
             <div className="carte"><span className="gros">{pctTemps == null ? '–' : pctTemps + ' %'}</span><p>des copies rendues dans les 15 minutes</p></div>
             <div className="carte"><span className="gros">{rendues.length}</span><p>évaluation{rendues.length > 1 ? 's' : ''} rendue{rendues.length > 1 ? 's' : ''}</p></div>
           </div>
