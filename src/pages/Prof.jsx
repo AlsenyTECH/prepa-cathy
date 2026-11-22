@@ -11,6 +11,15 @@ export default function Prof() {
   const [progress, setProgress] = useState([])
   const [form, setForm] = useState({ mot_du_prof: '', prochaine_eval: '', prochaine_colle: '' })
   const [msg, setMsg] = useState('')
+  const [nouv, setNouv] = useState({ email: '', prenom: 'Cathy', nom: 'Monteiro', mdp: '' })
+  const [msgCompte, setMsgCompte] = useState(null)
+  async function creerEleve(e) {
+    e.preventDefault(); setMsgCompte(null)
+    const { data, error } = await supabase.rpc('creer_compte_eleve', { p_email: nouv.email, p_mdp: nouv.mdp, p_prenom: nouv.prenom, p_nom: nouv.nom })
+    if (error) { setMsgCompte({ err: 'Compte non créé : ' + error.message }); return }
+    setEleve({ id: data, prenom: nouv.prenom, nom: nouv.nom })
+    setMsgCompte({ ok: `Compte créé. ${nouv.prenom} se connecte avec ${nouv.email} et le mot de passe que tu as choisi ; elle pourra le changer.` })
+  }
 
   useEffect(() => {
     supabase.from('settings').select('*').eq('id', 1).maybeSingle().then(({ data }) => data && setForm({
@@ -60,6 +69,23 @@ export default function Prof() {
               {msg && <p className="ok" role="status">{msg}</p>}
             </form>
           </section>
+
+          {!eleve && (
+            <section className="carte">
+              <h2>Créer le compte de l'élève</h2>
+              <form className="form" onSubmit={creerEleve}>
+                <div className="deux">
+                  <label className="champ">Prénom<input required value={nouv.prenom} onChange={e => setNouv(n => ({ ...n, prenom: e.target.value }))} /></label>
+                  <label className="champ">Nom<input value={nouv.nom} onChange={e => setNouv(n => ({ ...n, nom: e.target.value }))} /></label>
+                </div>
+                <label className="champ">Son adresse e-mail<input type="email" required value={nouv.email} onChange={e => setNouv(n => ({ ...n, email: e.target.value }))} /></label>
+                <label className="champ">Mot de passe provisoire (8 caractères minimum)<input required minLength={8} value={nouv.mdp} onChange={e => setNouv(n => ({ ...n, mdp: e.target.value }))} /></label>
+                <button className="btn">Créer le compte</button>
+                {msgCompte?.err && <p className="erreur" role="alert">{msgCompte.err}</p>}
+              </form>
+            </section>
+          )}
+          {msgCompte?.ok && <section className="carte"><p className="ok" role="status" style={{ margin: 0 }}>{msgCompte.ok}</p></section>}
 
           <section className="carte">
             <h2>Progression</h2>
