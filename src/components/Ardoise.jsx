@@ -84,7 +84,7 @@ export default function Ardoise({ ref, traits, onTraits, hauteur, couleur = '#1f
     if (lectureSeule) return
     if (e.pointerType === 'pen' && !stylet) setStylet(true)
     if (e.pointerType === 'touch' && stylet) return // la paume ou le doigt ne dessinent pas quand un stylet est utilisé
-    e.preventDefault(); cv.current.setPointerCapture(e.pointerId)
+    e.preventDefault(); try { cv.current.setPointerCapture(e.pointerId) } catch (er) { }
     const p = pos(e)
     if (outil === 'gomme') { enCours.current = { gomme: true }; gommer(p); return }
     enCours.current = { c: couleur, s: taille, p: [p], sim: e.pointerType !== 'pen' }
