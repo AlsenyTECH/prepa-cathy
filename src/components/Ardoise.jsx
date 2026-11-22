@@ -1,4 +1,4 @@
-import { useEffect, useImperativeHandle, useRef, useState } from 'react'
+import { useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react'
 import { getStroke } from 'perfect-freehand'
 
 /* Ardoise en coordonnées logiques : largeur 1000, hauteur variable.
@@ -52,6 +52,7 @@ export default function Ardoise({ ref, traits, onTraits, hauteur, couleur = '#1f
     const i = new Image(); i.crossOrigin = 'anonymous'; i.onload = () => setImg(i); i.src = fond
   }, [fond])
 
+  useLayoutEffect(() => { setLarg(boite.current.clientWidth) }, [])
   useEffect(() => {
     const ro = new ResizeObserver(([e]) => setLarg(e.contentRect.width))
     ro.observe(boite.current); return () => ro.disconnect()
@@ -78,7 +79,7 @@ export default function Ardoise({ ref, traits, onTraits, hauteur, couleur = '#1f
   function gommer(p) {
     const avant = traitsRef.current
     const apres = avant.filter(t => !t.p.some(q => Math.hypot(q[0] - p[0], q[1] - p[1]) < 20))
-    if (apres.length !== avant.length) onTraits(apres)
+    if (apres.length !== avant.length) { traitsRef.current = apres; onTraits(apres) }
   }
   function down(e) {
     if (lectureSeule) return
@@ -102,7 +103,7 @@ export default function Ardoise({ ref, traits, onTraits, hauteur, couleur = '#1f
     if (!t || t.gomme) return
     if (t.p.length === 1) t.p.push([t.p[0][0] + 0.5, t.p[0][1] + 0.5, t.p[0][2]])
     t.p = t.p.map(([x, y, z]) => [Math.round(x * 10) / 10, Math.round(y * 10) / 10, Math.round(z * 100) / 100])
-    onTraits([...traitsRef.current, t])
+    const n = [...traitsRef.current, t]; traitsRef.current = n; onTraits(n)
   }
 
   return (
