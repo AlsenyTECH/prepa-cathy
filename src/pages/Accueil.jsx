@@ -6,6 +6,9 @@ import { dateLongue, joursAvant, prochainLundi, dansNJours, serieJours } from '.
 import { calculer } from '../lib/tampons'
 import PARCOURS from '../parcours.json'
 import Top from './Top'
+import { Link } from 'react-router-dom'
+import { compterCartes } from './Cartes'
+import { fmtNote } from '../lib/evals'
 
 function salutation(prenom) {
   const h = new Date().getHours()
@@ -24,7 +27,13 @@ export default function Accueil({ eleveId, apercu }) {
     supabase.from('progress').select('parcours, step, done_at').eq('user_id', id).then(({ data }) => setProgress(data || []))
     supabase.from('settings').select('*').eq('id', 1).maybeSingle().then(({ data }) => setSettings(data))
     supabase.from('profiles').select('prenom, nom').eq('id', id).maybeSingle().then(({ data }) => setEleve(data))
+    supabase.from('evaluations').select('id, statut, note').eq('eleve_id', id).eq('kind', 'jour').eq('jour', new Date().toLocaleDateString('sv-SE')).maybeSingle().then(({ data }) => setEvalJour(data || false))
+    supabase.from('evaluations').select('id, jour, note').eq('eleve_id', id).eq('statut', 'corrigee').order('jour', { ascending: false }).limit(1).maybeSingle().then(({ data }) => setDerniere(data))
+    compterCartes(id).then(setCartes)
   }, [id])
+  const [evalJour, setEvalJour] = useState(null)
+  const [derniere, setDerniere] = useState(null)
+  const [cartes, setCartes] = useState(null)
 
   const prenom = eleve?.prenom || profile?.prenom || ''
   const serie = useMemo(() => serieJours(progress.map(p => p.done_at)), [progress])
@@ -38,6 +47,16 @@ export default function Accueil({ eleveId, apercu }) {
     try { localStorage.setItem('tampons-vus', JSON.stringify(tampons.filter(t => t.gagne).map(t => t.code))) } catch (e) { }
   }, [tampons, apercu])
 
+  const [toutVoir, setToutVoir] = useState(false)
+  const reprise = useMemo(() => {
+    const recent = [...progress].sort((a, b) => b.done_at.localeCompare(a.done_at))[0]
+    const p = PARCOURS.find(x => x.id === recent?.parcours) || PARCOURS[PARCOURS.length - 1]
+    const faits = new Set(progress.filter(r => r.parcours === p.id).map(r => r.step))
+    const s = p.steps.find(x => !faits.has(x.id))
+    return s ? { p, s, debut: faits.size === 0 } : null
+  }, [progress])
+  const gagnes = tampons.filter(t => t.gagne), aFaire = tampons.filter(t => !t.gagne)
+  const affiches = toutVoir ? tampons : [...gagnes, ...aFaire.slice(0, 3)]
   const evalJ = joursAvant(settings?.prochaine_eval || prochainLundi())
   const colleJ = joursAvant(settings?.prochaine_colle)
   const photo = PHOTOS.bureau
@@ -55,6 +74,12 @@ export default function Accueil({ eleveId, apercu }) {
               <li>Évaluation du lundi : <span className="marque">{dansNJours(evalJ)}</span></li>
               {colleJ !== null && colleJ >= 0 && <li>Prochaine colle : <span className="marque">{dansNJours(colleJ)}</span></li>}
             </ul>
+            {reprise && (
+              <a className="reprendre" href={`/parcours/${reprise.p.file}#${reprise.s.id}`}>
+                <span className="rond" aria-hidden="true" />
+                <span><small>{reprise.debut ? 'Commencer' : 'Reprendre'} · {reprise.p.title}</small><b>{reprise.s.title}</b></span>
+              </a>
+            )}
           </div>
           <aside className="postit" aria-label="Le mot de ton prof">
             <h2>Le mot de ton prof</h2>
@@ -72,8 +97,21 @@ export default function Accueil({ eleveId, apercu }) {
           <div className="jour">
             <div className="carte eval-jour">
               <h3>Ton évaluation du jour</h3>
-              <p>15 minutes, 3 questions, comme le lundi. Elle arrive très bientôt dans ton espace.</p>
-              <button className="btn" disabled>Commencer l'évaluation</button>
+              {evalJour && evalJour.statut === 'rendue' ? <p>Copie rendue, bravo. Ton prof la corrige ; tu verras la note ici.</p>
+                : evalJour && evalJour.statut === 'corrigee' ? <p>Corrigée : <b className="marque">{fmtNote(evalJour.note)}/20</b>. Regarde les annotations de ton prof.</p>
+                : evalJour && evalJour.statut === 'en_cours' ? <p>Tu l'as commencée : le chrono tourne toujours. Reprends-la vite.</p>
+                : <p>15 minutes, 3 questions, comme le lundi : une question de cours, une démonstration, un exercice.</p>}
+              <div className="actions">
+                {apercu ? <span className="btn" aria-disabled="true">Aperçu</span>
+                  : <Link className="btn" to={evalJour?.id && ['rendue', 'corrigee'].includes(evalJour.statut) ? '/evaluation/' + evalJour.id : '/evaluation'}>
+                    {!evalJour || evalJour.statut === 'a_faire' ? 'Commencer l\'évaluation' : evalJour.statut === 'en_cours' ? 'Reprendre' : 'Voir ma copie'}</Link>}
+                {!apercu && <Link className="lien" to="/historique">Mes évaluations{derniere ? ` (dernière note : ${fmtNote(derniere.note)})` : ''}</Link>}
+              </div>
+            </div>
+            <div className="carte memo-accueil">
+              <h3>Cartes mémo</h3>
+              <p>{!cartes ? ' ' : cartes.aFaire === 0 ? 'Tout est à jour. Reviens demain pour la suite.' : `${cartes.aFaire} carte${cartes.aFaire > 1 ? 's' : ''} à revoir aujourd'hui, environ ${Math.max(2, Math.round(cartes.aFaire / 2))} minutes.`}</p>
+              {!apercu && cartes?.aFaire > 0 && <Link className="btn ghost" to="/cartes">Réviser mes cartes</Link>}
             </div>
             <div className="carte serie">
               <span className="nb" aria-hidden="true">{serie}</span>
@@ -113,9 +151,9 @@ export default function Accueil({ eleveId, apercu }) {
 
         <section className="bloc wrap" aria-labelledby="t-tampons">
           <h2 className="titre" id="t-tampons">Mes tampons</h2>
-          <p className="sous">{tampons.filter(t => t.gagne).length} sur {tampons.length}. Chaque tampon marque quelque chose que tu as vraiment fait.</p>
+          <p className="sous">{gagnes.length === 0 ? 'Tes prochains tampons à décrocher. Chacun marque quelque chose que tu as vraiment fait.' : `${gagnes.length} sur ${tampons.length}. Chacun marque quelque chose que tu as vraiment fait.`}</p>
           <div className="tampons">
-            {tampons.map((t, i) => t.gagne ? (
+            {affiches.map((t, i) => t.gagne ? (
               <div key={t.code} className={'tampon gagne' + (nouveaux.has(t.code) ? ' nouveau' : '')} style={{ '--r': `${[-4, 3, -2, 5, -6, 2][i % 6]}deg` }}>
                 <b>{t.label}</b><small>Validé</small>
               </div>
@@ -123,6 +161,7 @@ export default function Accueil({ eleveId, apercu }) {
               <div key={t.code} className="tampon pas"><b>{t.label}</b><small>{t.aide}</small></div>
             ))}
           </div>
+          {aFaire.length > 3 && <button className="voir-tout" onClick={() => setToutVoir(v => !v)}>{toutVoir ? 'Voir moins de tampons' : `Voir les ${aFaire.length - 3} autres tampons`}</button>}
         </section>
         <footer className="pied wrap">Cours d'après les fiches de S. Pellerin. Explications, vidéos et exercices : MathNexus.</footer>
       </main>

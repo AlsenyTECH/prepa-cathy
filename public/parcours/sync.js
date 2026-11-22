@@ -64,6 +64,52 @@
     }
   };
 
+
+  // ----- lien « Mon espace » dans la barre du haut (petits écrans) -----
+  function lienEspace() {
+    var tb = document.querySelector('.topbar');
+    if (!tb || tb.querySelector('.vers-espace')) return;
+    var a = document.createElement('a');
+    a.href = '/'; a.className = 'btn ghost vers-espace'; a.textContent = 'Mon espace';
+    a.style.cssText = 'margin-left:auto;text-decoration:none;white-space:nowrap';
+    tb.appendChild(a);
+  }
+
+  // ----- chrono sur les exercices -----
+  function fmt(s) { var m = Math.floor(s / 60), r = s % 60; return (m ? m + ' min ' : '') + (r < 10 && m ? '0' : '') + r + ' s'; }
+  var CSS = '.chrono{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:.9rem;margin:0}' +
+    '.chrono button{font:inherit;font-weight:600;border:1px solid currentColor;background:transparent;color:var(--pen,#2449d8);border-radius:999px;padding:3px 12px;cursor:pointer}' +
+    '.chrono .t{font-variant-numeric:tabular-nums;font-weight:700}.chrono .ok{color:#0b7a46}.chrono .lent{color:#b45309}';
+  function chronos() {
+    var st = document.createElement('style'); st.textContent = CSS; document.head.appendChild(st);
+    document.querySelectorAll('.lesson').forEach(function (lesson) {
+      lesson.querySelectorAll('.exo').forEach(function (exo, i) {
+        var q = exo.querySelector('.exo-q'); if (!q || exo.querySelector('.chrono')) return;
+        var obj = (q.textContent.length > 170 ? 5 : 3) * 60;
+        var p = document.createElement('p'); p.className = 'chrono';
+        var b = document.createElement('button'); b.type = 'button'; b.textContent = 'Me chronométrer (' + obj / 60 + ' min)';
+        var t = document.createElement('span'); t.className = 't'; t.setAttribute('aria-live', 'off');
+        p.appendChild(b); p.appendChild(t); q.parentNode.insertBefore(p, q.nextSibling);
+        var t0 = 0, iv = null;
+        b.addEventListener('click', function () {
+          if (!iv) {
+            t0 = Date.now(); t.className = 't'; t.textContent = '0 s'; b.textContent = 'J\'ai fini';
+            iv = setInterval(function () { var s = Math.round((Date.now() - t0) / 1000); t.textContent = fmt(s); if (s > obj) t.className = 't lent'; }, 1000);
+          } else {
+            clearInterval(iv); iv = null;
+            var s = Math.round((Date.now() - t0) / 1000);
+            t.className = 't ' + (s <= obj ? 'ok' : 'lent');
+            t.textContent = fmt(s) + (s <= obj ? ' : dans le temps, bravo !' : ' : objectif ' + obj / 60 + ' min, on y travaille.');
+            b.textContent = 'Recommencer';
+            if (user && role === 'eleve') sb.from('exo_chronos').insert({ user_id: user.id, parcours: parcours, step: lesson.id, exo: i + 1, secondes: s, objectif: obj }).then(function () {});
+          }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { lienEspace(); chronos(); });
+  else { lienEspace(); chronos(); }
+
   // ----- lecture : on récupère la progression du compte -----
   sb.auth.getSession().then(function (res) {
     var s = res.data.session;
