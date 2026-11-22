@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Link, Navigate, Route, Routes } from 'react-router-dom'
 import { useSession } from './lib/session'
 import Connexion from './pages/Connexion'
 import Accueil from './pages/Accueil'
@@ -22,9 +22,17 @@ function Garde({ children }) {
 }
 
 function Apercu() {
-  const [id, setId] = useState(null)
-  useEffect(() => { supabase.from('profiles').select('id').eq('role', 'eleve').limit(1).maybeSingle().then(({ data }) => setId(data?.id || null)) }, [])
-  return id ? <Accueil eleveId={id} apercu /> : <div className="papier" style={{ minHeight: '100vh' }} />
+  const [etat, setEtat] = useState({ charge: false, id: null })
+  useEffect(() => { supabase.from('profiles').select('id').eq('role', 'eleve').limit(1).maybeSingle().then(({ data }) => setEtat({ charge: true, id: data?.id || null })) }, [])
+  if (!etat.charge) return <div className="papier" style={{ minHeight: '100vh' }} />
+  if (!etat.id) return (
+    <div className="connexion" style={{ gridTemplateColumns: '1fr' }}><form>
+      <h1>Pas encore d'élève</h1>
+      <p>L'espace de l'élève s'affichera ici dès que son compte sera créé. Crée-le depuis la case « Créer le compte de l'élève » de ton tableau de bord.</p>
+      <Link className="btn" to="/">Retour au tableau de bord</Link>
+    </form></div>
+  )
+  return <Accueil eleveId={etat.id} apercu />
 }
 
 function Maison() {
