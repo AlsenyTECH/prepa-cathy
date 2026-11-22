@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Parcours Limites de suites</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Polices et MathJax sont dans assets/ : le site fonctionne sans connexion. */
+@font-face{font-family:'Caveat';font-style:normal;font-weight:500;font-display:swap;src:url(assets/fonts/caveat-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Caveat';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/caveat-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'Kalam';font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/kalam-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Kalam';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/kalam-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'Source Sans 3';font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/source-sans-3-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Source Sans 3';font-style:normal;font-weight:600;font-display:swap;src:url(assets/fonts/source-sans-3-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'Source Sans 3';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/source-sans-3-latin-700-normal.woff2) format('woff2')}
+/* Mise en page : un cahier de cours. Sommaire à gauche (les étapes dans l'ordre), une étape à la fois à droite.
+   Clair = page de cahier quadrillée (encre bleue, titres rouges, stylo vert du prof). Sombre = tableau noir et craies. */
+:root{
+  --paper:#f7f9fc; --surface:#ffffff; --ink:#1b2440; --muted:#586381; --line:#d6ddec; --grid:#e3e9f5;
+  --pen:#1c3bb0; --pen-bg:#eef2fd; --rouge:#bd1f2b; --rouge-bg:#fdf2f2; --prof:#0a7441; --prof-bg:#e9f5ee;
+  --btn-fg:#ffffff;
+  --f-body:'Source Sans 3',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-hand:'Caveat','Segoe Print','Bradley Hand',cursive;
+  --f-prof:'Kalam','Comic Sans MS','Segoe Print',cursive;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#141d1a; --surface:#1b2723; --ink:#eef2ea; --muted:#a6b5ab; --line:#33453d; --grid:#22302b;
+    --pen:#a9c4ff; --pen-bg:#202d45; --rouge:#ff9d92; --rouge-bg:#372422; --prof:#8fe0ae; --prof-bg:#1e3329;
+    --btn-fg:#10201a; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#141d1a; --surface:#1b2723; --ink:#eef2ea; --muted:#a6b5ab; --line:#33453d; --grid:#22302b;
+  --pen:#a9c4ff; --pen-bg:#202d45; --rouge:#ff9d92; --rouge-bg:#372422; --prof:#8fe0ae; --prof-bg:#1e3329;
+  --btn-fg:#10201a; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;margin:0}
+a{color:var(--pen)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--pen);outline-offset:2px}
+
+.app{display:grid;grid-template-columns:310px minmax(0,1fr);min-height:100%}
+
+/* ---------- sommaire ---------- */
+.side{background:var(--surface);border-right:1px solid var(--line);position:sticky;top:0;align-self:start;height:100vh;height:100dvh;overflow-y:auto;overscroll-behavior:contain;
+  padding-block:20px 28px;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:18px}
+.brand{font-family:var(--f-hand);font-weight:700;font-size:1.9rem;line-height:1.05;color:var(--rouge);margin:0 0 2px}
+.brand-sub{margin:0 0 14px;color:var(--muted);font-size:.92rem}
+.prog{margin:0 0 18px}
+.prog-bar{height:8px;border-radius:4px;background:var(--grid);overflow:hidden}
+.prog-fill{height:100%;width:0;background:var(--prof);transition:width .3s}
+.prog-txt{margin:6px 0 0;font-size:.88rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.nav-part{margin:16px 0 6px;font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.nav-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.nav-list a{display:grid;grid-template-columns:26px minmax(0,1fr);gap:8px;align-items:start;padding:7px 8px;border-radius:4px;text-decoration:none;color:var(--ink);font-size:.95rem;line-height:1.3}
+.nav-list a:hover{background:var(--pen-bg)}
+.nav-list a[aria-current="page"]{background:var(--pen-bg);color:var(--pen);font-weight:700}
+.nav-n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line);font-size:.78rem;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.nav-list a.done .nav-n{background:var(--prof);border-color:var(--prof);color:var(--btn-fg)}
+
+/* ---------- barre mobile ---------- */
+.topbar{display:none}
+.scrim{display:none}
+
+/* ---------- étape ---------- */
+.main{min-width:0;padding-block:0 60px}
+.lesson{max-width:860px;margin:0 auto;padding-left:max(22px,env(safe-area-inset-left,0px));padding-right:max(22px,env(safe-area-inset-right,0px))}
+.lhead{padding:30px 0 16px;margin:0 0 6px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:22px 22px;
+  border-bottom:2px solid var(--rouge)}
+.eyebrow{margin:0 0 4px;font-size:.84rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;display:flex;gap:12px;flex-wrap:wrap;align-items:baseline}
+.eyebrow .meta{letter-spacing:0;text-transform:none;font-weight:600;color:var(--prof)}
+.lhead h2{font-family:var(--f-hand);font-weight:700;font-size:clamp(2.1rem,5.2vw,3rem);line-height:1.05;margin:0;color:var(--rouge);text-wrap:balance}
+.lbody{display:flex;flex-direction:column;gap:14px;padding-top:16px}
+.lbody > p,.lbody > ul,.lbody > ol{margin:0;max-width:70ch}
+.lbody ul,.lbody ol{padding-left:1.3em}
+.lbody li{margin:4px 0}
+.lbody h3{font-size:1.22rem;margin:14px 0 0;line-height:1.25;text-wrap:balance}
+.lead{font-size:1.15rem}
+.objectif{font-size:1.08rem;color:var(--muted);font-weight:600}
+.objectif::before{content:"Objectif : ";color:var(--pen);font-weight:700}
+
+mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%;padding:4px 0;margin:.5em 0 !important}
+mjx-container{color:inherit;position:relative}
+.table-wrap,.copie,.exo{position:relative}
+
+.lab{margin:0 0 6px;font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;font-weight:700;font-family:var(--f-body)}
+.retenir{border:2px solid var(--rouge);border-radius:4px;background:var(--rouge-bg);padding:12px 16px}
+.retenir .lab{color:var(--rouge)}
+.retenir p,.retenir ul,.retenir ol{margin:6px 0}
+.retenir ul,.retenir ol{padding-left:1.3em}
+.prof{background:var(--prof-bg);border-radius:4px;padding:12px 16px;color:var(--prof);font-family:var(--f-prof);font-size:1rem;line-height:1.55}
+.prof .lab{color:var(--prof)}
+.prof p,.prof ul{margin:4px 0}
+.prof ul{padding-left:1.2em}
+.copie{border:1px solid var(--line);border-radius:3px;padding:14px 16px 12px;color:var(--pen);font-family:var(--f-hand);font-size:1.42rem;line-height:1.5;min-width:0;
+  background-color:var(--surface);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:22px 22px}
+.copie .lab{color:var(--muted)}
+.copie p{margin:4px 0}
+.copie mjx-container{font-size:.82em}
+.copie u{text-decoration-thickness:1.5px;text-underline-offset:3px}
+
+.video{margin:6px 0;display:flex;flex-direction:column;gap:6px}
+.video video{width:100%;max-width:100%;aspect-ratio:16/9;background:#101614;border-radius:4px;border:1px solid var(--line);display:block}
+.video figcaption{font-size:.95rem;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;align-items:baseline}
+.tag{font-size:.74rem;letter-spacing:.07em;text-transform:uppercase;font-weight:700;color:var(--btn-fg);background:var(--pen);padding:2px 7px;border-radius:3px}
+.dur{font-variant-numeric:tabular-nums}
+
+.table-wrap{overflow-x:auto;max-width:100%}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:.98rem}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--pen-bg);font-weight:700}
+
+.exos-h{border-top:1px solid var(--line);padding-top:18px;margin-top:18px !important}
+.exo{border:1px solid var(--line);border-radius:4px;background:var(--surface);padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.exo-n{margin:0;font-weight:700;color:var(--pen);font-size:.86rem;letter-spacing:.06em;text-transform:uppercase}
+.exo-q p{margin:4px 0}
+.exo details{display:flex;flex-direction:column;gap:10px}
+.exo summary{cursor:pointer;font-weight:700;color:var(--pen);padding:6px 0;width:max-content;max-width:100%}
+.exo details[open] summary{margin-bottom:8px}
+.exo details > * + *{margin-top:10px}
+
+.howto{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.howto > div{border:1px solid var(--line);border-radius:4px;background:var(--surface);padding:12px 14px}
+.howto p{margin:0}
+.howto .num{font-family:var(--f-hand);font-weight:700;font-size:2rem;line-height:1;color:var(--rouge);margin-bottom:4px}
+
+.chrono{border:2px solid var(--pen);border-radius:4px;background:var(--pen-bg);padding:14px 16px;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.chrono-lab{margin:0;font-weight:700}
+.chrono-t{margin:0;font-size:3rem;line-height:1;font-weight:700;font-variant-numeric:tabular-nums;color:var(--pen)}
+.chrono-b{display:flex;gap:10px;flex-wrap:wrap}
+.chrono-end{margin:0;font-weight:700;color:var(--rouge)}
+
+.btn{border:1.5px solid var(--pen);background:var(--pen);color:var(--btn-fg);font-weight:700;padding:10px 16px;border-radius:4px;cursor:pointer;text-decoration:none;display:inline-block;line-height:1.2}
+.btn.ghost{background:transparent;color:var(--pen)}
+.btn[disabled]{opacity:.45;cursor:default}
+.pager{max-width:860px;margin:30px auto 0;padding-left:max(22px,env(safe-area-inset-left,0px));padding-right:max(22px,env(safe-area-inset-right,0px));display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.pager .right{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.done-note{color:var(--prof);font-weight:700;margin:0}
+.linkbtn{background:none;border:0;padding:4px 0;color:var(--muted);font-size:.88rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.linkbtn:hover{color:var(--pen)}
+.linkbtn.warn{color:var(--rouge);font-weight:700}
+.prog .linkbtn{margin-top:4px}
+.lesson{scroll-margin-top:70px;overflow-x:hidden;overflow-x:clip} /* le texte caché de MathJax pour lecteurs d'écran ne doit pas élargir la page */
+.video .hint{display:none;font-size:.88rem;color:var(--muted);margin:0}
+
+@media (max-width: 880px){
+  .app{display:block}
+  .topbar{display:flex;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line);
+    padding-block:8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));gap:12px;align-items:center;justify-content:space-between}
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+  .topbar .brand{font-size:1.45rem;margin:0}
+  .topbar .mini{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums;margin:0}
+  .side{position:fixed;inset:0 auto 0 0;width:min(88vw,330px);z-index:40;transform:translateX(-102%);transition:transform .22s;
+    /* align-self:start (utile sur ordinateur) empêchait le panneau de prendre la hauteur de l'écran : il ne défilait plus */
+    align-self:auto;height:100%;height:100dvh;max-height:100dvh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+    padding-top:calc(18px + env(safe-area-inset-top,0px));padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+  .side.open{transform:none;box-shadow:0 0 40px rgba(0,0,0,.35)}
+  .scrim{display:block;position:fixed;inset:0;z-index:30;background:rgba(10,16,30,.45)}
+  .lesson,.pager{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .lhead{padding-top:20px}
+  body{font-size:16.5px}
+  .copie{font-size:1.3rem;padding:12px 12px 10px}
+  .pager .btn{flex:1 1 auto;text-align:center}
+  .video .hint{display:block}
+}
+@media (prefers-reduced-motion: reduce){.side,.prog-fill{transition:none}}
+</style>
+<script src="/parcours/supabase.js"></script>
+<script src="/parcours/sync.js"></script>
+</head>
+<body>
+
+
+<div class="app">
+  <div class="topbar">
+    <button type="button" class="btn ghost" id="menu-btn" aria-controls="side" aria-expanded="false">Sommaire</button>
+    <p class="brand">Limites de suites</p>
+    <p class="mini" id="mini-prog"></p>
+  </div>
+  <div class="scrim" id="scrim" hidden></div>
+
+  <nav class="side" id="side" aria-label="Sommaire du parcours">
+    <p class="brand">Parcours Limites de suites</p>
+    <p class="brand-sub">Chapitre IV · ECG 1</p>
+    <p class="brand-sub"><a href="/">← Mon espace</a></p>
+    <div class="prog">
+      <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+      <p class="prog-txt" id="prog-txt"></p>
+      <button type="button" class="linkbtn" id="reset" hidden>Remettre ma progression à zéro</button>
+    </div>
+    <div id="nav"></div>
+  </nav>
+
+  <main class="main" id="main">
+<section class="lesson" id="accueil" data-part="" data-title="Comment utiliser ce parcours" hidden><header class="lhead"><p class="eyebrow">Bienvenue</p><h2>Comment utiliser ce parcours</h2></header><div class="lbody">
+<p class="lead">Ce parcours reprend le chapitre IV, <strong>Suites : limites et comparaison</strong>, dans l'ordre où il faut l'apprendre. C'est le chapitre où l'on apprend à <strong>démontrer</strong> qu'une suite a une limite, avec les fameux \(\varepsilon\) et \(n_0\).</p>
+<div class="howto">
+  <div><p class="num">1</p><p><strong>Lis l'explication.</strong> Les encadrés rouges sont à connaître par cœur.</p></div>
+  <div><p class="num">2</p><p><strong>Regarde la vidéo</strong> : chaque démonstration importante du cours y est écrite et expliquée pas à pas.</p></div>
+  <div><p class="num">3</p><p><strong>Fais les exercices sur une feuille</strong>, puis ouvre la correction et compare ligne à ligne.</p></div>
+  <div><p class="num">4</p><p><strong>Coche l'étape</strong> avec le bouton du bas. Ta progression est gardée sur cet appareil.</p></div>
+</div>
+<h3>Le plan</h3>
+<p><strong>Partie A, limite d'une suite</strong> (10 étapes) : la définition de la convergence, l'unicité de la limite, les limites infinies, les propriétés des suites convergentes, le passage à la limite dans les inégalités, les opérations sur les limites, les formes indéterminées, le théorème des gendarmes et la comparaison.</p>
+<p><strong>Pour finir</strong> : ce que le correcteur attend, puis deux évaluations chronométrées au format du lundi (15 minutes, sur 20) : calculs de limites, et démonstrations du cours.</p>
+<p><em>Les parties B (théorèmes de convergence : suites monotones, adjacentes…) et C (comparaison de suites : négligeabilité, équivalents) seront ajoutées ensuite.</em></p>
+<div class="prof"><p class="lab">Le mot du prof</p><p>Dans ce chapitre, presque toutes les démonstrations suivent le même schéma : « Soit \(\varepsilon&gt;0\). Il existe un rang \(n_0\) tel que… Posons \(N=\max(\dots)\). Alors pour tout \(n\geq N\)… ». Une fois ce schéma compris, les démonstrations du cours deviennent des variations sur un même thème.</p></div></div></section>
+<section class="lesson" id="l1" data-part="Partie A · Limite d&#x27;une suite" data-title="Converger vers ℓ : la définition" hidden><header class="lhead"><p class="eyebrow">Partie A · Limite d'une suite · Étape 1 sur 13<span class="meta">18 min</span></p><h2>Converger vers ℓ : la définition</h2></header><div class="lbody">
+<p class="objectif">Comprendre la définition de la convergence, savoir la lire avec les quantificateurs, et savoir l'utiliser pour démontrer une limite simple.</p>
+<h3>L'idée</h3>
+<p>Dire que \(u_n\) tend vers \(\ell\), c'est dire que les termes finissent par être <strong>aussi proches de \(\ell\) qu'on veut</strong>. On se fixe une « marge » \(\varepsilon&gt;0\), aussi petite qu'on veut : à partir d'un certain rang, tous les termes sont dans l'intervalle \(]\ell-\varepsilon,\ell+\varepsilon[\). Seul un nombre fini de termes (ceux d'avant ce rang) peuvent être en dehors.</p>
+<div class="retenir"><p class="lab">Définition IV-1</p><p>\(u\) <strong>converge vers \(\ell\in\R\)</strong> lorsque :</p>
+\[\forall\varepsilon&gt;0,\ \exists n_0\in\N,\ \forall n\geq n_0,\ |u_n-\ell|&lt;\varepsilon.\]
+<p>On écrit \(u_n\xrightarrow[n\to+\infty]{}\ell\). On peut remplacer \(&lt;\varepsilon\) par \(\leq\varepsilon\), ou par \(&lt;\frac\varepsilon2\) : c'est équivalent, car \(\varepsilon\) est quelconque.</p></div>
+<h3>Comment lire la phrase</h3>
+<ul>
+<li>« \(\forall\varepsilon&gt;0\) » : un adversaire te donne une marge \(\varepsilon\), aussi petite qu'il veut.</li>
+<li>« \(\exists n_0\) » : toi, tu dois trouver un rang \(n_0\). Il a le droit de <strong>dépendre de \(\varepsilon\)</strong> : plus \(\varepsilon\) est petit, plus \(n_0\) est grand.</li>
+<li>« \(\forall n\geq n_0,\ |u_n-\ell|&lt;\varepsilon\) » : à partir de ce rang, <strong>tous</strong> les termes sont à moins de \(\varepsilon\) de \(\ell\).</li>
+</ul>
+<figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/lim-definition.mp4"></video><figcaption><span class="tag">Vidéo</span> La définition de la convergence, et 1/n tend vers 0 <span class="dur">2 min 45</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p>Montrons que \(\dfrac1n\xrightarrow[n\to+\infty]{}0\).</p>
+<p>Soit \(\varepsilon&gt;0\). Posons \(n_0=\left\lfloor\dfrac1\varepsilon\right\rfloor+1\), qui est un entier naturel non nul.</p>
+<p>Pour tout \(n\geq n_0\) : \(n\geq n_0&gt;\dfrac1\varepsilon\), donc \(0&lt;\dfrac1n&lt;\varepsilon\), c'est-à-dire \(\left|\dfrac1n-0\right|&lt;\varepsilon\).</p>
+<p>Donc \(\dfrac1n\xrightarrow[n\to+\infty]{}0\).</p></div><div class="prof"><p class="lab">La méthode</p><ul><li><strong>Au brouillon</strong>, on part de ce qu'on veut, \(|u_n-\ell|&lt;\varepsilon\), et on « remonte » pour trouver une condition sur \(n\) (ici \(n&gt;\frac1\varepsilon\)). <strong>Sur la copie</strong>, on écrit dans l'autre sens : on pose \(n_0\), puis on vérifie.</li>
+<li>\(n_0\) doit être un <strong>entier</strong> : c'est pour cela qu'on prend une partie entière, avec \(+1\) pour avoir une inégalité stricte.</li>
+<li>La phrase commence toujours par « Soit \(\varepsilon&gt;0\) » : \(\varepsilon\) est fixé mais quelconque.</li></ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Montre avec la définition que \(\dfrac1{n^2}\xrightarrow[n\to+\infty]{}0\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Soit \(\varepsilon&gt;0\). Posons \(n_0=\left\lfloor\dfrac1{\sqrt\varepsilon}\right\rfloor+1\).</p><p>Pour \(n\geq n_0\) : \(n&gt;\dfrac1{\sqrt\varepsilon}\), donc \(n^2&gt;\dfrac1\varepsilon\) (nombres positifs), donc \(0&lt;\dfrac1{n^2}&lt;\varepsilon\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Au brouillon : \(\frac1{n^2}&lt;\varepsilon\iff n^2&gt;\frac1\varepsilon\iff n&gt;\frac1{\sqrt\varepsilon}\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Soit \(u_n=\dfrac{2n+1}{n+1}\). Montre avec la définition que \(u_n\xrightarrow[n\to+\infty]{}2\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Pour tout \(n\), \(|u_n-2|=\left|\dfrac{2n+1-2(n+1)}{n+1}\right|=\dfrac1{n+1}\).</p>
+<p>Soit \(\varepsilon&gt;0\). Posons \(n_0=\left\lfloor\dfrac1\varepsilon\right\rfloor+1\). Pour \(n\geq n_0\) : \(n+1&gt;n\geq n_0&gt;\dfrac1\varepsilon\), donc \(|u_n-2|=\dfrac1{n+1}&lt;\varepsilon\).</p><p>Donc \(u_n\to2\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Première étape toujours : calculer et simplifier \(|u_n-\ell|\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Écris avec des quantificateurs la phrase « \(u\) ne converge pas vers \(\ell\) ».</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>On nie la définition : \(\exists\varepsilon&gt;0,\ \forall n_0\in\N,\ \exists n\geq n_0,\ |u_n-\ell|\geq\varepsilon\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Pour nier : chaque \(\forall\) devient \(\exists\), chaque \(\exists\) devient \(\forall\), et la conclusion est niée (\(&lt;\) devient \(\geq\)).</p></div></details></article></div></section>
+<section class="lesson" id="l2" data-part="Partie A · Limite d&#x27;une suite" data-title="Unicité de la limite, suites divergentes" hidden><header class="lhead"><p class="eyebrow">Partie A · Limite d'une suite · Étape 2 sur 13<span class="meta">18 min</span></p><h2>Unicité de la limite, suites divergentes</h2></header><div class="lbody">
+<p class="objectif">Savoir démontrer que la limite est unique, et qu'une suite comme \((-1)^n\) ne converge pas.</p>
+<div class="retenir"><p class="lab">À connaître par cœur</p><ul><li>Si une suite converge, sa limite est <strong>unique</strong>. On peut alors écrire \(\ell=\lim u\) ou \(\ell=\lim\limits_{n\to+\infty}u_n\).</li>
+<li>Une suite qui ne converge pas est dite <strong>divergente</strong> : elle tend vers \(\pm\infty\), ou elle n'a pas de limite du tout.</li></ul></div><div class="prof"><p class="lab">Attention à la notation</p><p>On n'écrit <strong>jamais</strong> « \(\lim u_n=\dots\) » tant qu'on n'a pas montré que la limite existe. On écrit « \(u_n\xrightarrow[n\to+\infty]{}\ell\) », ou « \(u\) converge et sa limite vaut… ».</p></div>
+<h3>Démonstration : la limite est unique</h3>
+<figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/lim-unicite.mp4"></video><figcaption><span class="tag">Vidéo</span> Démonstration : la limite d'une suite est unique <span class="dur">2 min 10</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p>Supposons que \(u\) converge vers \(\ell\) et vers \(\ell'\), avec \(\ell&lt;\ell'\) (par l'absurde).</p>
+<p>Posons \(\varepsilon=\dfrac{\ell'-\ell}3&gt;0\), de sorte que \(\ell+\varepsilon&lt;\ell'-\varepsilon\) : les intervalles \(]\ell-\varepsilon,\ell+\varepsilon[\) et \(]\ell'-\varepsilon,\ell'+\varepsilon[\) sont disjoints.</p>
+<p>Il existe \(n_1\) tel que pour \(n\geq n_1\), \(\ell-\varepsilon&lt;u_n&lt;\ell+\varepsilon\), et \(n_2\) tel que pour \(n\geq n_2\), \(\ell'-\varepsilon&lt;u_n&lt;\ell'+\varepsilon\).</p>
+<p>Posons \(N=\max\{n_1,n_2\}\). Alors \(u_N&lt;\ell+\varepsilon&lt;\ell'-\varepsilon&lt;u_N\) : c'est absurde. Donc \(\ell=\ell'\).</p></div>
+<h3>Démonstration : \((-1)^n\) ne converge pas</h3>
+<figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/lim-moins-un.mp4"></video><figcaption><span class="tag">Vidéo</span> Démonstration : la suite (−1)ⁿ ne converge pas <span class="dur">1 min 24</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p>Par l'absurde, supposons que \(u_n=(-1)^n\) converge vers un réel \(\ell\).</p>
+<p>Avec \(\varepsilon=\frac12\), il existe \(n_0\) tel que pour tout \(n\geq n_0\), \(|u_n-\ell|&lt;\frac12\).</p>
+<p>Alors, pour \(n\geq n_0\) : \(|u_{n+1}-u_n|\leq|u_{n+1}-\ell|+|\ell-u_n|&lt;\frac12+\frac12=1\).</p>
+<p>Or \(|u_{n+1}-u_n|=|(-1)^{n+1}-(-1)^n|=2\). C'est absurde : \((u_n)\) ne converge pas.</p></div><div class="prof"><p class="lab">Deux rédactions possibles</p><p>Le cours fait la démonstration en distinguant \(\ell\geq0\) et \(\ell&lt;0\) : elle est juste aussi. La version ci-dessus, avec l'inégalité triangulaire, évite les cas et se réutilise pour d'autres suites qui « sautent ».</p></div><div class="retenir"><p class="lab">Trois remarques utiles</p><ul><li>\(u_n\to\ell\iff u_n-\ell\to0\).</li>
+<li>\(u_n\to0\iff|u_n|\to0\). Par exemple, \(\left|\frac{(-1)^n}n\right|=\frac1n\to0\), donc \(\frac{(-1)^n}n\to0\).</li>
+<li>La limite ne dépend pas des premiers termes : si deux suites coïncident à partir d'un certain rang, elles ont le même comportement.</li></ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Montre que la suite \(u_n=(-1)^n+\dfrac1n\) (\(n\geq1\)) ne converge pas.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Par l'absurde, supposons \(u_n\to\ell\). Avec \(\varepsilon=\frac12\), il existe \(n_0\) tel que pour \(n\geq n_0\), \(|u_n-\ell|&lt;\frac12\), donc \(|u_{n+1}-u_n|&lt;1\).</p>
+<p>Or :</p>\[|u_{n+1}-u_n|=\left|\pm2+\frac1{n+1}-\frac1n\right|\]\[\geq2-\left(\frac1n-\frac1{n+1}\right)\geq2-\frac12&gt;1.\]<p>Absurde.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Vrai ou faux : « si \((|u_n|)\) converge, alors \((u_n)\) converge » ?</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Faux : pour \(u_n=(-1)^n\), \(|u_n|=1\) converge vers 1, mais \((u_n)\) ne converge pas.</p></div><div class="prof"><p class="lab">Remarque</p><p>C'est vrai seulement quand la limite est 0 : \(|u_n|\to0\iff u_n\to0\).</p></div></details></article></div></section>
+<section class="lesson" id="l3" data-part="Partie A · Limite d&#x27;une suite" data-title="Limite infinie" hidden><header class="lhead"><p class="eyebrow">Partie A · Limite d'une suite · Étape 3 sur 13<span class="meta">15 min</span></p><h2>Limite infinie</h2></header><div class="lbody">
+<p class="objectif">Connaître la définition de \(u_n\to+\infty\) et \(u_n\to-\infty\), et savoir l'utiliser.</p>
+<div class="retenir"><p class="lab">Définition IV-2</p><p>\(u_n\xrightarrow[n\to+\infty]{}+\infty\) lorsque : \(\forall A\in\R,\ \exists n_0\in\N,\ \forall n\geq n_0,\ u_n\geq A\).</p>
+<p>\(u_n\xrightarrow[n\to+\infty]{}-\infty\) lorsque : \(\forall A\in\R,\ \exists n_0\in\N,\ \forall n\geq n_0,\ u_n\leq A\).</p></div>
+<p>Le schéma est le même que pour la convergence : on te donne un niveau \(A\), aussi grand que tu veux, et tu dois trouver un rang à partir duquel tous les termes dépassent \(A\).</p>
+<figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/lim-infinie.mp4"></video><figcaption><span class="tag">Vidéo</span> Limite infinie : n tend vers +∞, puis la limite d'une suite arithmétique <span class="dur">2 min 28</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p>Montrons que \(u_n=n\) tend vers \(+\infty\).</p>
+<p>Soit \(A\in\R\). Posons \(n_0=\lfloor|A|\rfloor+1\in\N\). Pour tout \(n\geq n_0\) : \(n\geq n_0&gt;|A|\geq A\), donc \(u_n\geq A\).</p></div><div class="copie"><p class="lab">Sur la copie : suite arithmétique</p><p>Limite d'une suite arithmétique \(u_n=u_0+nr\) avec \(r&gt;0\).</p>
+<p>Soit \(A\in\R\). Posons \(n_0=\left\lfloor\dfrac{|A-u_0|}r\right\rfloor+1\in\N\). Pour \(n\geq n_0\) : \(n&gt;\dfrac{|A-u_0|}r\geq\dfrac{A-u_0}r\), donc \(nr&gt;A-u_0\) (car \(r&gt;0\)), donc \(u_n&gt;A\).</p>
+<p>Donc \(u_n\to+\infty\). Si \(r&lt;0\), la suite \(-u\) est arithmétique de raison \(-r&gt;0\), donc \(-u_n\to+\infty\), c'est-à-dire \(u_n\to-\infty\). Si \(r=0\), la suite est constante.</p></div><div class="prof"><p class="lab">Correction des notes</p><p>Dans les notes, le rang est écrit \(\left\lfloor\frac{A-u_0}r\right\rfloor\) : si \(A&lt;u_0\), ce nombre est négatif, et ce n'est pas un entier naturel. La valeur absolue (et le \(+1\)) règlent le problème. Pour \(r&lt;0\), diviser par \(r\) donne aussi un nombre négatif : d'où l'astuce de passer à \(-u\).</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Montre avec la définition que \(\sqrt n\xrightarrow[n\to+\infty]{}+\infty\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Soit \(A\in\R\). Posons \(n_0=\lfloor A^2\rfloor+1\). Pour \(n\geq n_0\) : \(n&gt;A^2\), donc \(\sqrt n&gt;\sqrt{A^2}=|A|\geq A\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Montre avec la définition que \(u_n=1-n^2\xrightarrow[n\to+\infty]{}-\infty\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Soit \(A\in\R\). On veut \(1-n^2\leq A\), c'est-à-dire \(n^2\geq1-A\).</p><p>Posons \(n_0=\left\lfloor\sqrt{|1-A|}\right\rfloor+1\). Pour \(n\geq n_0\) : \(n^2&gt;|1-A|\geq1-A\), donc \(u_n=1-n^2&lt;A\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Écris avec des quantificateurs « \(u\) ne tend pas vers \(+\infty\) ». La suite \(u_n=n(1+(-1)^n)\) tend-elle vers \(+\infty\) ?</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(\exists A\in\R,\ \forall n_0\in\N,\ \exists n\geq n_0,\ u_n&lt;A\).</p><p>Pour \(u_n=n(1+(-1)^n)\) : les termes impairs sont nuls. Avec \(A=1\), pour tout \(n_0\), l'entier impair \(n=2n_0+1\geq n_0\) vérifie \(u_n=0&lt;1\). Donc \(u\) ne tend pas vers \(+\infty\), alors qu'elle n'est pas majorée.</p></div><div class="prof"><p class="lab">Remarque</p><p>« Non majorée » ne suffit pas pour « tend vers \(+\infty\) ».</p></div></details></article></div></section>
+<section class="lesson" id="l4" data-part="Partie A · Limite d&#x27;une suite" data-title="Suites convergentes : bornées, signe constant" hidden><header class="lhead"><p class="eyebrow">Partie A · Limite d'une suite · Étape 4 sur 13<span class="meta">16 min</span></p><h2>Suites convergentes : bornées, signe constant</h2></header><div class="lbody">
+<p class="objectif">Savoir démontrer les propositions IV-3 et IV-4, qui tombent souvent en question de cours.</p>
+<div class="retenir"><p class="lab">Propositions IV-3 et IV-4</p><p><strong>IV-3.</strong> 1. Une suite convergente est bornée. 2. Si \(u\) converge vers \(\ell\neq0\), alors à partir d'un certain rang, \(u_n\) est non nul et du signe de \(\ell\).</p>
+<p><strong>IV-4.</strong> Une suite de limite \(+\infty\) est minorée ; une suite de limite \(-\infty\) est majorée.</p></div><figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/lim-bornee.mp4"></video><figcaption><span class="tag">Vidéo</span> Démonstrations : une suite convergente est bornée, et garde un signe constant <span class="dur">2 min 34</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p><u>IV-3, point 1.</u> Soit \(u\) convergeant vers \(\ell\). Avec \(\varepsilon=1\), il existe \(n_0\) tel que pour tout \(n\geq n_0\), \(\ell-1&lt;u_n&lt;\ell+1\).</p>
+<p>Posons \(m=\min\{u_0,\dots,u_{n_0-1},\ell-1\}\) et \(M=\max\{u_0,\dots,u_{n_0-1},\ell+1\}\) (nombre fini de réels).</p>
+<p>Alors pour tout \(n\in\N\), \(m\leq u_n\leq M\) : si \(n&lt;n_0\), \(u_n\) est dans la liste ; si \(n\geq n_0\), \(\ell-1&lt;u_n&lt;\ell+1\). Donc \(u\) est bornée.</p>
+<p><u>IV-3, point 2.</u> Si \(\ell&gt;0\) : avec \(\varepsilon=\frac\ell2&gt;0\), il existe \(n_0\) tel que pour \(n\geq n_0\), \(u_n&gt;\ell-\frac\ell2=\frac\ell2&gt;0\). Si \(\ell&lt;0\) : avec \(\varepsilon=-\frac\ell2&gt;0\), pour \(n\geq n_0\), \(u_n&lt;\ell+\left(-\frac\ell2\right)=\frac\ell2&lt;0\).</p></div><div class="copie"><p class="lab">Sur la copie : IV-4</p><p>Soit \(u\) de limite \(+\infty\). Avec \(A=1\), il existe \(n_0\) tel que pour \(n\geq n_0\), \(u_n\geq1\).</p><p>Posons \(m=\min\{u_0,\dots,u_{n_0-1},1\}\) : pour tout \(n\), \(u_n\geq m\). Donc \(u\) est minorée. Même chose avec un \(\max\) et \(A=-1\) pour \(-\infty\).</p></div><div class="prof"><p class="lab">À retenir</p><ul><li>C'est exactement l'idée de « bornée à partir d'un certain rang \(\Rightarrow\) bornée » : les premiers termes sont en nombre fini.</li>
+<li>La <strong>réciproque est fausse</strong> : \((-1)^n\) est bornée mais ne converge pas.</li>
+<li>La <strong>contraposée</strong> est très utile : une suite non bornée ne converge pas.</li>
+<li>Pour le signe, on prend \(\varepsilon=\frac{|\ell|}2\) : la moitié de la distance entre \(\ell\) et 0.</li></ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Montre que la suite \(u_n=n(-1)^n\) ne converge pas.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Pour tout \(p\in\N\), \(u_{2p}=2p\). Donc \(u\) n'est pas majorée (pour tout \(M\), il existe \(p&gt;M\) et \(u_{2p}=2p&gt;M\)). Une suite convergente est bornée (IV-3) : par contraposée, \(u\) ne converge pas.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>La suite \(u\) converge vers 3. Montre qu'à partir d'un certain rang, \(u_n&gt;2\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Avec \(\varepsilon=1\), il existe \(n_0\) tel que pour tout \(n\geq n_0\), \(|u_n-3|&lt;1\), donc \(u_n&gt;3-1=2\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Vrai ou faux ? <strong>a.</strong> Une suite bornée est convergente. <strong>b.</strong> Une suite qui tend vers \(+\infty\) est croissante à partir d'un certain rang.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. Faux : \((-1)^n\).</p><p>b. Faux : \(u_n=n+3(-1)^n\) tend vers \(+\infty\) (car \(u_n\geq n-3\)), mais \(u_{2p}=2p+3&gt;u_{2p+1}=2p-2\) : elle n'est croissante à partir d'aucun rang.</p></div></details></article></div></section>
+<section class="lesson" id="l5" data-part="Partie A · Limite d&#x27;une suite" data-title="Passage à la limite dans les inégalités" hidden><header class="lhead"><p class="eyebrow">Partie A · Limite d'une suite · Étape 5 sur 13<span class="meta">14 min</span></p><h2>Passage à la limite dans les inégalités</h2></header><div class="lbody">
+<p class="objectif">Savoir démontrer et utiliser la proposition IV-5, et connaître son piège : les inégalités strictes deviennent larges.</p>
+<div class="retenir"><p class="lab">Proposition IV-5</p><p>Soit \(u\) et \(v\) deux suites <strong>convergentes</strong>, de limites \(\ell\) et \(\ell'\).</p>
+<ol><li>Si \(u_n\leq v_n\) à partir d'un certain rang, alors \(\ell\leq\ell'\).</li>
+<li>Si \(u_n\leq M\) à partir d'un certain rang, alors \(\ell\leq M\).</li>
+<li>Si \(u_n\geq m\) à partir d'un certain rang, alors \(\ell\geq m\).</li></ol></div><figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/lim-inegalites.mp4"></video><figcaption><span class="tag">Vidéo</span> Démonstration : le passage à la limite dans les inégalités <span class="dur">2 min 28</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p><u>Point 1</u>, par l'absurde. Supposons \(\ell&gt;\ell'\). Par hypothèse, il existe \(n_0\) tel que \(u_n\leq v_n\) pour \(n\geq n_0\).</p>
+<p>Posons \(\varepsilon=\dfrac{\ell-\ell'}3&gt;0\), de sorte que \(\ell'+\varepsilon&lt;\ell-\varepsilon\).</p>
+<p>Il existe \(n_1\) tel que pour \(n\geq n_1\), \(\ell-\varepsilon&lt;u_n&lt;\ell+\varepsilon\), et \(n_2\) tel que pour \(n\geq n_2\), \(\ell'-\varepsilon&lt;v_n&lt;\ell'+\varepsilon\).</p>
+<p>Pour \(n\geq\max\{n_0,n_1,n_2\}\) : \(v_n&lt;\ell'+\varepsilon&lt;\ell-\varepsilon&lt;u_n\), ce qui contredit \(u_n\leq v_n\). Donc \(\ell\leq\ell'\).</p>
+<p><u>Points 2 et 3</u> : on applique le point 1 avec la suite constante égale à \(M\) (ou à \(m\)), qui converge vers \(M\) (ou \(m\)).</p></div><div class="prof"><p class="lab">Les deux pièges</p><ul><li>Les inégalités <strong>strictes deviennent larges</strong> : \(-\frac1n&lt;\frac1n\) pour tout \(n\geq1\), mais les deux limites valent 0. On écrit donc toujours \(\ell\leq\ell'\), jamais \(\ell&lt;\ell'\).</li>
+<li>Ce théorème ne prouve pas que les suites convergent : il faut le savoir <strong>avant</strong>. Pour prouver une convergence par des inégalités, c'est le théorème des gendarmes (étape 9).</li></ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>La suite \(u\) converge et vérifie \(u_n\leq2-\dfrac1n\) pour tout \(n\geq1\). Montre que \(\lim u\leq2\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Pour tout \(n\geq1\), \(u_n\leq2-\frac1n\leq2\). D'après IV-5 (point 2, avec \(M=2\)), \(\lim u\leq2\).</p></div><div class="prof"><p class="lab">Remarque</p><p>On peut aussi utiliser le point 1 avec \(v_n=2-\frac1n\to2\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>La suite \(u\) converge vers \(\ell\) et vérifie \(u_n&gt;\dfrac1{n+1}\) pour tout \(n\). Peut-on affirmer que \(\ell&gt;0\) ?</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Non. On peut seulement dire \(\ell\geq0\) (passage à la limite : \(\frac1{n+1}\to0\)). Contre-exemple : \(u_n=\frac2{n+1}&gt;\frac1{n+1}\) et \(u_n\to0\).</p></div></details></article></div></section>
+<section class="lesson" id="l6" data-part="Partie A · Limite d&#x27;une suite" data-title="Opérations : limites finies" hidden><header class="lhead"><p class="eyebrow">Partie A · Limite d'une suite · Étape 6 sur 13<span class="meta">20 min</span></p><h2>Opérations : limites finies</h2></header><div class="lbody">
+<p class="objectif">Savoir démontrer le lemme IV-6 et la proposition IV-7 (somme, produit, inverse de limites finies).</p>
+<div class="retenir"><p class="lab">À connaître par cœur</p><p><strong>Lemme IV-6.</strong> Si \(u\) est bornée et si \(v\) converge vers 0, alors \(uv\) converge vers 0.</p>
+<p><strong>Proposition IV-7.</strong> Si \(u_n\to\ell\in\R\) et \(v_n\to\ell'\in\R\), alors \(u_n+v_n\to\ell+\ell'\) et \(u_nv_n\to\ell\ell'\). Si \(u_n\to\ell\neq0\), alors \(\frac1{u_n}\) est définie à partir d'un certain rang et tend vers \(\frac1\ell\).</p></div><figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/lim-operations.mp4"></video><figcaption><span class="tag">Vidéo</span> Démonstrations : le lemme IV-6, puis la limite d'une somme <span class="dur">2 min 52</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p><u>Lemme IV-6.</u> Il existe \(K&gt;0\) tel que \(|u_n|\leq K\) pour tout \(n\). Soit \(\varepsilon&gt;0\). Comme \(v_n\to0\), avec \(\varepsilon'=\frac\varepsilon K&gt;0\), il existe \(n_0\) tel que pour \(n\geq n_0\), \(|v_n|&lt;\frac\varepsilon K\).</p>
+<p>Alors pour \(n\geq n_0\) : \(|u_nv_n|=|u_n|\,|v_n|&lt;K\cdot\dfrac\varepsilon K=\varepsilon\). Donc \(u_nv_n\to0\).</p>
+<p><u>Somme.</u> Soit \(\varepsilon&gt;0\). Il existe \(n_0\) tel que pour \(n\geq n_0\), \(|u_n-\ell|&lt;\frac\varepsilon2\), et \(n_1\) tel que pour \(n\geq n_1\), \(|v_n-\ell'|&lt;\frac\varepsilon2\). Pour \(n\geq\max\{n_0,n_1\}\), par l'inégalité triangulaire :</p>
+\[|(u_n+v_n)-(\ell+\ell')|\leq|u_n-\ell|+|v_n-\ell'|\]\[&lt;\frac\varepsilon2+\frac\varepsilon2=\varepsilon.\]</div><div class="copie"><p class="lab">Sur la copie : produit et inverse</p><p><u>Produit.</u> On écrit \(u_nv_n-\ell\ell'=(u_n-\ell)\,v_n+\ell\,(v_n-\ell')\).</p>
+<ul><li>\((u_n-\ell)\to0\) et \(v\) est bornée (elle converge, IV-3) : \((u_n-\ell)v_n\to0\) par le lemme.</li>
+<li>\((v_n-\ell')\to0\) et la suite constante \(\ell\) est bornée : \(\ell(v_n-\ell')\to0\).</li></ul>
+<p>Par la somme, \(u_nv_n-\ell\ell'\to0\), donc \(u_nv_n\to\ell\ell'\).</p>
+<p><u>Inverse</u> (cas \(\ell&gt;0\), l'autre est analogue). Avec \(\varepsilon=\frac\ell2\), il existe \(n_0\) tel que pour \(n\geq n_0\), \(u_n&gt;\frac\ell2&gt;0\) : \(\frac1{u_n}\) est définie et \(0&lt;\frac1{u_n}&lt;\frac2\ell\). Alors \(\dfrac1{u_n}-\dfrac1\ell=\dfrac1{\ell u_n}(\ell-u_n)\) : produit d'une suite bornée et d'une suite qui tend vers 0, donc tend vers 0 (lemme).</p></div><div class="prof"><p class="lab">Les points clés</p><ul><li>Pourquoi \(\frac\varepsilon2\) ? Pour qu'à la fin, \(\frac\varepsilon2+\frac\varepsilon2\) fasse exactement \(\varepsilon\). On a le droit, car la définition marche pour toute marge strictement positive.</li>
+<li>Dans les notes, la démonstration de la somme contient \(|v_n+\ell'|\) au lieu de \(|v_n-\ell'|\) : attention au signe.</li>
+<li>L'astuce du produit (ajouter et retirer \(\ell v_n\)) est à connaître : on la retrouve souvent.</li></ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Montre que \(\dfrac{\sin n}n\xrightarrow[n\to+\infty]{}0\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(u_n=\sin n\) est bornée (\(|\sin n|\leq1\)) et \(v_n=\frac1n\to0\). D'après le lemme IV-6, \(\frac{\sin n}n=u_nv_n\to0\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Déterminer la limite de \(w_n=\left(1+\dfrac1n\right)\left(2-\dfrac1{n^2}\right)+\dfrac{\cos n}{n+1}\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(1+\frac1n\to1\) et \(2-\frac1{n^2}\to2\), donc leur produit tend vers 2 (IV-7). \(\frac{\cos n}{n+1}\to0\) (lemme IV-6). Par somme, \(w_n\to2\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Refais, sans regarder, la démonstration du lemme IV-6.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Les quatre éléments : la constante \(K\) ; « soit \(\varepsilon&gt;0\) » ; le choix \(\varepsilon'=\frac\varepsilon K\) ; le calcul \(|u_nv_n|&lt;K\cdot\frac\varepsilon K=\varepsilon\).</p></div></details></article></div></section>
+<section class="lesson" id="l7" data-part="Partie A · Limite d&#x27;une suite" data-title="Opérations : les tableaux" hidden><header class="lhead"><p class="eyebrow">Partie A · Limite d'une suite · Étape 7 sur 13<span class="meta">14 min</span></p><h2>Opérations : les tableaux</h2></header><div class="lbody">
+<p class="objectif">Connaître les règles de calcul des limites dans tous les cas, et repérer les formes indéterminées (FI).</p>
+<h3>Somme \(u+v\)</h3>
+<div class="table-wrap"><table><thead><tr><th>\(\ell\ \backslash\ \ell'\)</th><th>\(-\infty\)</th><th>\(\ell'\in\R\)</th><th>\(+\infty\)</th></tr></thead><tbody><tr><td>\(-\infty\)</td><td>\(-\infty\)</td><td>\(-\infty\)</td><td><strong>FI</strong></td></tr><tr><td>\(\ell\in\R\)</td><td>\(-\infty\)</td><td>\(\ell+\ell'\)</td><td>\(+\infty\)</td></tr><tr><td>\(+\infty\)</td><td><strong>FI</strong></td><td>\(+\infty\)</td><td>\(+\infty\)</td></tr></tbody></table></div>
+<h3>Produit \(uv\)</h3>
+<div class="table-wrap"><table><thead><tr><th>\(\ell\ \backslash\ \ell'\)</th><th>\(-\infty\)</th><th>\(\ell'&lt;0\)</th><th>\(\ell'=0\)</th><th>\(\ell'&gt;0\)</th><th>\(+\infty\)</th></tr></thead><tbody><tr><td>\(-\infty\)</td><td>\(+\infty\)</td><td>\(+\infty\)</td><td><strong>FI</strong></td><td>\(-\infty\)</td><td>\(-\infty\)</td></tr><tr><td>\(\ell&lt;0\)</td><td>\(+\infty\)</td><td>\(\ell\ell'\)</td><td>\(0\)</td><td>\(\ell\ell'\)</td><td>\(-\infty\)</td></tr><tr><td>\(\ell=0\)</td><td><strong>FI</strong></td><td>\(0\)</td><td>\(0\)</td><td>\(0\)</td><td><strong>FI</strong></td></tr><tr><td>\(\ell&gt;0\)</td><td>\(-\infty\)</td><td>\(\ell\ell'\)</td><td>\(0\)</td><td>\(\ell\ell'\)</td><td>\(+\infty\)</td></tr><tr><td>\(+\infty\)</td><td>\(-\infty\)</td><td>\(-\infty\)</td><td><strong>FI</strong></td><td>\(+\infty\)</td><td>\(+\infty\)</td></tr></tbody></table></div>
+<h3>Inverse \(\frac1v\)</h3>
+<div class="table-wrap"><table><thead><tr><th>\(\lim v\)</th><th>\(-\infty\)</th><th>\(\ell&lt;0\)</th><th>\(0^-\)</th><th>\(0\)</th><th>\(0^+\)</th><th>\(\ell&gt;0\)</th><th>\(+\infty\)</th></tr></thead><tbody><tr><td>\(\lim\frac1v\)</td><td>\(0^-\)</td><td>\(\frac1\ell\)</td><td>\(-\infty\)</td><td>pas de limite en général</td><td>\(+\infty\)</td><td>\(\frac1\ell\)</td><td>\(0^+\)</td></tr></tbody></table></div>
+<p>\(v_n\to0^+\) signifie : \(v_n\to0\) <strong>et</strong> \(v_n&gt;0\) à partir d'un certain rang (de même pour \(0^-\)).</p>
+<h3>Quotient \(\frac uv\)</h3>
+<p>On écrit \(\frac uv=u\times\frac1v\) et on combine les deux tableaux. Les formes indéterminées sont \(\frac{\infty}{\infty}\) et \(\frac00\). Et surtout :</p>
+<div class="retenir"><p class="lab">Le cas à ne pas rater</p><p>Un nombre \(\ell\neq0\) divisé par une suite qui tend vers \(0^+\) ou \(0^-\) donne \(\pm\infty\), avec la <strong>règle des signes</strong> : \(\frac{\ell}{0^+}=+\infty\) si \(\ell&gt;0\), \(-\infty\) si \(\ell&lt;0\) ; \(\frac{\ell}{0^-}=-\infty\) si \(\ell&gt;0\), \(+\infty\) si \(\ell&lt;0\). Ce n'est <strong>pas</strong> une forme indéterminée.</p></div><div class="prof"><p class="lab">Correction des notes</p><p>Dans le tableau du quotient recopié dans les notes, un grand « FI » couvre aussi les cases « \(\ell\neq0\) sur \(0^-\) / \(0^+\) ». C'est faux : seules les cases \(\frac00\) (les lignes \(\ell=0^-,0,0^+\)) sont des formes indéterminées. La case « \(+\infty\) sur \(\ell'=0\) » (sans signe) n'a pas de limite en général.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Déterminer les limites : <strong>a.</strong> \(n^2+\frac1n\) ; <strong>b.</strong> \(\left(3-\frac1n\right)n\) ; <strong>c.</strong> \(\dfrac{1}{\frac1n-1}\) ; <strong>d.</strong> \(\dfrac{2+\frac1n}{-\frac1{n^2}}\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \(+\infty+0=+\infty\). b. \(3\times(+\infty)=+\infty\). c. \(\frac1n-1\to-1\), donc la limite est \(-1\). d. Le numérateur tend vers \(2&gt;0\), le dénominateur vers \(0^-\) : la limite est \(-\infty\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Pour d., vérification : \(\frac{2+\frac1n}{-\frac1{n^2}}=-(2n^2+n)\to-\infty\).</p></div></details></article></div></section>
+<section class="lesson" id="l8" data-part="Partie A · Limite d&#x27;une suite" data-title="Formes indéterminées : les lever" hidden><header class="lhead"><p class="eyebrow">Partie A · Limite d'une suite · Étape 8 sur 13<span class="meta">18 min</span></p><h2>Formes indéterminées : les lever</h2></header><div class="lbody">
+<p class="objectif">Savoir reconnaître une forme indéterminée, et la lever en factorisant par le terme dominant ou avec la quantité conjuguée.</p>
+<div class="retenir"><p class="lab">À connaître par cœur</p><p>Les quatre formes indéterminées : \(\infty-\infty\), \(\ 0\times\infty\), \(\ \frac\infty\infty\), \(\ \frac00\). Dans ces cas, <strong>toutes les situations sont possibles</strong> : il faut transformer l'écriture.</p></div>
+<h3>Toutes les situations sont possibles</h3>
+<p>Avec \(u_n\to+\infty\) et \(v_n\to-\infty\) :</p>
+<ul><li>\(u_n=2n,\ v_n=-n\) : \(u_n+v_n=n\to+\infty\) ;</li>
+<li>\(u_n=n,\ v_n=-2n\) : \(u_n+v_n=-n\to-\infty\) ;</li>
+<li>\(u_n=n+\ell,\ v_n=-n\) : \(u_n+v_n=\ell\) ;</li>
+<li>\(u_n=n+(-1)^n,\ v_n=-n\) : \(u_n+v_n=(-1)^n\), pas de limite.</li></ul>
+<p>Avec \(u_n\to+\infty\) et \(v_n\to0\) : \(n^2\times\frac1n\to+\infty\) ; \(n\times\frac\ell n=\ell\) ; \(n\times\frac1{n^2}\to0\) ; \(n\times\frac{(-1)^n}n=(-1)^n\) n'a pas de limite. Et pour \(v_n=\frac{(-1)^n}n\to0\), \(\frac1{v_n}=(-1)^nn\) n'a pas de limite.</p>
+<figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/lim-formes-indeterminees.mp4"></video><figcaption><span class="tag">Vidéo</span> Lever une forme indéterminée : terme dominant et quantité conjuguée <span class="dur">2 min 34</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p><u>Terme dominant</u> : \(u_n=n^2-3n+1=n^2\left(1-\dfrac3n+\dfrac1{n^2}\right)\). La parenthèse tend vers 1 et \(n^2\to+\infty\), donc \(u_n\to+\infty\).</p>
+<p><u>Fraction</u> : \(v_n=\dfrac{2n^2+1}{n^2-n}=\dfrac{n^2\left(2+\frac1{n^2}\right)}{n^2\left(1-\frac1n\right)}=\dfrac{2+\frac1{n^2}}{1-\frac1n}\to\dfrac21=2\).</p>
+<p><u>Quantité conjuguée</u> : \(w_n=\sqrt{n+1}-\sqrt n\), forme \(\infty-\infty\).</p>\[w_n=\frac{(\sqrt{n+1}-\sqrt n)(\sqrt{n+1}+\sqrt n)}{\sqrt{n+1}+\sqrt n}\]\[=\frac1{\sqrt{n+1}+\sqrt n}\to0.\]</div><div class="prof"><p class="lab">La méthode</p><ul><li>Pour un polynôme ou une fraction de polynômes : on factorise par la plus grande puissance de \(n\), en haut et en bas.</li>
+<li>Pour une différence de racines (\(\infty-\infty\)) : on multiplie et on divise par la quantité conjuguée, \((a-b)(a+b)=a^2-b^2\).</li>
+<li>On écrit toujours le mot « forme indéterminée » avant de transformer : c'est ce qui justifie le calcul.</li></ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Déterminer les limites : <strong>a.</strong> \(\dfrac{3n^3-n}{n^3+2}\) ; <strong>b.</strong> \(\dfrac{n+1}{n^2+1}\) ; <strong>c.</strong> \(n-\sqrt n\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \(\dfrac{3-\frac1{n^2}}{1+\frac2{n^3}}\to3\).</p><p>b. \(\dfrac{n\left(1+\frac1n\right)}{n^2\left(1+\frac1{n^2}\right)}=\dfrac1n\cdot\dfrac{1+\frac1n}{1+\frac1{n^2}}\to0\times1=0\).</p><p>c. \(n-\sqrt n=n\left(1-\dfrac1{\sqrt n}\right)\to+\infty\times1=+\infty\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Déterminer la limite de \(u_n=\sqrt{n^2+n}-n\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Forme indéterminée \(\infty-\infty\). Avec la quantité conjuguée :</p>\[u_n=\frac{(n^2+n)-n^2}{\sqrt{n^2+n}+n}=\frac n{n\left(\sqrt{1+\frac1n}+1\right)}\]\[=\frac1{\sqrt{1+\frac1n}+1}\to\frac12.\]</div><div class="prof"><p class="lab">Remarque</p><p>Pour sortir \(n\) de la racine : \(\sqrt{n^2+n}=\sqrt{n^2\left(1+\frac1n\right)}=n\sqrt{1+\frac1n}\), car \(n&gt;0\).</p></div></details></article></div></section>
+<section class="lesson" id="l9" data-part="Partie A · Limite d&#x27;une suite" data-title="Le théorème des gendarmes" hidden><header class="lhead"><p class="eyebrow">Partie A · Limite d'une suite · Étape 9 sur 13<span class="meta">20 min</span></p><h2>Le théorème des gendarmes</h2></header><div class="lbody">
+<p class="objectif">Savoir démontrer le théorème des gendarmes, et l'utiliser pour trouver une limite par encadrement.</p>
+<div class="retenir"><p class="lab">Proposition IV-8 (théorème des gendarmes)</p><p>Soit \(u,v,w\) trois suites telles que \(u_n\leq v_n\leq w_n\) à partir d'un certain rang. Si \(u\) et \(w\) convergent vers le même réel \(\ell\), alors <strong>\(v\) converge et \(\lim v=\ell\)</strong>.</p></div><div class="prof"><p class="lab">Correction des notes</p><p>Dans les notes, il est écrit : « ne pas citer pour donner la limite, juste pour dire que ça converge ». C'est inexact : ce théorème donne <strong>les deux</strong>, l'existence de la limite de \(v\) <strong>et</strong> sa valeur. C'est justement ce que dit le paragraphe du cours (« théorème d'existence de limite par encadrement qui donne également la valeur de la limite »). À l'inverse, la proposition IV-5 (passage à la limite) ne prouve pas l'existence.</p></div><figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/lim-gendarmes.mp4"></video><figcaption><span class="tag">Vidéo</span> Démonstration du théorème des gendarmes, puis un exemple <span class="dur">2 min 39</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p>Soit \(\varepsilon&gt;0\). Comme \(u_n\to\ell\) et \(w_n\to\ell\) :</p>
+<p>il existe \(n_0\) tel que pour \(n\geq n_0\), \(\ell-\varepsilon&lt;u_n&lt;\ell+\varepsilon\) ; il existe \(n_1\) tel que pour \(n\geq n_1\), \(\ell-\varepsilon&lt;w_n&lt;\ell+\varepsilon\) ; il existe \(n_2\) tel que pour \(n\geq n_2\), \(u_n\leq v_n\leq w_n\).</p>
+<p>Posons \(N=\max\{n_0,n_1,n_2\}\). Pour tout \(n\geq N\) : \(\ell-\varepsilon&lt;u_n\leq v_n\leq w_n&lt;\ell+\varepsilon\), donc \(|v_n-\ell|&lt;\varepsilon\).</p>
+<p>Donc \(v\) converge vers \(\ell\).</p></div><div class="copie"><p class="lab">Sur la copie : un exemple</p><p>Soit \(u_n=\displaystyle\sum_{k=1}^n\frac n{n^2+k}\) pour \(n\geq1\).</p>
+<p>Pour tout \(k\in[\![1,n]\!]\) : \(n^2+1\leq n^2+k\leq n^2+n\), donc \(\dfrac n{n^2+n}\leq\dfrac n{n^2+k}\leq\dfrac n{n^2+1}\).</p>
+<p>En sommant ces \(n\) inégalités : \(\dfrac{n^2}{n^2+n}\leq u_n\leq\dfrac{n^2}{n^2+1}\), c'est-à-dire \(\dfrac1{1+\frac1n}\leq u_n\leq\dfrac1{1+\frac1{n^2}}\).</p>
+<p>Les deux suites qui encadrent tendent vers 1. D'après le théorème des gendarmes, <u>\(u\) converge et \(\lim u=1\)</u>.</p></div><div class="prof"><p class="lab">Les points d'attention</p><ul><li>Dans les notes, l'encadrement est écrit avec des inégalités strictes, \(n^2+1&lt;n^2+k&lt;n^2+n\) : c'est faux pour \(k=1\) et \(k=n\). Il faut des \(\leq\).</li>
+<li>Pour une somme de \(n\) termes : on encadre <strong>le terme général</strong> par le plus petit et le plus grand terme, puis on multiplie par le nombre de termes.</li></ul></div><div class="retenir"><p class="lab">Version pratique</p><p>Pour montrer que \(u_n\to\ell\), il suffit de trouver une suite \(w_n\to0\) telle que \(|u_n-\ell|\leq w_n\) à partir d'un certain rang (gendarmes avec \(0\leq|u_n-\ell|\leq w_n\)).</p></div><div class="copie"><p class="lab">Sur la copie : la version pratique</p><p>Soit \(u_n=\dfrac{n\cos n+n^2}{n^2+1}\). Pour \(n\geq1\) :</p>
+\[|u_n-1|=\frac{|n\cos n-1|}{n^2+1}\leq\frac{n+1}{n^2+1}\]\[\leq\frac{n+1}{n^2}=\frac1n+\frac1{n^2}.\]
+<p>Comme \(\frac1n+\frac1{n^2}\to0\), on obtient \(u_n\to1\).</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Soit \(x\in\R\) et \(u_n=\dfrac{\lfloor nx\rfloor}n\) (\(n\geq1\)). Montre que \(u_n\to x\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Par définition de la partie entière, \(nx-1&lt;\lfloor nx\rfloor\leq nx\). En divisant par \(n&gt;0\) : \(x-\frac1n&lt;u_n\leq x\).</p><p>\(x-\frac1n\to x\) et \(x\to x\) : par le théorème des gendarmes, \(u_n\to x\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Déterminer la limite de \(S_n=\displaystyle\sum_{k=1}^n\frac1{\sqrt{n^2+k}}\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Pour \(1\leq k\leq n\) : \(\dfrac1{\sqrt{n^2+n}}\leq\dfrac1{\sqrt{n^2+k}}\leq\dfrac1{\sqrt{n^2+1}}\). En sommant : \(\dfrac n{\sqrt{n^2+n}}\leq S_n\leq\dfrac n{\sqrt{n^2+1}}\).</p>
+<p>Or \(\dfrac n{\sqrt{n^2+n}}=\dfrac1{\sqrt{1+\frac1n}}\to1\) et \(\dfrac n{\sqrt{n^2+1}}=\dfrac1{\sqrt{1+\frac1{n^2}}}\to1\). Par les gendarmes, \(S_n\to1\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Montre que \(u_n=\dfrac{n+(-1)^n}{n}\to1\) en majorant \(|u_n-1|\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(|u_n-1|=\left|\dfrac{(-1)^n}n\right|=\dfrac1n\to0\), donc \(u_n\to1\).</p></div></details></article></div></section>
+<section class="lesson" id="l10" data-part="Partie A · Limite d&#x27;une suite" data-title="Comparaison et limites infinies" hidden><header class="lhead"><p class="eyebrow">Partie A · Limite d'une suite · Étape 10 sur 13<span class="meta">14 min</span></p><h2>Comparaison et limites infinies</h2></header><div class="lbody">
+<p class="objectif">Savoir démontrer et utiliser la proposition IV-9 : minorer par une suite qui tend vers \(+\infty\).</p>
+<div class="retenir"><p class="lab">Proposition IV-9</p><p>Soit \(u\) et \(v\) telles que \(u_n\leq v_n\) à partir d'un certain rang.</p>
+<ol><li>Si \(u_n\to+\infty\), alors \(v_n\to+\infty\).</li><li>Si \(v_n\to-\infty\), alors \(u_n\to-\infty\).</li></ol></div><div class="copie"><p class="lab">Sur la copie</p><p><u>Point 1.</u> Soit \(A\in\R\). Il existe \(n_0\) tel que pour \(n\geq n_0\), \(u_n\geq A\), et \(n_1\) tel que pour \(n\geq n_1\), \(u_n\leq v_n\).</p>
+<p>Pour \(n\geq\max\{n_0,n_1\}\) : \(A\leq u_n\leq v_n\). Donc \(v_n\to+\infty\).</p>
+<p><u>Point 2.</u> \(-v_n\leq-u_n\) à partir d'un certain rang et \(-v_n\to+\infty\) : par le point 1, \(-u_n\to+\infty\), donc \(u_n\to-\infty\).</p></div>
+<p>Ici, il suffit d'<strong>un seul</strong> gendarme : pour aller à \(+\infty\), une minoration suffit.</p>
+<div class="copie"><p class="lab">Sur la copie : l'exemple du cours</p><p>Soit \(v_n=\displaystyle\prod_{k=1}^{2n-1}\left(2-\frac k{2n}\right)\). On coupe le produit en deux :</p>
+<ul><li>pour \(1\leq k\leq n\) : \(\frac k{2n}\leq\frac12\), donc \(2-\frac k{2n}\geq\frac32\) ;</li>
+<li>pour \(n+1\leq k\leq2n-1\) : \(\frac k{2n}&lt;1\), donc \(2-\frac k{2n}&gt;1\).</li></ul>
+<p>Tous les facteurs sont positifs, donc \(v_n\geq\left(\frac32\right)^n\times1\). Comme \(\frac32&gt;1\), \(\left(\frac32\right)^n\to+\infty\) : par comparaison (IV-9), \(v_n\to+\infty\).</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Déterminer la limite de <strong>a.</strong> \(n+\sin n\) ; <strong>b.</strong> \(-n^2+\cos n\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \(n+\sin n\geq n-1\to+\infty\) : par comparaison, \(n+\sin n\to+\infty\).</p><p>b. \(-n^2+\cos n\leq-n^2+1\to-\infty\) : donc \(-n^2+\cos n\to-\infty\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Montre que \(S_n=\displaystyle\sum_{k=1}^n\frac1{\sqrt k}\to+\infty\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Pour \(1\leq k\leq n\), \(\sqrt k\leq\sqrt n\), donc \(\frac1{\sqrt k}\geq\frac1{\sqrt n}\). En sommant : \(S_n\geq\frac n{\sqrt n}=\sqrt n\to+\infty\). Par comparaison, \(S_n\to+\infty\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Même idée que pour les gendarmes : on minore chaque terme par le plus petit.</p></div></details></article></div></section>
+<section class="lesson" id="copie" data-part="Pour finir" data-title="Ce que le correcteur attend" hidden><header class="lhead"><p class="eyebrow">Pour finir · Étape 11 sur 13<span class="meta">6 min</span></p><h2>Ce que le correcteur attend</h2></header><div class="lbody">
+<p class="objectif">Rédiger une démonstration avec des \(\varepsilon\) qui rapporte tous les points.</p>
+<div class="retenir"><p class="lab">Les cinq réflexes</p><ol><li><strong>Commencer par « Soit \(\varepsilon&gt;0\) »</strong> (ou « Soit \(A\in\R\) » pour une limite infinie).</li>
+<li><strong>Traduire chaque hypothèse</strong> : « il existe \(n_0\) tel que pour tout \(n\geq n_0\)… ». Un rang par hypothèse, avec des noms différents (\(n_0,n_1,n_2\)).</li>
+<li><strong>Prendre le maximum des rangs</strong> : « Posons \(N=\max\{n_0,n_1\}\). Pour tout \(n\geq N\)… ».</li>
+<li><strong>Un rang est un entier naturel</strong> : partie entière, \(+1\), valeur absolue si besoin.</li>
+<li><strong>Ne pas écrire \(\lim u_n\)</strong> avant d'avoir montré que la limite existe.</li></ol></div>
+<h3>Quel outil pour quelle question ?</h3>
+<div class="table-wrap"><table><thead><tr><th>La question</th><th>L'outil</th></tr></thead><tbody>
+<tr><td>« Montrer avec la définition que… »</td><td>\(\varepsilon\), \(n_0\) avec une partie entière</td></tr>
+<tr><td>Une limite de somme, produit, quotient sans FI</td><td>Les tableaux (IV-7 et cas général)</td></tr>
+<tr><td>Une forme indéterminée</td><td>Terme dominant, quantité conjuguée</td></tr>
+<tr><td>\(\sin\), \(\cos\), \((-1)^n\), \(\lfloor\ \rfloor\), une somme de \(n\) termes</td><td>Encadrement : gendarmes, ou IV-9 pour \(\pm\infty\)</td></tr>
+<tr><td>« Montrer que la suite ne converge pas »</td><td>Par l'absurde avec \(\varepsilon\), ou « non bornée donc divergente »</td></tr>
+</tbody></table></div>
+<div class="prof"><p class="lab">Gagner du temps</p><p>Les démonstrations de ce chapitre reviennent toutes au même squelette. Apprends par cœur ceux de l'unicité, du lemme IV-6, de la somme et des gendarmes : les autres s'en déduisent.</p></div></div></section>
+<section class="lesson" id="eval-calculs" data-part="Pour finir" data-title="Évaluation chronométrée : calculs de limites" hidden><header class="lhead"><p class="eyebrow">Pour finir · Étape 12 sur 13<span class="meta">15 min</span></p><h2>Évaluation chronométrée : calculs de limites</h2></header><div class="lbody">
+<p class="objectif">Cinq exercices en 15 minutes, sur une feuille, sans le cours.</p>
+<div class="chrono" data-min="15"><p class="chrono-lab">Évaluation calculs de limites, 15 minutes</p><p class="chrono-t" aria-live="off">15:00</p><div class="chrono-b"><button type="button" class="btn c-start">Démarrer</button><button type="button" class="btn ghost c-reset">Remettre à zéro</button></div><p class="chrono-end" hidden>Temps écoulé. Pose ton stylo, puis ouvre les corrections.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1 · 3 points</p><div class="exo-q"><p>Déterminer la limite de \(u_n=\dfrac{2n^2-n}{n^2+3}\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Forme \(\frac\infty\infty\). \(u_n=\dfrac{2-\frac1n}{1+\frac3{n^2}}\to2\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2 · 4 points</p><div class="exo-q"><p>Déterminer la limite de \(u_n=\sqrt{n+2}-\sqrt n\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Forme \(\infty-\infty\). \(u_n=\dfrac{(n+2)-n}{\sqrt{n+2}+\sqrt n}=\dfrac2{\sqrt{n+2}+\sqrt n}\to0\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3 · 4 points</p><div class="exo-q"><p>Montrer que \(u_n=\dfrac{n+2\cos n}{n+1}\) converge et donner sa limite.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(|u_n-1|=\dfrac{|2\cos n-1|}{n+1}\leq\dfrac3{n+1}\to0\), donc \(u\) converge vers 1.</p></div><div class="prof"><p class="lab">Remarque</p><p>Ou par encadrement : \(\frac{n-2}{n+1}\leq u_n\leq\frac{n+2}{n+1}\), et les gendarmes.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 4 · 5 points</p><div class="exo-q"><p>Montrer <strong>avec la définition</strong> que \(u_n=\dfrac{3n+1}{n+2}\) converge vers 3.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(|u_n-3|=\left|\dfrac{3n+1-3n-6}{n+2}\right|=\dfrac5{n+2}\).</p><p>Soit \(\varepsilon&gt;0\). Posons \(n_0=\left\lfloor\dfrac5\varepsilon\right\rfloor+1\). Pour \(n\geq n_0\) : \(n+2&gt;n_0&gt;\dfrac5\varepsilon\), donc \(|u_n-3|=\dfrac5{n+2}&lt;\varepsilon\). Donc \(u_n\to3\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Barème : calcul de \(|u_n-3|\) (1,5 pt) ; « soit \(\varepsilon&gt;0\) » et choix de \(n_0\) (2 pts) ; vérification (1,5 pt).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 5 · 4 points</p><div class="exo-q"><p>Déterminer la limite de \(u_n=n-2\sin n\) et de \(v_n=\dfrac{(-1)^n}{n^2+1}\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(u_n\geq n-2\to+\infty\) : par comparaison, \(u_n\to+\infty\).</p><p>\(|v_n|=\dfrac1{n^2+1}\to0\), donc \(v_n\to0\).</p></div></details></article></div></section>
+<section class="lesson" id="eval-demos" data-part="Pour finir" data-title="Évaluation chronométrée : démonstrations du cours" hidden><header class="lhead"><p class="eyebrow">Pour finir · Étape 13 sur 13<span class="meta">15 min</span></p><h2>Évaluation chronométrée : démonstrations du cours</h2></header><div class="lbody">
+<p class="objectif">Le format du lundi : cinq exercices, 15 minutes, noté sur 20.</p>
+<div class="chrono" data-min="15"><p class="chrono-lab">Évaluation démonstrations, 15 minutes</p><p class="chrono-t" aria-live="off">15:00</p><div class="chrono-b"><button type="button" class="btn c-start">Démarrer</button><button type="button" class="btn ghost c-reset">Remettre à zéro</button></div><p class="chrono-end" hidden>Temps écoulé. Pose ton stylo, puis ouvre les corrections.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1 · 5 points</p><div class="exo-q"><p>Montrer que la limite d'une suite convergente est unique.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Supposons \(u_n\to\ell\) et \(u_n\to\ell'\) avec \(\ell&lt;\ell'\). Avec \(\varepsilon=\frac{\ell'-\ell}3\), il existe \(n_1\) (resp. \(n_2\)) tel que pour \(n\geq n_1\), \(|u_n-\ell|&lt;\varepsilon\) (resp. pour \(n\geq n_2\), \(|u_n-\ell'|&lt;\varepsilon\)).</p>
+<p>Pour \(N=\max\{n_1,n_2\}\) : \(u_N&lt;\ell+\varepsilon&lt;\ell'-\varepsilon&lt;u_N\). Absurde, donc \(\ell=\ell'\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Barème : par l'absurde (1 pt) ; choix de \(\varepsilon\) justifié (1,5 pt) ; deux rangs (1 pt) ; contradiction (1,5 pt).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2 · 4 points</p><div class="exo-q"><p>Montrer qu'une suite convergente est bornée.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Avec \(\varepsilon=1\), il existe \(n_0\) tel que pour \(n\geq n_0\), \(\ell-1&lt;u_n&lt;\ell+1\). Avec \(m=\min\{u_0,\dots,u_{n_0-1},\ell-1\}\) et \(M=\max\{u_0,\dots,u_{n_0-1},\ell+1\}\), on a \(m\leq u_n\leq M\) pour tout \(n\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3 · 2 points</p><div class="exo-q"><p>Énoncer <strong>sans démonstration</strong> le théorème des gendarmes.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Si \(u_n\leq v_n\leq w_n\) à partir d'un certain rang, et si \(u\) et \(w\) convergent vers le même réel \(\ell\), alors \(v\) converge et \(\lim v=\ell\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Les trois éléments : « à partir d'un certain rang », « même limite \(\ell\) réelle », « \(v\) converge <strong>et</strong> sa limite vaut \(\ell\) ».</p></div></details></article><article class="exo"><p class="exo-n">Exercice 4 · 5 points</p><div class="exo-q"><p>Soit \(u_n\to\ell\) et \(v_n\to\ell'\) (limites réelles). Montrer que \(u_n+v_n\to\ell+\ell'\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Soit \(\varepsilon&gt;0\). Il existe \(n_0\) tel que pour \(n\geq n_0\), \(|u_n-\ell|&lt;\frac\varepsilon2\), et \(n_1\) tel que pour \(n\geq n_1\), \(|v_n-\ell'|&lt;\frac\varepsilon2\).</p>
+<p>Pour \(n\geq\max\{n_0,n_1\}\) : \(|(u_n+v_n)-(\ell+\ell')|\leq|u_n-\ell|+|v_n-\ell'|&lt;\varepsilon\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Barème : \(\frac\varepsilon2\) (1,5 pt) ; deux rangs et le maximum (1,5 pt) ; inégalité triangulaire citée (2 pts).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 5 · 4 points</p><div class="exo-q"><p>Montrer que la suite \(\left((-1)^n\right)\) ne converge pas.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Par l'absurde, si \((-1)^n\to\ell\) : avec \(\varepsilon=\frac12\), il existe \(n_0\) tel que pour \(n\geq n_0\), \(|u_n-\ell|&lt;\frac12\). Alors \(|u_{n+1}-u_n|&lt;1\), alors que \(|u_{n+1}-u_n|=2\). Absurde.</p></div></details></article></div></section>
+    <div class="pager">
+      <a class="btn ghost" id="prev" href="#accueil">← Étape précédente</a>
+      <div class="right">
+        <p class="done-note" id="done-note" hidden>Étape validée</p>
+        <button type="button" class="linkbtn" id="undo" hidden>Annuler la validation</button>
+        <a class="btn" id="next" href="#a1">J'ai compris, étape suivante →</a>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']],
+         macros: { R: '\\mathbb{R}', N: '\\mathbb{N}', Vect: '\\operatorname{Vect}' } },
+  svg: { fontCache: 'global' },
+  startup: { typeset: false }
+};
+</script>
+<script src="assets/mathjax/tex-svg.js"></script>
+<script>
+(function(){
+  var lessons = Array.prototype.slice.call(document.querySelectorAll('.lesson'));
+  var ids = lessons.map(function(s){ return s.id; });
+  var KEY = 'parcours-limites-etapes';
+  var done = {};
+  try { done = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e){ done = {}; }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(done)); } catch(e){} }
+
+  // ----- sommaire -----
+  var nav = document.getElementById('nav'), html = '', part = null, n = 0;
+  lessons.forEach(function(s){
+    var p = s.dataset.part || '';
+    if (p !== part){ if (part !== null) html += '</ol>'; html += (p ? '<p class="nav-part">' + p + '</p>' : '') + '<ol class="nav-list">'; part = p; }
+    var num = s.id === 'accueil' ? 'i' : String(++n);
+    html += '<li><a href="#' + s.id + '" data-id="' + s.id + '"><span class="nav-n">' + num + '</span><span>' + s.dataset.title + '</span></a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+  var links = Array.prototype.slice.call(nav.querySelectorAll('a'));
+  var total = ids.length - 1;
+
+  links.forEach(function(a){ a.dataset.num = a.querySelector('.nav-n').textContent; });
+  var resetBtn = document.getElementById('reset');
+
+  function refreshProgress(){
+    var c = 0;
+    links.forEach(function(a){
+      var d = !!done[a.dataset.id] && a.dataset.id !== 'accueil';
+      a.classList.toggle('done', d);
+      a.querySelector('.nav-n').textContent = d ? '✓' : a.dataset.num;
+      if (d) c++;
+    });
+    document.getElementById('prog-fill').style.width = (100 * c / total) + '%';
+    document.getElementById('prog-txt').textContent = c + ' étape' + (c > 1 ? 's' : '') + ' validée' + (c > 1 ? 's' : '') + ' sur ' + total;
+    document.getElementById('mini-prog').textContent = c + ' / ' + total;
+    resetBtn.hidden = c === 0;
+    disarmReset();
+  }
+
+  // remise à zéro : deux appuis, sans fenêtre de confirmation
+  var armed = false, armTimer = null;
+  function disarmReset(){ armed = false; clearTimeout(armTimer); resetBtn.textContent = 'Remettre ma progression à zéro'; resetBtn.classList.remove('warn'); }
+  resetBtn.addEventListener('click', function(){
+    if (!armed){ armed = true; resetBtn.textContent = 'Appuie encore pour tout effacer'; resetBtn.classList.add('warn'); armTimer = setTimeout(disarmReset, 5000); return; }
+    done = {}; save(); refreshProgress(); refreshDone();
+  });
+
+  // ----- formules : rendues à l'ouverture de l'étape -----
+  var typeset = {};
+  function renderMath(el){
+    if (typeset[el.id] || !window.MathJax || !MathJax.typesetPromise) return;
+    typeset[el.id] = true;
+    MathJax.typesetPromise([el]).catch(function(){ typeset[el.id] = false; });
+  }
+
+  var side = document.getElementById('side'), scrim = document.getElementById('scrim'), menuBtn = document.getElementById('menu-btn');
+  function closeMenu(){ side.classList.remove('open'); scrim.hidden = true; menuBtn.setAttribute('aria-expanded','false'); }
+  menuBtn.addEventListener('click', function(){
+    var o = !side.classList.contains('open');
+    side.classList.toggle('open', o); scrim.hidden = !o; menuBtn.setAttribute('aria-expanded', String(o));
+  });
+  scrim.addEventListener('click', closeMenu);
+
+  var prev = document.getElementById('prev'), next = document.getElementById('next'), doneNote = document.getElementById('done-note'), undo = document.getElementById('undo');
+  var current = 0;
+  function refreshDone(){ var d = !!done[ids[current]] && current > 0; doneNote.hidden = !d; undo.hidden = !d; }
+  undo.addEventListener('click', function(){ delete done[ids[current]]; save(); refreshProgress(); refreshDone(); });
+  function show(id, scroll){
+    var i = ids.indexOf(id); if (i < 0) i = 0;
+    current = i;
+    document.querySelectorAll('video').forEach(function(v){ try { v.pause(); } catch(e){} });
+    lessons.forEach(function(s, k){ s.hidden = k !== i; });
+    links.forEach(function(a){ if (a.dataset.id === ids[i]) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+    renderMath(lessons[i]);
+    prev.hidden = i === 0;
+    if (i > 0) prev.setAttribute('href', '#' + ids[i-1]);
+    var last = i === ids.length - 1;
+    next.setAttribute('href', last ? '#accueil' : '#' + ids[i+1]);
+    next.textContent = i === 0 ? 'Commencer le parcours →' : (last ? 'Valider et revenir au début' : "J'ai compris, étape suivante →");
+    refreshDone();
+    closeMenu();
+    if (scroll) window.scrollTo(0, 0);
+  }
+  next.addEventListener('click', function(){ if (current > 0){ done[ids[current]] = true; save(); refreshProgress(); } });
+  window.addEventListener('hashchange', function(){ show(location.hash.slice(1), true); });
+
+  // ----- chronomètres : calculés sur l'heure réelle, donc justes même si l'onglet passe en arrière-plan -----
+  document.querySelectorAll('.chrono').forEach(function(c){
+    var totalS = (+c.dataset.min || 15) * 60, left = totalS, timer = null, endAt = 0;
+    var t = c.querySelector('.chrono-t'), b = c.querySelector('.c-start'), r = c.querySelector('.c-reset'), end = c.querySelector('.chrono-end');
+    function draw(){ var m = Math.floor(left / 60), s = left % 60; t.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s; }
+    function stop(){ clearInterval(timer); timer = null; b.textContent = left === totalS ? 'Démarrer' : 'Reprendre'; }
+    function tick(){
+      left = Math.max(0, Math.ceil((endAt - Date.now()) / 1000)); draw();
+      if (left <= 0){ stop(); b.textContent = 'Terminé'; end.hidden = false; }
+    }
+    b.addEventListener('click', function(){
+      if (timer){ tick(); if (timer) stop(); return; }
+      if (left === 0) return;
+      end.hidden = true; b.textContent = 'Pause';
+      endAt = Date.now() + left * 1000;
+      timer = setInterval(tick, 250);
+    });
+    r.addEventListener('click', function(){ clearInterval(timer); timer = null; left = totalS; draw(); b.textContent = 'Démarrer'; end.hidden = true; });
+    document.addEventListener('visibilitychange', function(){ if (timer && !document.hidden) tick(); });
+  });
+
+  // corrections : formules rendues à l'ouverture
+  document.querySelectorAll('.exo details').forEach(function(d){
+    d.addEventListener('toggle', function(){
+      if (!d.open || !d.classList.contains('tex2jax_ignore')) return;
+      d.classList.remove('tex2jax_ignore');
+      if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([d]).catch(function(){});
+    });
+  });
+
+  refreshProgress();
+  show(location.hash.slice(1) || 'accueil', true);
+  // si MathJax arrive après le premier affichage
+  var tries = 0, wait = setInterval(function(){
+    if (window.MathJax && MathJax.typesetPromise){ clearInterval(wait); renderMath(lessons[current]); }
+    else if (++tries > 100) clearInterval(wait);
+  }, 150);
+})();
+</script>
+
+</body>
+</html>

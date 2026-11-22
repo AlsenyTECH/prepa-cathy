@@ -1,0 +1,873 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Parcours Algèbre linéaire</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Polices et MathJax sont dans assets/ : le site fonctionne sans connexion. */
+@font-face{font-family:'Caveat';font-style:normal;font-weight:500;font-display:swap;src:url(assets/fonts/caveat-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Caveat';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/caveat-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'Kalam';font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/kalam-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Kalam';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/kalam-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'Source Sans 3';font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/source-sans-3-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Source Sans 3';font-style:normal;font-weight:600;font-display:swap;src:url(assets/fonts/source-sans-3-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'Source Sans 3';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/source-sans-3-latin-700-normal.woff2) format('woff2')}
+/* Mise en page : un cahier de cours. Sommaire à gauche (les étapes dans l'ordre), une étape à la fois à droite.
+   Clair = page de cahier quadrillée (encre bleue, titres rouges, stylo vert du prof). Sombre = tableau noir et craies. */
+:root{
+  --paper:#f7f9fc; --surface:#ffffff; --ink:#1b2440; --muted:#586381; --line:#d6ddec; --grid:#e3e9f5;
+  --pen:#1c3bb0; --pen-bg:#eef2fd; --rouge:#bd1f2b; --rouge-bg:#fdf2f2; --prof:#0a7441; --prof-bg:#e9f5ee;
+  --btn-fg:#ffffff;
+  --f-body:'Source Sans 3',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-hand:'Caveat','Segoe Print','Bradley Hand',cursive;
+  --f-prof:'Kalam','Comic Sans MS','Segoe Print',cursive;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#141d1a; --surface:#1b2723; --ink:#eef2ea; --muted:#a6b5ab; --line:#33453d; --grid:#22302b;
+    --pen:#a9c4ff; --pen-bg:#202d45; --rouge:#ff9d92; --rouge-bg:#372422; --prof:#8fe0ae; --prof-bg:#1e3329;
+    --btn-fg:#10201a; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#141d1a; --surface:#1b2723; --ink:#eef2ea; --muted:#a6b5ab; --line:#33453d; --grid:#22302b;
+  --pen:#a9c4ff; --pen-bg:#202d45; --rouge:#ff9d92; --rouge-bg:#372422; --prof:#8fe0ae; --prof-bg:#1e3329;
+  --btn-fg:#10201a; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;margin:0}
+a{color:var(--pen)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--pen);outline-offset:2px}
+
+.app{display:grid;grid-template-columns:310px minmax(0,1fr);min-height:100%}
+
+/* ---------- sommaire ---------- */
+.side{background:var(--surface);border-right:1px solid var(--line);position:sticky;top:0;align-self:start;height:100vh;height:100dvh;overflow-y:auto;overscroll-behavior:contain;
+  padding-block:20px 28px;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:18px}
+.brand{font-family:var(--f-hand);font-weight:700;font-size:1.9rem;line-height:1.05;color:var(--rouge);margin:0 0 2px}
+.brand-sub{margin:0 0 14px;color:var(--muted);font-size:.92rem}
+.prog{margin:0 0 18px}
+.prog-bar{height:8px;border-radius:4px;background:var(--grid);overflow:hidden}
+.prog-fill{height:100%;width:0;background:var(--prof);transition:width .3s}
+.prog-txt{margin:6px 0 0;font-size:.88rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.nav-part{margin:16px 0 6px;font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.nav-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.nav-list a{display:grid;grid-template-columns:26px minmax(0,1fr);gap:8px;align-items:start;padding:7px 8px;border-radius:4px;text-decoration:none;color:var(--ink);font-size:.95rem;line-height:1.3}
+.nav-list a:hover{background:var(--pen-bg)}
+.nav-list a[aria-current="page"]{background:var(--pen-bg);color:var(--pen);font-weight:700}
+.nav-n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line);font-size:.78rem;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.nav-list a.done .nav-n{background:var(--prof);border-color:var(--prof);color:var(--btn-fg)}
+
+/* ---------- barre mobile ---------- */
+.topbar{display:none}
+.scrim{display:none}
+
+/* ---------- étape ---------- */
+.main{min-width:0;padding-block:0 60px}
+.lesson{max-width:860px;margin:0 auto;padding-left:max(22px,env(safe-area-inset-left,0px));padding-right:max(22px,env(safe-area-inset-right,0px))}
+.lhead{padding:30px 0 16px;margin:0 0 6px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:22px 22px;
+  border-bottom:2px solid var(--rouge)}
+.eyebrow{margin:0 0 4px;font-size:.84rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;display:flex;gap:12px;flex-wrap:wrap;align-items:baseline}
+.eyebrow .meta{letter-spacing:0;text-transform:none;font-weight:600;color:var(--prof)}
+.lhead h2{font-family:var(--f-hand);font-weight:700;font-size:clamp(2.1rem,5.2vw,3rem);line-height:1.05;margin:0;color:var(--rouge);text-wrap:balance}
+.lbody{display:flex;flex-direction:column;gap:14px;padding-top:16px}
+.lbody > p,.lbody > ul,.lbody > ol{margin:0;max-width:70ch}
+.lbody ul,.lbody ol{padding-left:1.3em}
+.lbody li{margin:4px 0}
+.lbody h3{font-size:1.22rem;margin:14px 0 0;line-height:1.25;text-wrap:balance}
+.lead{font-size:1.15rem}
+.objectif{font-size:1.08rem;color:var(--muted);font-weight:600}
+.objectif::before{content:"Objectif : ";color:var(--pen);font-weight:700}
+
+mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%;padding:4px 0;margin:.5em 0 !important}
+mjx-container{color:inherit;position:relative}
+.table-wrap,.copie,.exo{position:relative}
+
+.lab{margin:0 0 6px;font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;font-weight:700;font-family:var(--f-body)}
+.retenir{border:2px solid var(--rouge);border-radius:4px;background:var(--rouge-bg);padding:12px 16px}
+.retenir .lab{color:var(--rouge)}
+.retenir p,.retenir ul,.retenir ol{margin:6px 0}
+.retenir ul,.retenir ol{padding-left:1.3em}
+.prof{background:var(--prof-bg);border-radius:4px;padding:12px 16px;color:var(--prof);font-family:var(--f-prof);font-size:1rem;line-height:1.55}
+.prof .lab{color:var(--prof)}
+.prof p,.prof ul{margin:4px 0}
+.prof ul{padding-left:1.2em}
+.copie{border:1px solid var(--line);border-radius:3px;padding:14px 16px 12px;color:var(--pen);font-family:var(--f-hand);font-size:1.42rem;line-height:1.5;min-width:0;
+  background-color:var(--surface);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:22px 22px}
+.copie .lab{color:var(--muted)}
+.copie p{margin:4px 0}
+.copie mjx-container{font-size:.82em}
+.copie u{text-decoration-thickness:1.5px;text-underline-offset:3px}
+
+.video{margin:6px 0;display:flex;flex-direction:column;gap:6px}
+.video video{width:100%;max-width:100%;aspect-ratio:16/9;background:#101614;border-radius:4px;border:1px solid var(--line);display:block}
+.video figcaption{font-size:.95rem;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;align-items:baseline}
+.tag{font-size:.74rem;letter-spacing:.07em;text-transform:uppercase;font-weight:700;color:var(--btn-fg);background:var(--pen);padding:2px 7px;border-radius:3px}
+.dur{font-variant-numeric:tabular-nums}
+
+.table-wrap{overflow-x:auto;max-width:100%}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:.98rem}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--pen-bg);font-weight:700}
+
+.exos-h{border-top:1px solid var(--line);padding-top:18px;margin-top:18px !important}
+.exo{border:1px solid var(--line);border-radius:4px;background:var(--surface);padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.exo-n{margin:0;font-weight:700;color:var(--pen);font-size:.86rem;letter-spacing:.06em;text-transform:uppercase}
+.exo-q p{margin:4px 0}
+.exo details{display:flex;flex-direction:column;gap:10px}
+.exo summary{cursor:pointer;font-weight:700;color:var(--pen);padding:6px 0;width:max-content;max-width:100%}
+.exo details[open] summary{margin-bottom:8px}
+.exo details > * + *{margin-top:10px}
+
+.howto{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.howto > div{border:1px solid var(--line);border-radius:4px;background:var(--surface);padding:12px 14px}
+.howto p{margin:0}
+.howto .num{font-family:var(--f-hand);font-weight:700;font-size:2rem;line-height:1;color:var(--rouge);margin-bottom:4px}
+
+.chrono{border:2px solid var(--pen);border-radius:4px;background:var(--pen-bg);padding:14px 16px;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.chrono-lab{margin:0;font-weight:700}
+.chrono-t{margin:0;font-size:3rem;line-height:1;font-weight:700;font-variant-numeric:tabular-nums;color:var(--pen)}
+.chrono-b{display:flex;gap:10px;flex-wrap:wrap}
+.chrono-end{margin:0;font-weight:700;color:var(--rouge)}
+
+.btn{border:1.5px solid var(--pen);background:var(--pen);color:var(--btn-fg);font-weight:700;padding:10px 16px;border-radius:4px;cursor:pointer;text-decoration:none;display:inline-block;line-height:1.2}
+.btn.ghost{background:transparent;color:var(--pen)}
+.btn[disabled]{opacity:.45;cursor:default}
+.pager{max-width:860px;margin:30px auto 0;padding-left:max(22px,env(safe-area-inset-left,0px));padding-right:max(22px,env(safe-area-inset-right,0px));display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.pager .right{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.done-note{color:var(--prof);font-weight:700;margin:0}
+.linkbtn{background:none;border:0;padding:4px 0;color:var(--muted);font-size:.88rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.linkbtn:hover{color:var(--pen)}
+.linkbtn.warn{color:var(--rouge);font-weight:700}
+.prog .linkbtn{margin-top:4px}
+.lesson{scroll-margin-top:70px;overflow-x:hidden;overflow-x:clip} /* le texte caché de MathJax pour lecteurs d'écran ne doit pas élargir la page */
+.video .hint{display:none;font-size:.88rem;color:var(--muted);margin:0}
+
+@media (max-width: 880px){
+  .app{display:block}
+  .topbar{display:flex;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line);
+    padding-block:8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));gap:12px;align-items:center;justify-content:space-between}
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+  .topbar .brand{font-size:1.45rem;margin:0}
+  .topbar .mini{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums;margin:0}
+  .side{position:fixed;inset:0 auto 0 0;width:min(88vw,330px);z-index:40;transform:translateX(-102%);transition:transform .22s;
+    /* align-self:start (utile sur ordinateur) empêchait le panneau de prendre la hauteur de l'écran : il ne défilait plus */
+    align-self:auto;height:100%;height:100dvh;max-height:100dvh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+    padding-top:calc(18px + env(safe-area-inset-top,0px));padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+  .side.open{transform:none;box-shadow:0 0 40px rgba(0,0,0,.35)}
+  .scrim{display:block;position:fixed;inset:0;z-index:30;background:rgba(10,16,30,.45)}
+  .lesson,.pager{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .lhead{padding-top:20px}
+  body{font-size:16.5px}
+  .copie{font-size:1.3rem;padding:12px 12px 10px}
+  .pager .btn{flex:1 1 auto;text-align:center}
+  .video .hint{display:block}
+}
+@media (prefers-reduced-motion: reduce){.side,.prog-fill{transition:none}}
+</style>
+<script src="/parcours/supabase.js"></script>
+<script src="/parcours/sync.js"></script>
+</head>
+<body>
+
+
+<div class="app">
+  <div class="topbar">
+    <button type="button" class="btn ghost" id="menu-btn" aria-controls="side" aria-expanded="false">Sommaire</button>
+    <p class="brand">Algèbre linéaire</p>
+    <p class="mini" id="mini-prog"></p>
+  </div>
+  <div class="scrim" id="scrim" hidden></div>
+
+  <nav class="side" id="side" aria-label="Sommaire du parcours">
+    <p class="brand">Parcours Algèbre linéaire</p>
+    <p class="brand-sub">Matrices et espaces vectoriels · ECG 1</p>
+    <p class="brand-sub"><a href="/">← Mon espace</a></p>
+    <div class="prog">
+      <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+      <p class="prog-txt" id="prog-txt"></p>
+      <button type="button" class="linkbtn" id="reset" hidden>Remettre ma progression à zéro</button>
+    </div>
+    <div id="nav"></div>
+  </nav>
+
+  <main class="main" id="main">
+<section class="lesson" id="accueil" data-part="" data-title="Comment utiliser ce parcours" hidden><header class="lhead"><p class="eyebrow">Bienvenue</p><h2>Comment utiliser ce parcours</h2></header><div class="lbody">
+<p class="lead">Ce parcours reprend tout le chapitre III, <strong>matrices</strong> puis <strong>espaces vectoriels</strong>, dans l'ordre où il faut l'apprendre. Chaque étape tient en quelques minutes.</p>
+
+<div class="howto">
+  <div><p class="num">1</p><p><strong>Lis l'explication.</strong> Les encadrés rouges sont à connaître par cœur.</p></div>
+  <div><p class="num">2</p><p><strong>Regarde la vidéo</strong> quand il y en a une : la démonstration est écrite et expliquée pas à pas.</p></div>
+  <div><p class="num">3</p><p><strong>Fais les exercices sur une feuille</strong>, puis ouvre la correction et compare ligne à ligne.</p></div>
+  <div><p class="num">4</p><p><strong>Coche l'étape</strong> avec le bouton du bas. Ta progression est gardée sur cet appareil.</p></div>
+</div>
+
+<h3>Le plan</h3>
+<p><strong>Partie A, les matrices</strong> (9 étapes) : le vocabulaire, le produit, les matrices \(E_{i,j}\), l'inverse et ses deux méthodes, les puissances et leurs deux méthodes, les systèmes homogènes.</p>
+<p><strong>Partie B, les espaces vectoriels</strong> (10 étapes) : espace vectoriel, sous-espace, \(\Vect\), intersection et réunion, familles génératrices, familles libres, bases et dimension.</p>
+<p><strong>Pour finir</strong> : ce que le correcteur attend sur une copie, puis deux évaluations chronométrées de 15 minutes, comme celles du lundi.</p>
+<div class="prof"><p class="lab">Le mot du prof</p><p>Ne passe pas à l'étape suivante tant que les exercices ne sont pas réussis <em>sans regarder la correction</em>. Une copie se joue sur trois choses : savoir calculer, écrire des phrases, vérifier son résultat.</p></div></div></section>
+<section class="lesson" id="a1" data-part="Partie A · Matrices" data-title="Le vocabulaire des matrices" hidden><header class="lhead"><p class="eyebrow">Partie A · Matrices · Étape 1 sur 22<span class="meta">8 min</span></p><h2>Le vocabulaire des matrices</h2></header><div class="lbody">
+<p class="objectif">Savoir lire une matrice : sa taille, ses coefficients, et reconnaître les matrices particulières.</p>
+
+<h3>Une matrice, c'est un tableau de nombres</h3>
+<p>Une matrice de \(\mathcal M_{n,p}(\R)\) est un tableau de réels à \(n\) lignes et \(p\) colonnes. Le coefficient situé à la ligne \(i\) et à la colonne \(j\) se note \(a_{i,j}\) : <strong>la ligne d'abord, la colonne ensuite</strong>.</p>
+\[A=\begin{pmatrix}1&amp;2&amp;3\\4&amp;5&amp;6\end{pmatrix}\in\mathcal M_{2,3}(\R),\qquad a_{2,1}=4,\qquad a_{1,3}=3.\]
+
+<h3>Les matrices particulières</h3>
+<ul>
+  <li><strong>Carrée</strong> : autant de lignes que de colonnes. On note \(\mathcal M_n(\R)\).</li>
+  <li><strong>Diagonale</strong> : des zéros partout sauf, peut-être, sur la diagonale.</li>
+  <li><strong>Triangulaire supérieure</strong> : des zéros sous la diagonale.</li>
+  <li><strong>Identité</strong> \(I_n\) : des 1 sur la diagonale, des 0 ailleurs.</li>
+  <li><strong>Transposée</strong> \({}^tA\) : on échange les lignes et les colonnes. Une matrice est <strong>symétrique</strong> quand \({}^tA=A\).</li>
+</ul>
+\[I_3=\begin{pmatrix}1&amp;0&amp;0\\0&amp;1&amp;0\\0&amp;0&amp;1\end{pmatrix}\qquad {}^t\!\begin{pmatrix}1&amp;2&amp;3\\4&amp;5&amp;6\end{pmatrix}=\begin{pmatrix}1&amp;4\\2&amp;5\\3&amp;6\end{pmatrix}\]
+<h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Soit \(A=\begin{pmatrix}2&amp;-1&amp;0\\3&amp;5&amp;4\end{pmatrix}\). Donne la taille de \(A\), les coefficients \(a_{1,2}\) et \(a_{2,3}\), puis \({}^tA\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(A\in\mathcal M_{2,3}(\R)\) : 2 lignes, 3 colonnes. \(a_{1,2}=-1\) et \(a_{2,3}=4\).</p>\[{}^tA=\begin{pmatrix}2&amp;3\\-1&amp;5\\0&amp;4\end{pmatrix}\]</div><div class="prof"><p class="lab">Remarque</p><p>Les lignes deviennent les colonnes : \({}^tA\) est de taille \((3,2)\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Vrai ou faux ? Justifie en une ligne.</p><p><strong>a.</strong> \(\begin{pmatrix}1&amp;2\\2&amp;5\end{pmatrix}\) est symétrique. <strong>b.</strong> \(\begin{pmatrix}1&amp;2\\0&amp;3\end{pmatrix}\) est diagonale.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. Vrai : les coefficients \((1,2)\) et \((2,1)\) sont égaux, donc \({}^tA=A\).</p><p>b. Faux : le coefficient \((1,2)\) vaut \(2\neq0\). Elle est triangulaire supérieure, pas diagonale.</p></div></details></article></div></section>
+<section class="lesson" id="a2" data-part="Partie A · Matrices" data-title="Additionner et multiplier des matrices" hidden><header class="lhead"><p class="eyebrow">Partie A · Matrices · Étape 2 sur 22<span class="meta">12 min</span></p><h2>Additionner et multiplier des matrices</h2></header><div class="lbody">
+<p class="objectif">Savoir calculer une somme et un produit, et connaître les trois pièges du produit.</p>
+
+<h3>Addition et multiplication par un réel</h3>
+<p>On calcule <strong>case par case</strong>. Pour additionner, les deux matrices doivent avoir la même taille.</p>
+\[\begin{pmatrix}1&amp;2\\3&amp;4\end{pmatrix}+\begin{pmatrix}0&amp;5\\-1&amp;2\end{pmatrix}=\begin{pmatrix}1&amp;7\\2&amp;6\end{pmatrix}\qquad 3\begin{pmatrix}1&amp;2\\3&amp;4\end{pmatrix}=\begin{pmatrix}3&amp;6\\9&amp;12\end{pmatrix}\]
+
+<h3>Le produit</h3>
+<p>Le produit \(AB\) existe si <strong>le nombre de colonnes de \(A\) est égal au nombre de lignes de \(B\)</strong>. Pour la taille : \((n,p)\times(p,q)\to(n,q)\).</p>
+<p>Le coefficient \((i,j)\) de \(AB\) s'obtient en multipliant la <strong>ligne \(i\) de \(A\)</strong> par la <strong>colonne \(j\) de \(B\)</strong>, position par position, puis en additionnant.</p>
+<div class="retenir"><p class="lab">À connaître par cœur</p>\[(AB)_{i,j}=a_{i,1}b_{1,j}+a_{i,2}b_{2,j}+\dots+a_{i,p}b_{p,j}=\sum_{k=1}^{p}a_{i,k}\,b_{k,j}\]</div>
+\[\begin{pmatrix}1&amp;2\\3&amp;4\end{pmatrix}\begin{pmatrix}0&amp;1\\1&amp;0\end{pmatrix}=\begin{pmatrix}1\times0+2\times1&amp;1\times1+2\times0\\3\times0+4\times1&amp;3\times1+4\times0\end{pmatrix}=\begin{pmatrix}2&amp;1\\4&amp;3\end{pmatrix}\]
+<p>Dans l'autre sens, on ne trouve pas la même matrice :</p>
+\[\begin{pmatrix}0&amp;1\\1&amp;0\end{pmatrix}\begin{pmatrix}1&amp;2\\3&amp;4\end{pmatrix}=\begin{pmatrix}3&amp;4\\1&amp;2\end{pmatrix}\]
+<div class="retenir"><p class="lab">Les trois pièges du produit</p><ol>
+<li>En général \(AB\neq BA\). Quand \(AB=BA\), on dit que \(A\) et \(B\) <strong>commutent</strong>.</li>
+<li>\(AB=0\) n'entraîne pas \(A=0\) ou \(B=0\).</li>
+<li>\((A+B)^2=A^2+AB+BA+B^2\), et pas \(A^2+2AB+B^2\), sauf si \(A\) et \(B\) commutent.</li>
+</ol></div>
+<p>Ce qui marche comme avec les nombres : \(A(BC)=(AB)C\), \(A(B+C)=AB+AC\) et \(AI_n=I_nA=A\). Avec la transposée, l'ordre s'inverse : \({}^t(AB)={}^tB\,{}^tA\).</p>
+<div class="prof"><p class="lab">Conseil</p><p>La matrice \(\lambda I_n\) commute avec toutes les matrices : \((\lambda I_n)A=\lambda A=A(\lambda I_n)\). Cette phrase te servira pour le binôme de Newton.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Soit \(A=\begin{pmatrix}1&amp;2\\0&amp;-1\end{pmatrix}\) et \(B=\begin{pmatrix}3&amp;0\\1&amp;2\end{pmatrix}\). Calcule \(A+B\), \(2A-B\), \(AB\) et \(BA\). Les matrices commutent-elles ?</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p>\[A+B=\begin{pmatrix}4&amp;2\\1&amp;1\end{pmatrix}\qquad 2A-B=\begin{pmatrix}-1&amp;4\\-1&amp;-4\end{pmatrix}\]
+\[AB=\begin{pmatrix}1\times3+2\times1&amp;1\times0+2\times2\\0\times3-1\times1&amp;0\times0-1\times2\end{pmatrix}=\begin{pmatrix}5&amp;4\\-1&amp;-2\end{pmatrix}\qquad BA=\begin{pmatrix}3&amp;6\\1&amp;0\end{pmatrix}\]
+<p>\(AB\neq BA\), donc \(A\) et \(B\) ne commutent pas.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>On a \(A\in\mathcal M_{2,3}(\R)\), \(B\in\mathcal M_{3,4}(\R)\) et \(C\in\mathcal M_2(\R)\). Parmi \(AB\), \(BA\), \(CA\), \(AC\) : quels produits existent, et de quelle taille ?</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(AB\) existe : \((2,3)\times(3,4)\to(2,4)\). \(CA\) existe : \((2,2)\times(2,3)\to(2,3)\).</p><p>\(BA\) n'existe pas (\(4\neq2\)). \(AC\) n'existe pas (\(3\neq2\)).</p></div><div class="prof"><p class="lab">Remarque</p><p>Les deux nombres du milieu doivent être égaux.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Soit \(N=\begin{pmatrix}0&amp;2\\0&amp;0\end{pmatrix}\). Calcule \(N^2\). Quelle règle des nombres cet exemple contredit-il ?</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p>\[N^2=\begin{pmatrix}0&amp;2\\0&amp;0\end{pmatrix}\begin{pmatrix}0&amp;2\\0&amp;0\end{pmatrix}=\begin{pmatrix}0&amp;0\\0&amp;0\end{pmatrix}\]<p>Donc \(N^2=0\) alors que \(N\neq0\). Pour les matrices, \(AB=0\) n'entraîne pas \(A=0\) ou \(B=0\).</p></div></details></article></div></section>
+<section class="lesson" id="a3" data-part="Partie A · Matrices" data-title="Les matrices E(i,j)" hidden><header class="lhead"><p class="eyebrow">Partie A · Matrices · Étape 3 sur 22<span class="meta">10 min</span></p><h2>Les matrices E(i,j)</h2></header><div class="lbody">
+<p class="objectif">Connaître les matrices \(E_{i,j}\) et savoir donner leur produit en une ligne.</p>
+
+<h3>Ce que c'est</h3>
+<p>\(E_{i,j}\) est une matrice remplie de zéros avec <strong>un seul 1</strong>. Le premier indice donne la ligne du 1, le second sa colonne. Dans \(\mathcal M_2(\R)\), il y en a quatre :</p>
+\[E_{1,1}=\begin{pmatrix}1&amp;0\\0&amp;0\end{pmatrix}\qquad E_{1,2}=\begin{pmatrix}0&amp;1\\0&amp;0\end{pmatrix}\]
+\[E_{2,1}=\begin{pmatrix}0&amp;0\\1&amp;0\end{pmatrix}\qquad E_{2,2}=\begin{pmatrix}0&amp;0\\0&amp;1\end{pmatrix}\]
+<p>Ce sont les briques de base : toute matrice s'écrit avec elles.</p>
+\[\begin{pmatrix}a&amp;b\\c&amp;d\end{pmatrix}=a\,E_{1,1}+b\,E_{1,2}+c\,E_{2,1}+d\,E_{2,2}\]
+
+<h3>Le produit, sur un exemple</h3>
+<p>Calculons \(E_{1,2}E_{2,1}\) avec la règle ligne × colonne.</p>
+<ul>
+<li>Case \((1,1)\) : la ligne \((0\ \ 1)\) rencontre la colonne \((0\ \ 1)\) : \(0\times0+1\times1=1\). Les deux 1 sont face à face.</li>
+<li>Case \((1,2)\) : la ligne \((0\ \ 1)\) rencontre la colonne \((0\ \ 0)\) : cela donne 0.</li>
+<li>La ligne 2 de \(E_{1,2}\) est nulle : elle donne 0 partout.</li>
+</ul>
+\[E_{1,2}\,E_{2,1}=\begin{pmatrix}1&amp;0\\0&amp;0\end{pmatrix}=E_{1,1}\]
+<figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/a3-produit-eij.mp4"></video><figcaption><span class="tag">Vidéo</span> Le produit des matrices E(i,j), et l'image des dominos <span class="dur">3 min 34</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="retenir"><p class="lab">À connaître par cœur</p>\[E_{i,j}\,E_{k,\ell}=E_{i,\ell}\quad\text{si } j=k\]\[E_{i,j}\,E_{k,\ell}=0\quad\text{si } j\neq k\]</div><div class="prof"><p class="lab">Pour retenir</p><p>Pense aux dominos : \((i,j)(k,\ell)\) ne se collent que si les deux indices du milieu sont égaux, et il reste alors les deux bouts. L'ordre compte : \(E_{1,2}E_{2,1}=E_{1,1}\) mais \(E_{2,1}E_{1,2}=E_{2,2}\).</p><p>Quand l'énoncé dit « sans démonstration », on écrit seulement la règle. Ce sont des points rapides : commence par là.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Dans \(\mathcal M_3(\R)\), donne sans démonstration : \(E_{1,3}E_{3,2}\), \(E_{2,1}E_{2,1}\), \(E_{3,3}E_{3,1}\), \(E_{1,2}E_{3,2}\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(E_{1,3}E_{3,2}=E_{1,2}\) &nbsp;&nbsp; \(E_{2,1}E_{2,1}=0\) &nbsp;&nbsp; \(E_{3,3}E_{3,1}=E_{3,1}\) &nbsp;&nbsp; \(E_{1,2}E_{3,2}=0\)</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Écris \(\begin{pmatrix}0&amp;5\\-2&amp;0\end{pmatrix}\) comme combinaison linéaire des matrices \(E_{i,j}\) de \(\mathcal M_2(\R)\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p>\[\begin{pmatrix}0&amp;5\\-2&amp;0\end{pmatrix}=5\,E_{1,2}-2\,E_{2,1}\]</div></details></article></div></section>
+<section class="lesson" id="a4" data-part="Partie A · Matrices" data-title="Matrice inversible" hidden><header class="lhead"><p class="eyebrow">Partie A · Matrices · Étape 4 sur 22<span class="meta">8 min</span></p><h2>Matrice inversible</h2></header><div class="lbody">
+<p class="objectif">Savoir ce qu'est une matrice inversible, et connaître les résultats qui permettent de conclure.</p>
+
+<h3>La définition</h3>
+<div class="retenir"><p class="lab">À connaître par cœur</p><p>\(A\in\mathcal M_n(\R)\) est <strong>inversible</strong> s'il existe une matrice \(B\) telle que \(AB=BA=I_n\). On note \(B=A^{-1}\).</p>
+<p>En pratique, un seul côté suffit : <strong>si \(AB=I_n\), alors \(A\) est inversible et \(A^{-1}=B\)</strong>.</p></div>
+<h3>En taille 2, c'est immédiat</h3>
+<div class="retenir"><p class="lab">À connaître par cœur</p><p>\(\begin{pmatrix}a&amp;b\\c&amp;d\end{pmatrix}\) est inversible \(\iff ad-bc\neq0\), et alors son inverse est</p>\[\frac1{ad-bc}\begin{pmatrix}d&amp;-b\\-c&amp;a\end{pmatrix}\]</div>
+<h3>Le lien avec les systèmes</h3>
+<p>C'est la proposition III-11, celle qui permet de <em>prouver</em> qu'une matrice est inversible.</p>
+<div class="retenir"><p class="lab">À connaître par cœur</p><p>\(A\) est inversible \(\iff\) pour tout \(B\), le système \(AX=B\) a une <strong>unique</strong> solution \(\iff\) le système \(AX=0\) n'a que la solution \(X=0\).</p></div>
+<p>Enfin, pour un produit, l'ordre s'inverse : \((AB)^{-1}=B^{-1}A^{-1}\). La preuve tient en une ligne :</p>
+\[(AB)(B^{-1}A^{-1})=A(BB^{-1})A^{-1}=AI_nA^{-1}=AA^{-1}=I_n.\]
+
+<h3>Quelle méthode choisir pour trouver l'inverse ?</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>L'énoncé dit…</th><th>Je fais…</th></tr></thead>
+<tbody>
+<tr><td>« Montrer que \(A\) est inversible et déterminer son inverse »</td><td>Je résous \(AX=B\) avec \(B\) quelconque (étape suivante).</td></tr>
+<tr><td>« Calculer \(A^2-\dots\) » puis « <strong>en déduire</strong> »</td><td>Je factorise \(A\) pour arriver à \(A\times(\dots)=I\) (étape d'après).</td></tr>
+<tr><td>Une matrice de taille 2</td><td>J'utilise \(ad-bc\).</td></tr>
+</tbody></table></div>
+<h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Les matrices \(M=\begin{pmatrix}2&amp;1\\5&amp;3\end{pmatrix}\) et \(P=\begin{pmatrix}2&amp;4\\1&amp;2\end{pmatrix}\) sont-elles inversibles ? Si oui, donne l'inverse.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(M\) : \(ad-bc=2\times3-1\times5=1\neq0\), donc \(M\) est inversible et \(M^{-1}=\begin{pmatrix}3&amp;-1\\-5&amp;2\end{pmatrix}\).</p><p>\(P\) : \(ad-bc=2\times2-4\times1=0\), donc \(P\) n'est pas inversible.</p></div></details></article></div></section>
+<section class="lesson" id="a5" data-part="Partie A · Matrices" data-title="Trouver l&#x27;inverse en résolvant un système" hidden><header class="lhead"><p class="eyebrow">Partie A · Matrices · Étape 5 sur 22<span class="meta">12 min</span></p><h2>Trouver l'inverse en résolvant un système</h2></header><div class="lbody">
+<p class="objectif">Savoir rédiger la méthode complète quand l'énoncé dit seulement « montrer que \(A\) est inversible et déterminer son inverse ».</p>
+
+<h3>L'idée</h3>
+<p>Si \(A\) est inversible, alors \(AX=B\) équivaut à \(X=A^{-1}B\). On résout donc le système \(AX=B\) avec des seconds membres <strong>quelconques</strong> \(a,b,c\). Si on trouve une solution unique, \(A\) est inversible, et les coefficients de \(a,b,c\) dans la solution sont les lignes de \(A^{-1}\).</p>
+<figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/a5-inverse-systeme.mp4"></video><figcaption><span class="tag">Vidéo</span> Inverser une matrice en résolvant un système, rédigé comme sur une copie <span class="dur">3 min 05</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Le modèle à connaître</p><p>Soit \(X=\begin{pmatrix}x\\y\\z\end{pmatrix}\) et \(B=\begin{pmatrix}a\\b\\c\end{pmatrix}\). <u>On résout le système \(AX=B\).</u></p>
+<p>\(AX=B\iff\{\ \dots\iff\{\ \dots\iff\begin{cases}x=\dots\\y=\dots\\z=\dots\end{cases}\)</p>
+<p>Pour tout \(B\), le système \(AX=B\) a une <u>unique</u> solution, <u>donc \(A\) est inversible</u>.</p>
+<p>De plus \(X=A^{-1}B\), donc \(A^{-1}=(\dots)\).</p></div>
+<h3>Exemple rédigé</h3>
+<p>Avec \(A=\begin{pmatrix}1&amp;1&amp;1\\1&amp;2&amp;1\\1&amp;1&amp;2\end{pmatrix}\).</p>
+<div class="copie"><p class="lab">Sur la copie</p><p>Soit \(X=\begin{pmatrix}x\\y\\z\end{pmatrix}\) et \(B=\begin{pmatrix}a\\b\\c\end{pmatrix}\). On résout le système \(AX=B\).</p>
+\[AX=B\iff\begin{cases}x+y+z=a\\x+2y+z=b\\x+y+2z=c\end{cases}\iff\begin{cases}x+y+z=a\\y=b-a&amp;L_2\leftarrow L_2-L_1\\z=c-a&amp;L_3\leftarrow L_3-L_1\end{cases}\iff\begin{cases}x=3a-b-c\\y=-a+b\\z=-a+c\end{cases}\]
+<p>Pour tout \(B\), le système \(AX=B\) a une unique solution, donc \(A\) est inversible. De plus \(X=A^{-1}B\), donc</p>
+\[A^{-1}=\begin{pmatrix}3&amp;-1&amp;-1\\-1&amp;1&amp;0\\-1&amp;0&amp;1\end{pmatrix}\]</div><div class="prof"><p class="lab">Ce qui rapporte les points</p><ul>
+<li>Entre deux systèmes on écrit \(\iff\), jamais « = ».</li>
+<li>On note l'opération à côté de chaque ligne modifiée.</li>
+<li>La phrase « unique solution, donc \(A\) est inversible » est celle qui répond à la question. Sans elle, on n'a rendu que des calculs.</li>
+<li>Vérification en dix secondes : ligne 1 de \(A\) × colonne 1 de \(A^{-1}\) doit donner 1. Ici \(3-1-1=1\).</li>
+</ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Montre que \(A=\begin{pmatrix}1&amp;2\\1&amp;3\end{pmatrix}\) est inversible et détermine \(A^{-1}\) <strong>en résolvant un système</strong>.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Soit \(X=\begin{pmatrix}x\\y\end{pmatrix}\) et \(B=\begin{pmatrix}a\\b\end{pmatrix}\). On résout le système \(AX=B\).</p>
+\[AX=B\iff\begin{cases}x+2y=a\\x+3y=b\end{cases}\iff\begin{cases}x+2y=a\\y=b-a&amp;L_2\leftarrow L_2-L_1\end{cases}\iff\begin{cases}x=3a-2b\\y=-a+b\end{cases}\]
+<p>Pour tout \(B\), le système a une unique solution, donc \(A\) est inversible. De plus \(X=A^{-1}B\), donc \(A^{-1}=\begin{pmatrix}3&amp;-2\\-1&amp;1\end{pmatrix}\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Vérification : \(1\times3+2\times(-1)=1\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Montre que \(A=\begin{pmatrix}1&amp;0&amp;-1\\1&amp;2&amp;-1\\2&amp;4&amp;-1\end{pmatrix}\) est inversible et détermine son inverse. <em>(C'est l'exercice 1 de l'évaluation.)</em></p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Soit \(X=\begin{pmatrix}x\\y\\z\end{pmatrix}\) et \(B=\begin{pmatrix}a\\b\\c\end{pmatrix}\). On résout le système \(AX=B\).</p>
+\[AX=B\iff\begin{cases}x-z=a\\x+2y-z=b\\2x+4y-z=c\end{cases}\iff\begin{cases}x-z=a\\2y=b-a&amp;L_2\leftarrow L_2-L_1\\4y+z=c-2a&amp;L_3\leftarrow L_3-2L_1\end{cases}\]
+\[\iff\begin{cases}x-z=a\\2y=b-a\\z=c-2b&amp;L_3\leftarrow L_3-2L_2\end{cases}\iff\begin{cases}x=a-2b+c\\y=-\frac12a+\frac12b\\z=-2b+c\end{cases}\]
+<p>Pour tout \(B\), le système a une unique solution, donc \(A\) est inversible. De plus \(X=A^{-1}B\), donc</p>
+\[A^{-1}=\begin{pmatrix}1&amp;-2&amp;1\\-\frac12&amp;\frac12&amp;0\\0&amp;-2&amp;1\end{pmatrix}\]</div></details></article></div></section>
+<section class="lesson" id="a6" data-part="Partie A · Matrices" data-title="Trouver l&#x27;inverse avec une relation" hidden><header class="lhead"><p class="eyebrow">Partie A · Matrices · Étape 6 sur 22<span class="meta">8 min</span></p><h2>Trouver l'inverse avec une relation</h2></header><div class="lbody">
+<p class="objectif">Savoir conclure quand l'énoncé fait calculer \(A^2-\dots\) puis dit « en déduire que \(A\) est inversible ».</p>
+
+<h3>L'idée</h3>
+<p>On veut arriver à la forme \(A\times(\text{quelque chose})=I\). Ce « quelque chose » sera \(A^{-1}\). Pour cela on <strong>factorise \(A\)</strong>, puis on divise par le nombre qui est devant \(I\).</p>
+<div class="copie"><p class="lab">Le modèle à connaître</p><p>D'après la question précédente : \(A^2+\alpha A=\beta I\) (avec \(\beta\neq0\)).</p>
+<p>Donc \(A(A+\alpha I)=\beta I\), donc \(A\times\Big[\dfrac1\beta(A+\alpha I)\Big]=I\).</p>
+<p><u>Donc \(A\) est inversible</u> et \(A^{-1}=\dfrac1\beta(A+\alpha I)\).</p></div>
+<h3>Exemple rédigé</h3>
+<p>Avec \(A=\begin{pmatrix}1&amp;-1&amp;-1\\-1&amp;1&amp;-1\\-1&amp;-1&amp;1\end{pmatrix}\). <strong>a.</strong> Calculer \(A^2-A\). <strong>b.</strong> En déduire que \(A\) est inversible et déterminer \(A^{-1}\).</p>
+<div class="copie"><p class="lab">Sur la copie</p><p>a. \(A^2=\begin{pmatrix}3&amp;-1&amp;-1\\-1&amp;3&amp;-1\\-1&amp;-1&amp;3\end{pmatrix}\), donc \(A^2-A=\begin{pmatrix}2&amp;0&amp;0\\0&amp;2&amp;0\\0&amp;0&amp;2\end{pmatrix}\), soit \(A^2-A=2I_3\).</p>
+<p>b. D'après a., \(A^2-A=2I_3\), donc \(A(A-I_3)=2I_3\), donc \(A\times\Big[\dfrac12(A-I_3)\Big]=I_3\).</p>
+<p>Donc \(A\) est inversible et \(A^{-1}=\dfrac12(A-I_3)=\begin{pmatrix}0&amp;-\frac12&amp;-\frac12\\-\frac12&amp;0&amp;-\frac12\\-\frac12&amp;-\frac12&amp;0\end{pmatrix}\).</p></div><div class="prof"><p class="lab">Les pièges</p><ul>
+<li>On recopie le résultat de la question précédente <strong>avec son signe</strong>. Encadre-le quand tu le trouves.</li>
+<li>En factorisant, le « 1 » devient \(I_3\) : \(A^2-A=A(A-I_3)\). On n'écrit jamais \(A-1\).</li>
+<li>On vérifie toujours un coefficient de \(A\times A^{-1}\). Ici, ligne 1 × colonne 1 : \(0+\frac12+\frac12=1\).</li>
+</ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Soit \(A=\begin{pmatrix}0&amp;1&amp;1\\1&amp;0&amp;1\\1&amp;1&amp;0\end{pmatrix}\). <strong>a.</strong> Calcule \(A^2-A\). <strong>b.</strong> Déduis-en que \(A\) est inversible et détermine \(A^{-1}\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \(A^2=\begin{pmatrix}2&amp;1&amp;1\\1&amp;2&amp;1\\1&amp;1&amp;2\end{pmatrix}\), donc \(A^2-A=2I_3\).</p>
+<p>b. D'après a., \(A^2-A=2I_3\), donc \(A(A-I_3)=2I_3\), donc \(A\times\Big[\dfrac12(A-I_3)\Big]=I_3\).</p>
+<p>Donc \(A\) est inversible et \(A^{-1}=\dfrac12(A-I_3)=\begin{pmatrix}-\frac12&amp;\frac12&amp;\frac12\\\frac12&amp;-\frac12&amp;\frac12\\\frac12&amp;\frac12&amp;-\frac12\end{pmatrix}\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Soit \(A=\begin{pmatrix}3&amp;-1&amp;1\\2&amp;0&amp;2\\1&amp;-1&amp;3\end{pmatrix}\). On donne \(A^2-4A=-4I_3\). Déduis-en que \(A\) est inversible et détermine \(A^{-1}\). <em>(C'est l'exercice 3 de l'évaluation.)</em></p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(A^2-4A=-4I_3\), donc \(A(A-4I_3)=-4I_3\), donc \(A\times\Big[-\dfrac14(A-4I_3)\Big]=I_3\).</p>
+<p>Donc \(A\) est inversible et \(A^{-1}=-\dfrac14(A-4I_3)=I_3-\dfrac14A=\begin{pmatrix}\frac14&amp;\frac14&amp;-\frac14\\-\frac12&amp;1&amp;-\frac12\\-\frac14&amp;\frac14&amp;\frac14\end{pmatrix}\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Le piège est le signe : c'est \(-4I_3\), donc on divise par \(-4\). Vérification : ligne 1 de \(A\) × colonne 1 de \(A^{-1}\) : \(\frac34+\frac12-\frac14=1\).</p></div></details></article></div></section>
+<section class="lesson" id="a7" data-part="Partie A · Matrices" data-title="Puissances : matrice diagonale et binôme de Newton" hidden><header class="lhead"><p class="eyebrow">Partie A · Matrices · Étape 7 sur 22<span class="meta">12 min</span></p><h2>Puissances : matrice diagonale et binôme de Newton</h2></header><div class="lbody">
+<p class="objectif">Savoir calculer \(T^n\) quand \(T=\lambda I+N\) avec \(N^2=0\).</p>
+
+<h3>Les bases</h3>
+<p>Par définition \(A^0=I_n\) et \(A^{n+1}=A^n\times A\). Pour une matrice <strong>diagonale</strong>, on élève chaque coefficient diagonal à la puissance \(n\).</p>
+
+<h3>La formule du binôme</h3>
+<div class="retenir"><p class="lab">À connaître par cœur</p><p>Si <strong>\(A\) et \(B\) commutent</strong> (\(AB=BA\)) :</p>\[(A+B)^n=\sum_{k=0}^{n}\binom nkA^kB^{n-k}\]<p>Avec \(\binom n0=1\), \(\binom n1=n\) et \(\binom n2=\dfrac{n(n-1)}2\).</p></div>
+<p>L'énoncé te fait écrire \(T=\lambda I+N\) et calculer \(N^2\). Si \(N^2=0\), alors toutes les puissances suivantes de \(N\) sont nulles : dans la somme, il ne reste que les termes \(k=0\) et \(k=1\).</p>
+<figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/a7-binome.mp4"></video><figcaption><span class="tag">Vidéo</span> Calculer une puissance avec le binôme de Newton (exercice 4 de l'évaluation) <span class="dur">2 min 46</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Le modèle à connaître</p><p>On a \(T=\lambda I+N\) avec \(N=T-\lambda I\).</p>
+<p>Les matrices \(\lambda I\) et \(N\) <u>commutent</u> : \((\lambda I)N=\lambda N=N(\lambda I)\).</p>
+<p>D'après la formule du binôme de Newton, pour tout \(n\in\N\) : \(T^n=\displaystyle\sum_{k=0}^{n}\binom nkN^k(\lambda I)^{n-k}\).</p>
+<p>Or \(N^2=0\), donc \(N^k=0\) pour tout \(k\geq2\). Il reste : \(T^n=\lambda^nI+n\lambda^{n-1}N\).</p></div><div class="prof"><p class="lab">Ce qui rapporte les points</p><ul>
+<li>Le binôme n'est valable que si les matrices commutent : on l'écrit <em>et</em> on le justifie. On n'écrit pas « soit ».</li>
+<li>On garde la lettre de l'énoncé (\(n\)) du début à la fin.</li>
+<li>Pour trouver \(N\), une soustraction suffit : \(N=T-\lambda I\).</li>
+<li>Vérification : \(n=0\) doit donner \(I\), \(n=1\) doit donner \(T\).</li>
+</ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Soit \(D=\begin{pmatrix}2&amp;0&amp;0\\0&amp;-1&amp;0\\0&amp;0&amp;1\end{pmatrix}\). Donne \(D^n\) pour tout \(n\in\N\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(D\) est diagonale, donc \(D^n=\begin{pmatrix}2^n&amp;0&amp;0\\0&amp;(-1)^n&amp;0\\0&amp;0&amp;1\end{pmatrix}\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Soit \(T=\begin{pmatrix}3&amp;1\\0&amp;3\end{pmatrix}\). <strong>a.</strong> Détermine \(N\) telle que \(T=3I_2+N\) et calcule \(N^2\). <strong>b.</strong> Déduis-en \(T^n\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \(N=T-3I_2=\begin{pmatrix}0&amp;1\\0&amp;0\end{pmatrix}\) et \(N^2=0_2\).</p>
+<p>b. Les matrices \(3I_2\) et \(N\) commutent : \((3I_2)N=3N=N(3I_2)\). D'après la formule du binôme de Newton :</p>
+\[T^n=(3I_2+N)^n=\sum_{k=0}^{n}\binom nkN^k(3I_2)^{n-k}.\]
+<p>Or \(N^2=0_2\), donc \(N^k=0_2\) pour \(k\geq2\). Il reste :</p>
+\[T^n=3^nI_2+n\,3^{n-1}N=\begin{pmatrix}3^n&amp;n\,3^{n-1}\\0&amp;3^n\end{pmatrix}\]</div><div class="prof"><p class="lab">Remarque</p><p>Vérification : \(n=1\) donne \(3I_2+N=T\).</p></div></details></article></div></section>
+<section class="lesson" id="a8" data-part="Partie A · Matrices" data-title="Puissances : le polynôme annulateur" hidden><header class="lhead"><p class="eyebrow">Partie A · Matrices · Étape 8 sur 22<span class="meta">14 min</span></p><h2>Puissances : le polynôme annulateur</h2></header><div class="lbody">
+<p class="objectif">Savoir calculer \(A^n\) en trois étapes : polynôme annulateur, division euclidienne, puis on remplace \(x\) par \(A\).</p>
+
+<h3>Le principe</h3>
+<p>Un polynôme \(P\) est <strong>annulateur</strong> de \(A\) quand \(P(A)=0\) (la matrice nulle). Si \(P\) est de degré 2, la division euclidienne de \(x^n\) par \(P\) s'écrit</p>
+\[x^n=P(x)\,Q(x)+a_nx+b_n,\]
+<p>car le reste est de degré au plus 1. En remplaçant \(x\) par \(A\), le terme \(P(A)Q(A)\) disparaît et il reste \(A^n=a_nA+b_nI\). Pour trouver \(a_n\) et \(b_n\), on remplace \(x\) par les deux racines de \(P\) : on ne calcule jamais \(Q\).</p>
+<p>Cette méthode demande que \(P\) ait <strong>deux racines distinctes</strong> : elles donnent deux équations pour deux inconnues. Si \(P\) a une racine double, \(P(x)=(x-\lambda)^2\), alors \((A-\lambda I)^2=0\) : on pose \(N=A-\lambda I\) et on utilise le binôme de l'étape précédente.</p>
+<figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/a8-polynome-annulateur.mp4"></video><figcaption><span class="tag">Vidéo</span> Calculer une puissance avec un polynôme annulateur (exercice 5 de l'évaluation) <span class="dur">4 min 17</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Le modèle à connaître</p><p><strong>1)</strong> \(A^2=\dots=\alpha A+\beta I\), donc \(P(x)=x^2-\alpha x-\beta\) est un polynôme annulateur de \(A\).</p>
+<p><strong>2)</strong> \(P(x)=(x-r_1)(x-r_2)\). \(P\) est de degré 2, donc il existe un polynôme \(Q\) et deux réels \(a_n,b_n\) tels que \(x^n=P(x)Q(x)+a_nx+b_n\).</p>
+<p>En \(x=r_1\) : \(r_1^{\,n}=a_nr_1+b_n\). En \(x=r_2\) : \(r_2^{\,n}=a_nr_2+b_n\). Donc \(a_n=\dots\) et \(b_n=\dots\)</p>
+<p><strong>3)</strong> On remplace \(x\) par \(A\) : \(A^n=P(A)Q(A)+a_nA+b_nI=a_nA+b_nI\) car \(P(A)=0\).</p></div><div class="prof"><p class="lab">Les points d'attention</p><ul>
+<li>Pour écrire \(A^2=\alpha A+\beta I\) : les coefficients hors diagonale donnent \(\alpha\), puis la diagonale donne \(\beta\).</li>
+<li>Attention aux signes en passant de \(A^2=\alpha A+\beta I\) au polynôme \(x^2-\alpha x-\beta\).</li>
+<li>Quand \(x\) devient \(A\), le nombre \(b_n\) devient \(b_nI\).</li>
+<li>Avant de remplacer, on vérifie que les deux racines sont différentes.</li>
+<li>Vérification : \(n=0\) donne \(I\), \(n=1\) donne \(A\).</li>
+</ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Soit \(A=\begin{pmatrix}3&amp;1\\1&amp;3\end{pmatrix}\). <strong>a.</strong> Vérifie que \(A^2=6A-8I_2\) et déduis-en un polynôme annulateur \(P\). <strong>b.</strong> Détermine le reste de la division euclidienne de \(x^n\) par \(P\). <strong>c.</strong> Déduis-en \(A^n\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \(A^2=\begin{pmatrix}10&amp;6\\6&amp;10\end{pmatrix}\) et \(6A-8I_2=\begin{pmatrix}18-8&amp;6\\6&amp;18-8\end{pmatrix}=\begin{pmatrix}10&amp;6\\6&amp;10\end{pmatrix}\). Donc \(A^2-6A+8I_2=0_2\) : \(P(x)=x^2-6x+8\) est un polynôme annulateur de \(A\).</p>
+<p>b. \(P(x)=(x-2)(x-4)\). \(P\) est de degré 2 : il existe \(Q\) et \(a_n,b_n\) tels que \(x^n=P(x)Q(x)+a_nx+b_n\).</p>
+<p>En \(x=2\) : \(2^n=2a_n+b_n\). En \(x=4\) : \(4^n=4a_n+b_n\). Par différence : \(2a_n=4^n-2^n\).</p>
+<p>Donc \(a_n=\dfrac{4^n-2^n}2\) et \(b_n=2^n-2a_n=2^{n+1}-4^n\). Le reste est \(a_nx+b_n\).</p>
+<p>c. On remplace \(x\) par \(A\) : \(A^n=P(A)Q(A)+a_nA+b_nI_2=a_nA+b_nI_2\) car \(P(A)=0_2\).</p>
+\[A^n=\frac12\begin{pmatrix}4^n+2^n&amp;4^n-2^n\\4^n-2^n&amp;4^n+2^n\end{pmatrix}\]</div><div class="prof"><p class="lab">Remarque</p><p>Vérification : \(n=0\) donne \(I_2\), \(n=1\) donne \(\frac12\begin{pmatrix}6&amp;2\\2&amp;6\end{pmatrix}=A\).</p></div></details></article></div></section>
+<section class="lesson" id="a9" data-part="Partie A · Matrices" data-title="Système homogène" hidden><header class="lhead"><p class="eyebrow">Partie A · Matrices · Étape 9 sur 22<span class="meta">8 min</span></p><h2>Système homogène</h2></header><div class="lbody">
+<p class="objectif">Savoir résoudre un système homogène et écrire ses solutions sous la forme d'un \(\Vect\). C'est le pont vers la partie B.</p>
+
+<h3>Ce que c'est</h3>
+<p>Un système est <strong>homogène</strong> quand tous les seconds membres sont nuls : il s'écrit \(AX=0\). Il a <strong>toujours</strong> la solution \(X=0\), donc il n'est jamais impossible. Il n'y a que deux cas : soit \(X=0\) est la seule solution, soit il y a une infinité de solutions.</p>
+<p>Quand la matrice \(A\) est <strong>carrée</strong>, cela dit si elle est inversible :</p>
+<ul>
+<li>\(X=0\) est la seule solution \(\iff\) \(A\) est inversible ;</li>
+<li>il y a une infinité de solutions \(\iff\) \(A\) n'est pas inversible.</li>
+</ul>
+<p>Si le système n'a pas autant d'équations que d'inconnues, \(A\) n'est pas carrée et on ne parle pas d'inverse.</p>
+
+<h3>Exemple</h3>
+<p>Avec \(A=\begin{pmatrix}2&amp;-1&amp;1\\1&amp;0&amp;-1\\2&amp;-2&amp;1\end{pmatrix}\), résolvons \((A-3I_3)X=0\).</p>
+\[\begin{cases}-x-y+z=0\\x-3y-z=0\\2x-2y-2z=0\end{cases}\iff\begin{cases}y=0&amp;(L_2+L_1\text{ donne }-4y=0)\\z=x\end{cases}\]
+<p>Il reste une inconnue libre, \(x\). Les solutions sont les triplets \((x,0,x)=x\,(1,0,1)\) :</p>
+\[S=\{x\,(1,0,1)\ ;\ x\in\R\}=\Vect\big((1,0,1)\big).\]
+<p>Le système a des solutions non nulles, donc \(A-3I_3\) n'est pas inversible.</p>
+<div class="prof"><p class="lab">Conseil</p><p>Une inconnue libre donne un vecteur dans le \(\Vect\). Deux inconnues libres en donnent deux.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Résous le système homogène \(\begin{cases}x-y+z=0\\2x-y=0\end{cases}\) et écris l'ensemble des solutions sous la forme \(\Vect(w)\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>La ligne 2 donne \(y=2x\). Dans la ligne 1 : \(z=y-x=x\).</p><p>Les solutions sont les triplets \((x,2x,x)=x\,(1,2,1)\), \(x\in\R\). Donc \(S=\Vect\big((1,2,1)\big)\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>La matrice \(A=\begin{pmatrix}1&amp;2\\2&amp;4\end{pmatrix}\) est-elle inversible ? Réponds en résolvant \(AX=0\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(AX=0\iff\begin{cases}x+2y=0\\2x+4y=0\end{cases}\iff x=-2y\). Par exemple \(X=\begin{pmatrix}-2\\1\end{pmatrix}\) est une solution non nulle.</p><p>Le système \(AX=0\) a une solution autre que \(X=0\), donc \(A\) n'est pas inversible.</p></div></details></article></div></section>
+<section class="lesson" id="b1" data-part="Partie B · Espaces vectoriels" data-title="Qu&#x27;est-ce qu&#x27;un espace vectoriel ?" hidden><header class="lhead"><p class="eyebrow">Partie B · Espaces vectoriels · Étape 10 sur 22<span class="meta">10 min</span></p><h2>Qu'est-ce qu'un espace vectoriel ?</h2></header><div class="lbody">
+<p class="objectif">Comprendre l'idée d'espace vectoriel, connaître les exemples de référence et le lemme III-13.</p>
+
+<h3>L'idée</h3>
+<p>Un <strong>espace vectoriel</strong> \(E\) est un ensemble dans lequel on peut :</p>
+<ul>
+<li>additionner deux éléments : \(x+y\) est encore dans \(E\) ;</li>
+<li>multiplier un élément par un réel : \(\lambda\cdot x\) est encore dans \(E\) ;</li>
+<li>en calculant avec les règles habituelles (les huit règles de la définition III-12 : commutativité, associativité, vecteur nul, opposé, \(1\cdot x=x\), deux distributivités, \(\alpha\cdot(\beta\cdot x)=(\alpha\beta)\cdot x\)).</li>
+</ul>
+<p>Les éléments de \(E\) s'appellent des <strong>vecteurs</strong>, les réels des <strong>scalaires</strong>. Un vecteur n'est pas forcément une flèche : c'est un élément de l'ensemble.</p>
+
+<div class="table-wrap"><table>
+<thead><tr><th>L'espace \(E\)</th><th>Un vecteur, c'est…</th><th>Le vecteur nul \(0_E\)</th></tr></thead>
+<tbody>
+<tr><td>\(\R^n\)</td><td>un \(n\)-uplet \((x_1,\dots,x_n)\)</td><td>\((0,\dots,0)\)</td></tr>
+<tr><td>\(\R[x]\) ou \(\R_n[x]\)</td><td>un polynôme</td><td>le polynôme nul</td></tr>
+<tr><td>\(\mathcal M_{n,p}(\R)\)</td><td>une matrice</td><td>la matrice nulle</td></tr>
+<tr><td>\(\mathcal F(\R,\R)\)</td><td>une fonction</td><td>la fonction nulle \(x\mapsto0\)</td></tr>
+</tbody></table></div>
+
+<h3>Le lemme III-13</h3>
+<div class="retenir"><p class="lab">À connaître par cœur</p>\[\lambda\cdot x=0_E\iff\lambda=0\ \text{ ou }\ x=0_E\]</div>
+<p>Un produit « nombre × vecteur » est nul exactement quand l'un des deux est nul. La vidéo montre pourquoi, à partir des règles de calcul.</p>
+<figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/b1-lemme.mp4"></video><figcaption><span class="tag">Vidéo</span> Démonstration du lemme III-13 <span class="dur">3 min 27</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Donne le vecteur nul de chacun des espaces vectoriels : \(\R^3\), \(\mathcal M_2(\R)\), \(\R_2[x]\), \(\mathcal F(\R,\R)\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(\R^3\) : \((0,0,0)\). \(\mathcal M_2(\R)\) : la matrice nulle \(\begin{pmatrix}0&amp;0\\0&amp;0\end{pmatrix}\).</p><p>\(\R_2[x]\) : le polynôme nul. \(\mathcal F(\R,\R)\) : la fonction nulle \(x\mapsto0\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Dans \(\R^2\), soit \(u=(1,-2)\) et \(v=(3,1)\). <strong>a.</strong> Calcule \(2u-v\). <strong>b.</strong> Pour quels réels \(\lambda\) a-t-on \(\lambda\cdot u=(0,0)\) ?</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \(2u-v=(2,-4)-(3,1)=(-1,-5)\).</p><p>b. D'après le lemme III-13 : \(\lambda\cdot u=0\iff\lambda=0\) ou \(u=0\). Or \(u\neq(0,0)\), donc \(\lambda=0\).</p></div></details></article></div></section>
+<section class="lesson" id="b2" data-part="Partie B · Espaces vectoriels" data-title="Sous-espace vectoriel" hidden><header class="lhead"><p class="eyebrow">Partie B · Espaces vectoriels · Étape 11 sur 22<span class="meta">14 min</span></p><h2>Sous-espace vectoriel</h2></header><div class="lbody">
+<p class="objectif">Savoir montrer qu'un ensemble est un sous-espace vectoriel, et savoir montrer qu'il n'en est pas un.</p>
+
+<h3>La définition</h3>
+<div class="retenir"><p class="lab">Définition III-14</p><p>\(F\) est un <strong>sous-espace vectoriel</strong> (s.e.v.) de \(E\) si :</p>
+<ol><li>\(F\subset E\) et \(F\) est non vide (en pratique : \(0_E\in F\)) ;</li>
+<li>pour tous \(x,y\in F\) et tout \(\lambda\in\R\) : \(\lambda\cdot x+y\in F\).</li></ol></div><figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/b2-sev.mp4"></video><figcaption><span class="tag">Vidéo</span> Montrer qu'un ensemble est, ou n'est pas, un sous-espace vectoriel <span class="dur">3 min 52</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure>
+<h3>Méthode « c'est un s.e.v. »</h3>
+<p>Avec \(F=\{(x,y,z)\in\R^3\ ;\ x+z=0\}\).</p>
+<div class="copie"><p class="lab">Sur la copie</p><p>• \((0,0,0)\in F\) car \(0+0=0\). Donc \(F\) est non vide.</p>
+<p>• Soit \(u=(x,y,z)\in F\), \(v=(x',y',z')\in F\) et \(\lambda\in\R\). On a \(x+z=0\) et \(x'+z'=0\).</p>
+<p>\(\lambda u+v=(\lambda x+x',\ \lambda y+y',\ \lambda z+z')\) et \((\lambda x+x')+(\lambda z+z')=\lambda(x+z)+(x'+z')=0\).</p>
+<p>Donc \(\lambda u+v\in F\). <u>Donc \(F\) est un sous-espace vectoriel de \(\R^3\).</u></p></div>
+<h3>Méthode « ce n'est pas un s.e.v. »</h3>
+<p>Un seul argument précis suffit.</p>
+<ul>
+<li><strong>Le vecteur nul n'est pas dedans.</strong> Pour \(G=\{(x,y)\ ;\ x+y=1\}\) : \((0,0)\notin G\) car \(0+0\neq1\).</li>
+<li><strong>Un contre-exemple avec des nombres.</strong> Pour \(H=\{(x,y)\ ;\ xy=0\}\) : \((1,0)\in H\) et \((0,1)\in H\), mais \((1,0)+(0,1)=(1,1)\notin H\).</li>
+</ul>
+
+<h3>Les réflexes</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>La condition qui définit \(F\)</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td>Équation linéaire avec second membre 0 : \(ax+by+cz=0\), \(f(0)=0\), \({}^tA=A\)</td><td><strong>Oui</strong>, c'est un s.e.v.</td></tr>
+<tr><td>« = constante non nulle » : \(x+y=1\), \(f(0)=2\)</td><td><strong>Non</strong> : le vecteur nul n'est pas dedans</td></tr>
+<tr><td>Inégalité : \(x\geq z\), \(f\) croissante</td><td><strong>Non</strong> : multiplier par \(-1\) fait sortir</td></tr>
+<tr><td>Produit ou carré : \(xy=0\), \(y=x^2\)</td><td><strong>Non</strong> en général : chercher un contre-exemple</td></tr>
+</tbody></table></div>
+<div class="prof"><p class="lab">Piège</p><p>Écrire « \(F\) n'est pas stable » sans donner les vecteurs ne rapporte aucun point. Il faut un contre-exemple avec des nombres.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Montre que \(F=\{(x,y,z)\in\R^3\ ;\ 2x-y+3z=0\}\) est un sous-espace vectoriel de \(\R^3\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>• \((0,0,0)\in F\) car \(2\times0-0+3\times0=0\). Donc \(F\) est non vide.</p>
+<p>• Soit \(u=(x,y,z)\in F\), \(v=(x',y',z')\in F\) et \(\lambda\in\R\). On a \(2x-y+3z=0\) et \(2x'-y'+3z'=0\).</p>
+<p>\(\lambda u+v=(\lambda x+x',\ \lambda y+y',\ \lambda z+z')\) et :</p>
+\[2(\lambda x+x')-(\lambda y+y')+3(\lambda z+z')=\lambda(2x-y+3z)+(2x'-y'+3z')=0.\]
+<p>Donc \(\lambda u+v\in F\). Donc \(F\) est un sous-espace vectoriel de \(\R^3\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Les ensembles suivants sont-ils des sous-espaces vectoriels de \(\R^2\) ? Justifie.</p><p>\(A=\{(x,y)\ ;\ y=x+1\}\) &nbsp; \(B=\{(x,y)\ ;\ y=x^2\}\) &nbsp; \(C=\{(x,y)\ ;\ x\geq0\}\)</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(A\) : \((0,0)\notin A\) car \(0\neq0+1\). Donc \(A\) n'est pas un s.e.v.</p>
+<p>\(B\) : \((1,1)\in B\) car \(1=1^2\). Mais \(2\cdot(1,1)=(2,2)\notin B\) car \(2\neq2^2\). Donc \(B\) n'est pas un s.e.v.</p>
+<p>\(C\) : \((1,0)\in C\) car \(1\geq0\). Mais \((-1)\cdot(1,0)=(-1,0)\notin C\). Donc \(C\) n'est pas un s.e.v.</p></div><div class="prof"><p class="lab">Remarque</p><p>D'abord le vecteur nul. S'il est dedans (\(B\) et \(C\)), on cherche un contre-exemple.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Dans \(\mathcal M_2(\R)\) : \(F\) est l'ensemble des matrices \(\begin{pmatrix}a&amp;b\\c&amp;d\end{pmatrix}\) telles que \(a+d=0\), et \(G\) l'ensemble des matrices inversibles. Sont-ils des sous-espaces vectoriels ?</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(F\) : la matrice nulle est dans \(F\) (\(0+0=0\)). Soit \(M=\begin{pmatrix}a&amp;b\\c&amp;d\end{pmatrix}\) et \(M'=\begin{pmatrix}a'&amp;b'\\c'&amp;d'\end{pmatrix}\) dans \(F\), et \(\lambda\in\R\).</p>
+<p>Les coefficients diagonaux de \(\lambda M+M'\) sont \(\lambda a+a'\) et \(\lambda d+d'\), de somme \(\lambda(a+d)+(a'+d')=0\). Donc \(\lambda M+M'\in F\) : \(F\) est un s.e.v. de \(\mathcal M_2(\R)\).</p>
+<p>\(G\) : la matrice nulle n'est pas inversible, donc \(0\notin G\) : \(G\) n'est pas un s.e.v.</p></div></details></article></div></section>
+<section class="lesson" id="b3" data-part="Partie B · Espaces vectoriels" data-title="Le sous-espace engendré : Vect" hidden><header class="lhead"><p class="eyebrow">Partie B · Espaces vectoriels · Étape 12 sur 22<span class="meta">12 min</span></p><h2>Le sous-espace engendré : Vect</h2></header><div class="lbody">
+<p class="objectif">Comprendre ce que veut dire \(\Vect(u_1,\dots,u_k)\) et savoir dire si un vecteur lui appartient.</p>
+
+<h3>La définition</h3>
+<div class="retenir"><p class="lab">Définition III-15</p>\[\Vect(u_1,\dots,u_k)=\{\lambda_1u_1+\dots+\lambda_ku_k\ ;\ \lambda_1,\dots,\lambda_k\in\R\}\]
+<p>C'est l'ensemble de <strong>toutes les combinaisons linéaires</strong> de \(u_1,\dots,u_k\). C'est toujours un sous-espace vectoriel de \(E\) : on l'appelle le sous-espace <strong>engendré</strong> par \(u_1,\dots,u_k\).</p></div>
+<p>Une combinaison linéaire, c'est simple : on multiplie chaque vecteur par un réel, puis on additionne.</p>
+
+<h3>Exemple</h3>
+<p>Dans \(\R^3\), avec \(u=(1,1,0)\) et \(v=(1,0,1)\) :</p>
+\[\lambda u+\mu v=(\lambda+\mu,\ \lambda,\ \mu)\qquad\text{donc}\qquad\Vect(u,v)=\{(\lambda+\mu,\ \lambda,\ \mu)\ ;\ \lambda,\mu\in\R\}.\]
+<p>Par exemple \(u+v=(2,1,1)\) et \(2u-v=(1,2,-1)\) sont dans \(\Vect(u,v)\).</p>
+<figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/b3-vect.mp4"></video><figcaption><span class="tag">Vidéo</span> Le sous-espace engendré : définition, preuve que c'est un s.e.v., droite vectorielle <span class="dur">4 min 09</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure>
+<h3>Les cas particuliers</h3>
+<ul>
+<li><strong>Sous-espaces triviaux</strong> : \(\{0_E\}\) et \(E\) lui-même.</li>
+<li><strong>Droite vectorielle</strong> : si \(u\neq0_E\), \(\Vect(u)=\{\lambda u\ ;\ \lambda\in\R\}\) est la droite engendrée par \(u\).</li>
+<li>Dans \(\mathcal M_2(\R)\) : \(\Vect(I_2)\) est l'ensemble des matrices \(\begin{pmatrix}\lambda&amp;0\\0&amp;\lambda\end{pmatrix}\).</li>
+<li>Deux vecteurs non colinéaires de \(\R^3\) engendrent un <strong>plan</strong> passant par l'origine.</li>
+</ul>
+<div class="prof"><p class="lab">Conseil</p><p>Dès qu'un ensemble s'écrit comme un \(\Vect\), on sait que c'est un sous-espace vectoriel, sans rien redémontrer.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Dans \(\R^3\), soit \(u=(1,0,2)\) et \(v=(0,1,-1)\). Les vecteurs \(w=(2,3,1)\) et \(t=(1,1,0)\) appartiennent-ils à \(\Vect(u,v)\) ?</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(\lambda u+\mu v=(\lambda,\ \mu,\ 2\lambda-\mu)\).</p>
+<p>\(w\) : il faut \(\lambda=2\) et \(\mu=3\), et alors \(2\lambda-\mu=1\) : c'est bien la troisième coordonnée. Donc \(w=2u+3v\in\Vect(u,v)\).</p>
+<p>\(t\) : il faut \(\lambda=1\) et \(\mu=1\), et alors \(2\lambda-\mu=1\neq0\). Donc \(t\notin\Vect(u,v)\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Être dans \(\Vect(u,v)\), c'est pouvoir s'écrire \(\lambda u+\mu v\).</p></div></details></article></div></section>
+<section class="lesson" id="b4" data-part="Partie B · Espaces vectoriels" data-title="Passer d&#x27;une équation à un Vect, et l&#x27;inverse" hidden><header class="lhead"><p class="eyebrow">Partie B · Espaces vectoriels · Étape 13 sur 22<span class="meta">10 min</span></p><h2>Passer d'une équation à un Vect, et l'inverse</h2></header><div class="lbody">
+<p class="objectif">Savoir écrire un sous-espace défini par des équations sous la forme d'un \(\Vect\), et retrouver une équation à partir d'un \(\Vect\).</p>
+<figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/b4-equation-vect.mp4"></video><figcaption><span class="tag">Vidéo</span> D'une équation vers un Vect, puis le chemin inverse <span class="dur">3 min 29</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure>
+<h3>D'une équation vers un Vect : trois gestes</h3>
+<p>Avec \(F=\{(x,y,z)\in\R^3\ ;\ x+2y-z=0\}\).</p>
+<div class="copie"><p class="lab">Sur la copie</p><p><strong>1)</strong> J'exprime une inconnue avec les autres : \(z=x+2y\).</p>
+<p><strong>2)</strong> Je remplace : \((x,y,z)=(x,\ y,\ x+2y)\).</p>
+<p><strong>3)</strong> Je sépare les paramètres : \((x,\ y,\ x+2y)=x\,(1,0,1)+y\,(0,1,2)\).</p>
+<p>Donc \(F=\Vect\big((1,0,1),(0,1,2)\big)\).</p></div>
+<p>Deux paramètres libres donnent deux vecteurs. Avec deux équations (une intersection), on résout le système et il reste moins de paramètres.</p>
+
+<h3>D'un Vect vers une équation</h3>
+<p>Avec \(u=(1,1,0)\) et \(v=(1,0,1)\) : un vecteur \((x,y,z)\) est dans \(\Vect(u,v)\) s'il existe \(\lambda,\mu\) tels que</p>
+\[\begin{cases}x=\lambda+\mu\\y=\lambda\\z=\mu\end{cases}\]
+<p>On remplace \(\lambda=y\) et \(\mu=z\) dans la première ligne : \(x=y+z\). Donc \(\Vect(u,v)=\{(x,y,z)\in\R^3\ ;\ x-y-z=0\}\).</p>
+<div class="prof"><p class="lab">Conseil</p><p>L'écriture avec une équation et l'écriture avec un \(\Vect\) décrivent le même sous-espace. On passe de l'une à l'autre en résolvant un système.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Écris \(F=\{(x,y,z)\in\R^3\ ;\ x-y+2z=0\}\) sous la forme d'un sous-espace vectoriel engendré par deux vecteurs.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\((x,y,z)\in F\iff x=y-2z\iff(x,y,z)=(y-2z,\ y,\ z)=y\,(1,1,0)+z\,(-2,0,1)\).</p><p>Donc \(F=\Vect\big((1,1,0),(-2,0,1)\big)\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Vérification : \(1-1+0=0\) et \(-2-0+2=0\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Dans \(\R^2\), donne une équation de la droite vectorielle \(\Vect\big((1,2)\big)\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\((x,y)\in\Vect\big((1,2)\big)\iff\) il existe \(\lambda\) tel que \((x,y)=(\lambda,2\lambda)\iff y=2x\).</p><p>Donc \(\Vect\big((1,2)\big)=\{(x,y)\in\R^2\ ;\ y=2x\}\).</p></div></details></article></div></section>
+<section class="lesson" id="b5" data-part="Partie B · Espaces vectoriels" data-title="Intersection et réunion" hidden><header class="lhead"><p class="eyebrow">Partie B · Espaces vectoriels · Étape 14 sur 22<span class="meta">12 min</span></p><h2>Intersection et réunion</h2></header><div class="lbody">
+<p class="objectif">Savoir que l'intersection de deux s.e.v. est toujours un s.e.v., et que la réunion ne l'est presque jamais.</p>
+<div class="retenir"><p class="lab">À connaître par cœur</p><ul>
+<li>\(F_1\cap F_2\) est <strong>toujours</strong> un sous-espace vectoriel (proposition III-16, vraie pour autant de s.e.v. qu'on veut).</li>
+<li>\(F_1\cup F_2\) est un sous-espace vectoriel \(\iff F_1\subset F_2\) ou \(F_2\subset F_1\).</li>
+</ul></div>
+<h3>L'intersection</h3>
+<p>Être dans \(F_1\cap F_2\), c'est être dans \(F_1\) <em>et</em> dans \(F_2\). La preuve reprend la méthode habituelle : le vecteur nul est dans les deux, et si \(x,y\) sont dans les deux, alors \(\lambda x+y\) aussi.</p>
+<figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/b5-intersection.mp4"></video><figcaption><span class="tag">Vidéo</span> Démonstration : l'intersection de deux s.e.v. est un s.e.v. <span class="dur">2 min 37</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure>
+<h3>La réunion</h3>
+<p>Dans \(\R^2\), les deux axes sont des s.e.v. Mais \((1,0)\) est sur le premier, \((0,1)\) sur le second, et leur somme \((1,1)\) n'est sur aucun des deux. La réunion n'est pas stable par addition.</p>
+<figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/b5-reunion.mp4"></video><figcaption><span class="tag">Vidéo</span> La réunion : l'exemple des deux axes, puis la preuve par l'absurde <span class="dur">3 min 33</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="prof"><p class="lab">Conseil</p><p>En pratique, « intersection » veut dire : les deux conditions en même temps. C'est donc un système à résoudre.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Soit \(F=\{(x,y,z)\in\R^3\ ;\ x-z=0\}\) et \(G=\{(x,y,z)\in\R^3\ ;\ y+z=0\}\). Écris \(F\cap G\) sous la forme \(\Vect(w)\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p>\[(x,y,z)\in F\cap G\iff\begin{cases}x-z=0\\y+z=0\end{cases}\iff\begin{cases}x=z\\y=-z\end{cases}\iff(x,y,z)=z\,(1,-1,1).\]<p>Donc \(F\cap G=\Vect\big((1,-1,1)\big)\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Vrai ou faux ? (\(F\) et \(G\) sont des s.e.v. de \(E\).) Justifie.</p><p><strong>a.</strong> \(F\cap G\) est toujours un s.e.v. <strong>b.</strong> \(F\cup G\) est toujours un s.e.v. <strong>c.</strong> Si \(F\subset G\), alors \(F\cup G\) est un s.e.v.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. Vrai : c'est la proposition III-16.</p>
+<p>b. Faux : dans \(\R^2\), avec les deux axes \(F=\Vect((1,0))\) et \(G=\Vect((0,1))\) : \((1,0)+(0,1)=(1,1)\notin F\cup G\).</p>
+<p>c. Vrai : si \(F\subset G\) alors \(F\cup G=G\), qui est un s.e.v.</p></div><div class="prof"><p class="lab">Remarque</p><p>Pour répondre « faux », il faut un contre-exemple précis.</p></div></details></article></div></section>
+<section class="lesson" id="b6" data-part="Partie B · Espaces vectoriels" data-title="Famille génératrice" hidden><header class="lhead"><p class="eyebrow">Partie B · Espaces vectoriels · Étape 15 sur 22<span class="meta">12 min</span></p><h2>Famille génératrice</h2></header><div class="lbody">
+<p class="objectif">Savoir ce qu'est une famille génératrice et savoir le démontrer sur un exemple.</p>
+<div class="retenir"><p class="lab">Définition III-17</p><p>\((x_1,\dots,x_k)\) est une <strong>famille génératrice</strong> de \(F\) si \(F=\Vect(x_1,\dots,x_k)\), c'est-à-dire si <strong>tout</strong> vecteur de \(F\) s'écrit \(\lambda_1x_1+\dots+\lambda_kx_k\).</p></div>
+<p>Avec une famille génératrice, on peut fabriquer tous les vecteurs de \(F\).</p>
+
+<h3>Les exemples à connaître</h3>
+<ul>
+<li>\(\big((1,0),(0,1)\big)\) engendre \(\R^2\), car \((x,y)=x\,(1,0)+y\,(0,1)\).</li>
+<li>\((1,x,x^2,\dots,x^n)\) engendre \(\R_n[x]\).</li>
+<li>Les matrices \(E_{i,j}\) engendrent \(\mathcal M_{n,p}(\R)\).</li>
+</ul>
+<figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/b6-famille-generatrice.mp4"></video><figcaption><span class="tag">Vidéo</span> Famille génératrice : définition, exemples et méthode <span class="dur">3 min 22</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure>
+<h3>La méthode</h3>
+<p>Pour montrer que \(a=(0,1,1)\), \(b=(1,1,0)\), \(c=(1,1,1)\) engendrent \(\R^3\).</p>
+<div class="copie"><p class="lab">Sur la copie</p><p>Soit \((x,y,z)\in\R^3\). On cherche \(\lambda,\mu,\nu\) tels que \(\lambda a+\mu b+\nu c=(x,y,z)\).</p>
+\[\lambda a+\mu b+\nu c=(x,y,z)\iff\begin{cases}\mu+\nu=x\\\lambda+\mu+\nu=y\\\lambda+\nu=z\end{cases}\iff\begin{cases}\lambda=y-x\\\nu=x-y+z\\\mu=y-z\end{cases}\]
+<p>Le système a une solution <u>pour tout</u> \((x,y,z)\). <u>Donc \((a,b,c)\) est une famille génératrice de \(\R^3\).</u></p></div><div class="prof"><p class="lab">Conseil</p><p>On part d'un vecteur <em>quelconque</em>. Les inconnues sont \(\lambda,\mu,\nu\) ; les nombres \(x,y,z\) sont des données. Pour montrer qu'une famille n'est <em>pas</em> génératrice, il suffit d'un vecteur qu'on ne peut pas fabriquer.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Montre que \(\big((1,1),(1,-1)\big)\) est une famille génératrice de \(\R^2\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Soit \((x,y)\in\R^2\). On cherche \(\lambda,\mu\) tels que \(\lambda\,(1,1)+\mu\,(1,-1)=(x,y)\).</p>
+\[\iff\begin{cases}\lambda+\mu=x\\\lambda-\mu=y\end{cases}\iff\begin{cases}\lambda=\frac{x+y}2\\\mu=\frac{x-y}2\end{cases}\]
+<p>Le système a une solution pour tout \((x,y)\). Donc \(\big((1,1),(1,-1)\big)\) est une famille génératrice de \(\R^2\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>La famille \(\big((1,2),(2,4)\big)\) est-elle génératrice de \(\R^2\) ?</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Non. Cherchons \(\lambda,\mu\) tels que \(\lambda\,(1,2)+\mu\,(2,4)=(0,1)\) :</p>
+\[\begin{cases}\lambda+2\mu=0\\2\lambda+4\mu=1\end{cases}\qquad L_2-2L_1\ :\ 0=1,\ \text{impossible.}\]
+<p>Le vecteur \((0,1)\) n'est pas combinaison linéaire de la famille : elle n'est pas génératrice de \(\R^2\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Ici \((2,4)=2\,(1,2)\) : les deux vecteurs sont sur la même droite.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Donne, sans démonstration, une famille génératrice de \(\R_2[x]\), puis de l'ensemble des matrices diagonales de \(\mathcal M_2(\R)\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(\R_2[x]\) : \((1,\ x,\ x^2)\).</p><p>Matrices diagonales : \(\begin{pmatrix}a&amp;0\\0&amp;d\end{pmatrix}=a\,E_{1,1}+d\,E_{2,2}\), donc \((E_{1,1},E_{2,2})\).</p></div></details></article></div></section>
+<section class="lesson" id="b7" data-part="Partie B · Espaces vectoriels" data-title="Sous-famille, sur-famille et vecteur redondant" hidden><header class="lhead"><p class="eyebrow">Partie B · Espaces vectoriels · Étape 16 sur 22<span class="meta">10 min</span></p><h2>Sous-famille, sur-famille et vecteur redondant</h2></header><div class="lbody">
+<p class="objectif">Savoir quand on peut ajouter ou retirer un vecteur à une famille génératrice. C'est le pont vers les familles libres.</p>
+
+<h3>Le vocabulaire</h3>
+<p>Une <strong>sous-famille</strong> s'obtient en gardant certains vecteurs d'une famille, dans le même ordre : \((x_1,x_4,x_5)\) est une sous-famille de \((x_1,x_2,x_3,x_4,x_5)\). Une <strong>sur-famille</strong>, c'est le contraire : on a ajouté des vecteurs.</p>
+<figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/b7-sous-famille.mp4"></video><figcaption><span class="tag">Vidéo</span> Sous-famille, sur-famille et les trois remarques du cours <span class="dur">2 min 50</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="retenir"><p class="lab">À connaître par cœur</p><ul>
+<li>Une <strong>sur-famille</strong> d'une famille génératrice est génératrice.</li>
+<li>Une <strong>sous-famille</strong> d'une famille non génératrice n'est pas génératrice.</li>
+<li><strong>Proposition III-18.</strong> Si un vecteur d'une famille génératrice est combinaison linéaire des autres, on peut le retirer : la famille reste génératrice.</li>
+</ul></div>
+<h3>Pourquoi on peut retirer un vecteur redondant</h3>
+<p>Dans \(\R^2\), prenons \(e_1=(1,0)\), \(e_2=(0,1)\), \(e_3=(1,1)\), avec \(e_3=e_1+e_2\). Un vecteur quelconque s'écrit</p>
+\[x=\mu_1e_1+\mu_2e_2+\mu_3e_3=\mu_1e_1+\mu_2e_2+\mu_3(e_1+e_2)=(\mu_1+\mu_3)\,e_1+(\mu_2+\mu_3)\,e_2.\]
+<p>On n'a plus besoin de \(e_3\). Dans le cas général, on fait les mêmes trois gestes : isoler, remplacer, regrouper.</p>
+<figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/b7-redondance.mp4"></video><figcaption><span class="tag">Vidéo</span> Démonstration de la proposition III-18 <span class="dur">2 min 22</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>La famille \(\big((1,0,0),(0,1,0),(0,0,1),(1,1,1)\big)\) est génératrice de \(\R^3\). Peut-on retirer un vecteur en gardant une famille génératrice ? Lequel, et pourquoi ?</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Oui : \((1,1,1)=(1,0,0)+(0,1,0)+(0,0,1)\) est combinaison linéaire des trois autres.</p><p>D'après la proposition III-18, on peut le retirer : \(\big((1,0,0),(0,1,0),(0,0,1)\big)\) est encore génératrice de \(\R^3\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Vrai ou faux ? Justifie. <strong>a.</strong> Si on ajoute un vecteur à une famille génératrice de \(\R^2\), elle reste génératrice. <strong>b.</strong> Si on retire un vecteur à une famille génératrice de \(\R^2\), elle reste génératrice.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. Vrai : une sur-famille d'une famille génératrice est génératrice (on met le coefficient 0 devant le vecteur ajouté).</p>
+<p>b. Faux en général : \(\big((1,0),(0,1)\big)\) engendre \(\R^2\), mais \(\big((1,0)\big)\) ne l'engendre pas, car on n'obtient jamais \((0,1)\).</p></div></details></article></div></section>
+<section class="lesson" id="b8" data-part="Partie B · Espaces vectoriels" data-title="Famille libre" hidden><header class="lhead"><p class="eyebrow">Partie B · Espaces vectoriels · Étape 17 sur 22<span class="meta">12 min</span></p><h2>Famille libre</h2></header><div class="lbody">
+<p class="objectif">Savoir montrer qu'une famille est libre, et savoir montrer qu'elle ne l'est pas.</p>
+
+<h3>La définition</h3>
+<div class="retenir"><p class="lab">À connaître par cœur</p><p>\((x_1,\dots,x_k)\) est une <strong>famille libre</strong> si la seule combinaison linéaire nulle est celle dont tous les coefficients sont nuls :</p>
+\[\lambda_1x_1+\dots+\lambda_kx_k=0_E\ \Longrightarrow\ \lambda_1=\dots=\lambda_k=0.\]
+<p>Une famille qui n'est pas libre est dite <strong>liée</strong>.</p></div>
+<p>L'idée : dans une famille libre, <strong>aucun vecteur n'est redondant</strong>. Une famille d'au moins deux vecteurs est liée exactement quand l'un de ses vecteurs est combinaison linéaire des autres. C'est le vecteur que la proposition III-18 permettait de retirer.</p>
+
+<h3>Les cas rapides</h3>
+<ul>
+<li><strong>Un seul vecteur</strong> : \((u)\) est libre \(\iff u\neq0_E\).</li>
+<li><strong>Deux vecteurs</strong> : \((u,v)\) est libre \(\iff u\) et \(v\) ne sont pas colinéaires.</li>
+<li>Une famille qui contient le <strong>vecteur nul</strong> est liée.</li>
+<li>Une sous-famille d'une famille libre est libre. Une sur-famille d'une famille liée est liée.</li>
+</ul>
+
+<h3>Méthode « la famille est libre »</h3>
+<p>Dans \(\R^3\), avec \(a=(1,1,0)\), \(b=(0,1,1)\) et \(c=(1,0,1)\).</p>
+<div class="copie"><p class="lab">Sur la copie</p><p>Soit \(\lambda,\mu,\nu\in\R\) <u>tels que</u> \(\lambda a+\mu b+\nu c=(0,0,0)\).</p>
+\[\lambda a+\mu b+\nu c=(0,0,0)\iff\begin{cases}\lambda+\nu=0\\\lambda+\mu=0\\\mu+\nu=0\end{cases}\iff\begin{cases}\lambda+\nu=0\\\mu-\nu=0&amp;L_2\leftarrow L_2-L_1\\\mu+\nu=0\end{cases}\iff\begin{cases}\lambda=0\\\mu=0\\\nu=0\end{cases}\]
+<p>Donc \(\lambda=\mu=\nu=0\). <u>Donc la famille \((a,b,c)\) est libre.</u></p></div>
+
+<h3>Méthode « la famille est liée »</h3>
+<p>Il suffit d'écrire <strong>une relation</strong> dont les coefficients ne sont pas tous nuls. Avec \(u=(1,2)\) et \(v=(2,4)\) :</p>
+\[2u-v=(2,4)-(2,4)=(0,0).\]
+<p>Les coefficients \(2\) et \(-1\) ne sont pas nuls, donc \((u,v)\) est liée.</p>
+<div class="prof"><p class="lab">Ce qui rapporte les points</p><ul>
+<li>On commence par « Soit \(\lambda,\mu,\nu\) <em>tels que</em> la combinaison est nulle ». On n'écrit pas « il existe ».</li>
+<li>C'est un système <strong>homogène</strong> : on cherche à montrer que sa seule solution est \((0,0,0)\).</li>
+<li>La conclusion reprend le mot de l'énoncé : « donc la famille est libre ».</li>
+<li>Pour « liée », une relation avec des nombres suffit. Écrire « les vecteurs sont liés » sans la relation ne rapporte rien.</li>
+</ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Montre que \(\big((1,2),(3,1)\big)\) est une famille libre de \(\R^2\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Soit \(\lambda,\mu\in\R\) tels que \(\lambda\,(1,2)+\mu\,(3,1)=(0,0)\).</p>
+\[\iff\begin{cases}\lambda+3\mu=0\\2\lambda+\mu=0\end{cases}\iff\begin{cases}\lambda+3\mu=0\\-5\mu=0&amp;L_2\leftarrow L_2-2L_1\end{cases}\iff\begin{cases}\lambda=0\\\mu=0\end{cases}\]
+<p>Donc \(\lambda=\mu=0\). Donc la famille \(\big((1,2),(3,1)\big)\) est libre.</p></div><div class="prof"><p class="lab">Remarque</p><p>Plus rapide ici : deux vecteurs non colinéaires forment une famille libre.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Dans \(\R^3\), soit \(u=(1,0,1)\), \(v=(0,1,1)\) et \(w=(1,1,2)\). La famille \((u,v,w)\) est-elle libre ?</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>On remarque que \(w=u+v\), donc \(u+v-w=(0,0,0)\).</p><p>Les coefficients \(1,\ 1,\ -1\) ne sont pas tous nuls. Donc la famille \((u,v,w)\) est liée : elle n'est pas libre.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Vrai ou faux ? Justifie.</p><p><strong>a.</strong> Une famille qui contient le vecteur nul est liée. <strong>b.</strong> Deux vecteurs non nuls forment toujours une famille libre. <strong>c.</strong> \((1,x,x^2)\) est une famille libre de \(\R_2[x]\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. Vrai : \(1\cdot0_E+0\cdot x_2+\dots+0\cdot x_k=0_E\), et le coefficient \(1\) n'est pas nul.</p>
+<p>b. Faux : \((1,2)\) et \((2,4)\) sont non nuls, mais \(2\,(1,2)-(2,4)=(0,0)\).</p>
+<p>c. Vrai : si \(a+bx+cx^2\) est le polynôme nul, alors tous ses coefficients sont nuls : \(a=b=c=0\).</p></div></details></article></div></section>
+<section class="lesson" id="b9" data-part="Partie B · Espaces vectoriels" data-title="Base et coordonnées" hidden><header class="lhead"><p class="eyebrow">Partie B · Espaces vectoriels · Étape 18 sur 22<span class="meta">12 min</span></p><h2>Base et coordonnées</h2></header><div class="lbody">
+<p class="objectif">Savoir ce qu'est une base, montrer qu'une famille en est une, et trouver les coordonnées d'un vecteur.</p>
+
+<h3>La définition</h3>
+<div class="retenir"><p class="lab">À connaître par cœur</p><p>Une <strong>base</strong> de \(E\) est une famille à la fois <strong>libre</strong> et <strong>génératrice</strong> de \(E\).</p>
+<p>\((e_1,\dots,e_n)\) est une base de \(E\) \(\iff\) tout vecteur \(x\) de \(E\) s'écrit <strong>de manière unique</strong></p>
+\[x=x_1e_1+\dots+x_ne_n.\]
+<p>Les réels \((x_1,\dots,x_n)\) sont les <strong>coordonnées</strong> de \(x\) dans cette base.</p></div>
+<p>« Génératrice » donne l'<strong>existence</strong> de l'écriture. « Libre » donne son <strong>unicité</strong>.</p>
+
+<h3>Les bases canoniques</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>L'espace</th><th>Sa base canonique</th></tr></thead>
+<tbody>
+<tr><td>\(\R^n\)</td><td>\(e_1=(1,0,\dots,0)\), \(e_2=(0,1,0,\dots,0)\), …, \(e_n=(0,\dots,0,1)\)</td></tr>
+<tr><td>\(\R_n[x]\)</td><td>\((1,\ x,\ x^2,\ \dots,\ x^n)\)</td></tr>
+<tr><td>\(\mathcal M_{n,p}(\R)\)</td><td>les matrices \(E_{i,j}\)</td></tr>
+</tbody></table></div>
+
+<h3>Méthode : un seul système</h3>
+<p>Pour montrer que \(a=(1,1,0)\), \(b=(0,1,1)\), \(c=(1,0,1)\) forment une base de \(\R^3\).</p>
+<div class="copie"><p class="lab">Sur la copie</p><p>Soit \((x,y,z)\in\R^3\). On cherche \(\lambda,\mu,\nu\) tels que \(\lambda a+\mu b+\nu c=(x,y,z)\).</p>
+\[\lambda a+\mu b+\nu c=(x,y,z)\iff\begin{cases}\lambda+\nu=x\\\lambda+\mu=y\\\mu+\nu=z\end{cases}\iff\begin{cases}\lambda=\frac{x+y-z}2\\\mu=\frac{-x+y+z}2\\\nu=\frac{x-y+z}2\end{cases}\]
+<p>Pour tout \((x,y,z)\), le système a une <u>unique</u> solution : tout vecteur de \(\R^3\) s'écrit de manière unique comme combinaison linéaire de \(a,b,c\).</p>
+<p><u>Donc \((a,b,c)\) est une base de \(\R^3\).</u></p></div>
+<p>Le même calcul donne les coordonnées. Pour \((1,2,3)\) : \(\lambda=0\), \(\mu=2\), \(\nu=1\). Ses coordonnées dans la base \((a,b,c)\) sont \((0,2,1)\), et on vérifie : \(2b+c=(0,2,2)+(1,0,1)=(1,2,3)\).</p>
+
+<h3>Base d'un sous-espace défini par une équation</h3>
+<p>On a vu que \(F=\{(x,y,z)\in\R^3\ ;\ x+2y-z=0\}=\Vect\big((1,0,1),(0,1,2)\big)\).</p>
+<div class="copie"><p class="lab">Sur la copie</p><p>La famille \(\big((1,0,1),(0,1,2)\big)\) est génératrice de \(F\).</p>
+<p>Ses deux vecteurs ne sont pas colinéaires, donc elle est libre.</p>
+<p><u>Donc c'est une base de \(F\).</u></p></div>
+<div class="prof"><p class="lab">Conseil</p><p>Écrire un sous-espace sous la forme d'un \(\Vect\) donne une famille génératrice. Il reste à dire pourquoi elle est libre, et on a une base.</p><p>Attention : les coordonnées dépendent de la base. Dans la base canonique, \((1,2,3)\) a pour coordonnées \((1,2,3)\). Dans la base \((a,b,c)\), ce sont \((0,2,1)\).</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Montre que \(\big((1,1),(1,-1)\big)\) est une base de \(\R^2\), puis donne les coordonnées de \((3,1)\) dans cette base.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Soit \((x,y)\in\R^2\). On cherche \(\lambda,\mu\) tels que \(\lambda\,(1,1)+\mu\,(1,-1)=(x,y)\).</p>
+\[\iff\begin{cases}\lambda+\mu=x\\\lambda-\mu=y\end{cases}\iff\begin{cases}\lambda=\frac{x+y}2\\\mu=\frac{x-y}2\end{cases}\]
+<p>Pour tout \((x,y)\), le système a une unique solution. Donc \(\big((1,1),(1,-1)\big)\) est une base de \(\R^2\).</p>
+<p>Pour \((3,1)\) : \(\lambda=2\) et \(\mu=1\). Les coordonnées sont \((2,1)\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Vérification : \(2\,(1,1)+(1,-1)=(3,1)\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Donne une base de \(F=\{(x,y,z)\in\R^3\ ;\ x-y+2z=0\}\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\((x,y,z)\in F\iff x=y-2z\iff(x,y,z)=y\,(1,1,0)+z\,(-2,0,1)\). Donc \(F=\Vect\big((1,1,0),(-2,0,1)\big)\).</p>
+<p>La famille \(\big((1,1,0),(-2,0,1)\big)\) est génératrice de \(F\). Ses deux vecteurs ne sont pas colinéaires, donc elle est libre.</p>
+<p>Donc \(\big((1,1,0),(-2,0,1)\big)\) est une base de \(F\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Donne, sans démonstration, les coordonnées : <strong>a.</strong> de \(P(x)=3-x+2x^2\) dans la base canonique de \(\R_2[x]\) ; <strong>b.</strong> de \(\begin{pmatrix}1&amp;2\\3&amp;4\end{pmatrix}\) dans la base \((E_{1,1},E_{1,2},E_{2,1},E_{2,2})\) de \(\mathcal M_2(\R)\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \(P=3\cdot1+(-1)\cdot x+2\cdot x^2\) : les coordonnées sont \((3,-1,2)\).</p>
+<p>b. \(\begin{pmatrix}1&amp;2\\3&amp;4\end{pmatrix}=E_{1,1}+2E_{1,2}+3E_{2,1}+4E_{2,2}\) : les coordonnées sont \((1,2,3,4)\).</p></div></details></article></div></section>
+<section class="lesson" id="b10" data-part="Partie B · Espaces vectoriels" data-title="Dimension" hidden><header class="lhead"><p class="eyebrow">Partie B · Espaces vectoriels · Étape 19 sur 22<span class="meta">12 min</span></p><h2>Dimension</h2></header><div class="lbody">
+<p class="objectif">Connaître la dimension des espaces de référence, et s'en servir pour conclure sans calcul.</p>
+
+<h3>La définition</h3>
+<div class="retenir"><p class="lab">À connaître par cœur</p><p>Si \(E\) a une base finie, alors <strong>toutes les bases de \(E\) ont le même nombre de vecteurs</strong>. Ce nombre est la <strong>dimension</strong> de \(E\), notée \(\dim E\).</p>
+<p>Par convention, \(\dim\{0_E\}=0\).</p></div>
+<div class="table-wrap"><table>
+<thead><tr><th>L'espace</th><th>Sa dimension</th><th>Pourquoi</th></tr></thead>
+<tbody>
+<tr><td>\(\R^n\)</td><td>\(n\)</td><td>la base canonique a \(n\) vecteurs</td></tr>
+<tr><td>\(\R_n[x]\)</td><td>\(n+1\)</td><td>\((1,x,\dots,x^n)\) a \(n+1\) vecteurs</td></tr>
+<tr><td>\(\mathcal M_{n,p}(\R)\)</td><td>\(np\)</td><td>il y a \(np\) matrices \(E_{i,j}\)</td></tr>
+<tr><td>une droite vectorielle</td><td>\(1\)</td><td>un vecteur non nul l'engendre</td></tr>
+<tr><td>un plan vectoriel</td><td>\(2\)</td><td>deux vecteurs non colinéaires l'engendrent</td></tr>
+</tbody></table></div>
+
+<h3>Ce que la dimension permet</h3>
+<div class="retenir"><p class="lab">À connaître par cœur</p><p>Dans un espace \(E\) de dimension \(n\) :</p><ul>
+<li>une famille <strong>libre</strong> a <strong>au plus</strong> \(n\) vecteurs ;</li>
+<li>une famille <strong>génératrice</strong> a <strong>au moins</strong> \(n\) vecteurs ;</li>
+<li>une famille de <strong>exactement \(n\) vecteurs</strong> qui est libre est une base. De même si elle est génératrice.</li>
+<li>si \(F\) est un s.e.v. de \(E\), alors \(\dim F\leq\dim E\), et si \(\dim F=\dim E\) alors \(F=E\).</li>
+</ul></div>
+
+<h3>Gagner du temps</h3>
+<p>Avec le bon nombre de vecteurs, il suffit de montrer <strong>une seule</strong> des deux propriétés. Pour \(\big((1,2),(3,1)\big)\) dans \(\R^2\) :</p>
+<div class="copie"><p class="lab">Sur la copie</p><p>Les vecteurs \((1,2)\) et \((3,1)\) ne sont pas colinéaires, donc la famille est libre.</p>
+<p>Elle a 2 vecteurs, et \(\dim\R^2=2\).</p>
+<p><u>Donc \(\big((1,2),(3,1)\big)\) est une base de \(\R^2\).</u></p></div>
+
+<h3>La dimension d'un sous-espace</h3>
+<p>On cherche une base, puis on compte. \(F=\{(x,y,z)\in\R^3\ ;\ x+2y-z=0\}\) a pour base \(\big((1,0,1),(0,1,2)\big)\), donc \(\dim F=2\) : c'est un plan.</p>
+<p>En pratique, quand on résout les équations qui définissent \(F\), chaque inconnue libre donne un vecteur de base : <strong>la dimension est le nombre d'inconnues libres</strong>.</p>
+<div class="prof"><p class="lab">Les pièges</p><ul>
+<li>\(\dim\R_n[x]=n+1\), et pas \(n\) : on compte aussi le polynôme constant \(1\).</li>
+<li>Pour conclure « c'est une base » avec la dimension, il faut écrire les deux arguments : la famille est libre, <em>et</em> elle a le bon nombre de vecteurs.</li>
+<li>La dimension ne dit rien toute seule : trois vecteurs de \(\R^3\) ne forment pas toujours une base.</li>
+</ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Donne la dimension de : \(\R^4\), \(\R_3[x]\), \(\mathcal M_{2,3}(\R)\), puis de l'ensemble des matrices diagonales de \(\mathcal M_2(\R)\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(\dim\R^4=4\) &nbsp;&nbsp; \(\dim\R_3[x]=4\) &nbsp;&nbsp; \(\dim\mathcal M_{2,3}(\R)=6\)</p>
+<p>Matrices diagonales : \((E_{1,1},E_{2,2})\) est génératrice, et libre car \(a\,E_{1,1}+d\,E_{2,2}=\begin{pmatrix}a&amp;0\\0&amp;d\end{pmatrix}\) est nulle seulement si \(a=d=0\). C'est une base : la dimension est \(2\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Réponds sans calcul, en justifiant. <strong>a.</strong> \(\big((1,0,2),(0,1,1)\big)\) est-elle génératrice de \(\R^3\) ? <strong>b.</strong> \(\big((1,2),(3,4),(5,6)\big)\) est-elle libre dans \(\R^2\) ?</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. Non : \(\dim\R^3=3\), donc une famille génératrice de \(\R^3\) a au moins 3 vecteurs. Celle-ci n'en a que 2.</p>
+<p>b. Non : \(\dim\R^2=2\), donc une famille libre de \(\R^2\) a au plus 2 vecteurs. Celle-ci en a 3.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Soit \(F=\{(x,y,z)\in\R^3\ ;\ x+y+z=0\}\) et \(G=\{(x,y,z)\in\R^3\ ;\ y=0\}\). Donne \(\dim F\) et \(\dim(F\cap G)\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\((x,y,z)\in F\iff x=-y-z\iff(x,y,z)=y\,(-1,1,0)+z\,(-1,0,1)\). La famille \(\big((-1,1,0),(-1,0,1)\big)\) est génératrice de \(F\), et libre car ses deux vecteurs ne sont pas colinéaires. C'est une base de \(F\) : \(\dim F=2\).</p>
+<p>\((x,y,z)\in F\cap G\iff\begin{cases}x+y+z=0\\y=0\end{cases}\iff(x,y,z)=x\,(1,0,-1)\). Le vecteur \((1,0,-1)\) est non nul : il forme une base de \(F\cap G\). Donc \(\dim(F\cap G)=1\).</p></div><div class="prof"><p class="lab">Remarque</p><p>On retrouve le nombre d'inconnues libres : deux pour \(F\), une seule pour \(F\cap G\).</p></div></details></article></div></section>
+<section class="lesson" id="copie" data-part="Pour finir" data-title="Ce que le correcteur attend" hidden><header class="lhead"><p class="eyebrow">Pour finir · Étape 20 sur 22<span class="meta">6 min</span></p><h2>Ce que le correcteur attend</h2></header><div class="lbody">
+<p class="objectif">Transformer des calculs justes en une copie qui rapporte tous les points.</p>
+<p>Une copie sans phrases est notée comme un brouillon, même quand les résultats sont justes. Voici ce qui fait la différence.</p>
+<div class="retenir"><p class="lab">Les cinq réflexes</p><ol>
+<li><strong>Une phrase d'annonce</strong> : « Soit… », « On résout le système… », « D'après la question a.… ».</li>
+<li><strong>Des \(\iff\) entre les systèmes</strong>, jamais « = ». Et un « = » après chaque nom de matrice : \(A^2=\dots\)</li>
+<li><strong>Des « donc »</strong>, et une conclusion qui reprend les mots de l'énoncé : « donc \(A\) est inversible », « donc \(F\) est un s.e.v. ».</li>
+<li><strong>Le résultat encadré.</strong></li>
+<li><strong>Une vérification</strong> de dix secondes.</li>
+</ol></div>
+<h3>Les vérifications</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>Après…</th><th>Je vérifie…</th></tr></thead>
+<tbody>
+<tr><td>un inverse</td><td>ligne 1 de \(A\) × colonne 1 de \(A^{-1}\) = 1, puis ligne 1 × colonne 2 = 0</td></tr>
+<tr><td>une formule de \(A^n\)</td><td>\(n=0\) donne \(I\), \(n=1\) donne \(A\)</td></tr>
+<tr><td>un système</td><td>je remets la solution dans une équation de départ</td></tr>
+<tr><td>un \(\Vect\)</td><td>chaque vecteur trouvé vérifie bien l'équation</td></tr>
+<tr><td>avant un « en déduire »</td><td>je recopie le résultat précédent avec son signe</td></tr>
+</tbody></table></div>
+
+<h3>Gérer 15 minutes</h3>
+<p>Cinq exercices en quinze minutes : trois minutes chacun. Commence par ce qui est rapide (les questions « sans démonstration », les calculs directs), continue avec les « en déduire », et garde l'exercice le plus long pour la fin.</p>
+<div class="prof"><p class="lab">Gagner du temps</p><p>Quand une soustraction suffit, n'écris pas un système. Pour trouver \(N\) dans \(T=2I_3+N\), on écrit \(N=T-2I_3\) : une ligne, pas neuf inconnues.</p></div></div></section>
+<section class="lesson" id="eval-matrices" data-part="Pour finir" data-title="Évaluation chronométrée : matrices" hidden><header class="lhead"><p class="eyebrow">Pour finir · Étape 21 sur 22<span class="meta">15 min</span></p><h2>Évaluation chronométrée : matrices</h2></header><div class="lbody">
+<p class="objectif">Cinq exercices en 15 minutes, sur une feuille, sans le cours. C'est le format du lundi.</p>
+<div class="chrono" data-min="15"><p class="chrono-lab">Évaluation matrices, 15 minutes</p><p class="chrono-t" aria-live="off">15:00</p><div class="chrono-b"><button type="button" class="btn c-start">Démarrer</button><button type="button" class="btn ghost c-reset">Remettre à zéro</button></div><p class="chrono-end" hidden>Temps écoulé. Pose ton stylo, puis ouvre les corrections.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Montre que la matrice suivante est inversible et détermine son inverse : \(A=\begin{pmatrix}1&amp;1&amp;0\\0&amp;1&amp;1\\0&amp;0&amp;1\end{pmatrix}\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Soit \(X=\begin{pmatrix}x\\y\\z\end{pmatrix}\) et \(B=\begin{pmatrix}a\\b\\c\end{pmatrix}\). On résout le système \(AX=B\).</p>
+\[AX=B\iff\begin{cases}x+y=a\\y+z=b\\z=c\end{cases}\iff\begin{cases}x=a-b+c\\y=b-c\\z=c\end{cases}\]
+<p>Pour tout \(B\), le système a une unique solution, donc \(A\) est inversible. De plus \(X=A^{-1}B\), donc \(A^{-1}=\begin{pmatrix}1&amp;-1&amp;1\\0&amp;1&amp;-1\\0&amp;0&amp;1\end{pmatrix}\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Dans \(\mathcal M_n(\R)\), donne sans démonstration la valeur du produit \(E_{i,j}E_{k,\ell}\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Si \(j=k\) : \(E_{i,j}E_{k,\ell}=E_{i,\ell}\). Si \(j\neq k\) : \(E_{i,j}E_{k,\ell}=0\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Soit \(A=\begin{pmatrix}2&amp;1\\1&amp;2\end{pmatrix}\). <strong>a.</strong> Calcule \(A^2-4A\). <strong>b.</strong> Déduis-en que \(A\) est inversible et détermine \(A^{-1}\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \(A^2=\begin{pmatrix}5&amp;4\\4&amp;5\end{pmatrix}\), donc \(A^2-4A=\begin{pmatrix}-3&amp;0\\0&amp;-3\end{pmatrix}=-3I_2\).</p>
+<p>b. D'après a., \(A(A-4I_2)=-3I_2\), donc \(A\times\Big[-\dfrac13(A-4I_2)\Big]=I_2\). Donc \(A\) est inversible et \(A^{-1}=-\dfrac13(A-4I_2)=\dfrac13\begin{pmatrix}2&amp;-1\\-1&amp;2\end{pmatrix}\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 4</p><div class="exo-q"><p>Soit \(T=\begin{pmatrix}5&amp;2\\0&amp;5\end{pmatrix}\). <strong>a.</strong> Détermine \(N\) telle que \(T=5I_2+N\) et calcule \(N^2\). <strong>b.</strong> Détermine \(T^n\) en fonction de \(I_2\) et de \(N\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \(N=T-5I_2=\begin{pmatrix}0&amp;2\\0&amp;0\end{pmatrix}\) et \(N^2=0_2\).</p>
+<p>b. Les matrices \(5I_2\) et \(N\) commutent : \((5I_2)N=5N=N(5I_2)\). D'après la formule du binôme de Newton, \(T^n=\displaystyle\sum_{k=0}^n\binom nkN^k(5I_2)^{n-k}\). Or \(N^2=0_2\), donc \(N^k=0_2\) pour \(k\geq2\). Il reste :</p>
+\[T^n=5^nI_2+n\,5^{n-1}N.\]</div></details></article><article class="exo"><p class="exo-n">Exercice 5</p><div class="exo-q"><p>Soit \(A=\begin{pmatrix}2&amp;1\\1&amp;2\end{pmatrix}\). <strong>a.</strong> Détermine un polynôme annulateur \(P\) de \(A\), de degré 2. <strong>b.</strong> Détermine le reste de la division euclidienne de \(x^n\) par \(P\). <strong>c.</strong> Déduis-en \(A^n\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \(A^2=\begin{pmatrix}5&amp;4\\4&amp;5\end{pmatrix}=4A-3I_2\), donc \(P(x)=x^2-4x+3\) est un polynôme annulateur de \(A\).</p>
+<p>b. \(P(x)=(x-1)(x-3)\). Il existe \(Q\) et \(a_n,b_n\) tels que \(x^n=P(x)Q(x)+a_nx+b_n\). En \(x=1\) : \(1=a_n+b_n\). En \(x=3\) : \(3^n=3a_n+b_n\). Donc \(a_n=\dfrac{3^n-1}2\) et \(b_n=\dfrac{3-3^n}2\).</p>
+<p>c. On remplace \(x\) par \(A\) : \(A^n=a_nA+b_nI_2\) car \(P(A)=0_2\).</p>
+\[A^n=\frac12\begin{pmatrix}3^n+1&amp;3^n-1\\3^n-1&amp;3^n+1\end{pmatrix}\]</div></details></article></div></section>
+<section class="lesson" id="eval-espaces" data-part="Pour finir" data-title="Évaluation chronométrée : espaces vectoriels" hidden><header class="lhead"><p class="eyebrow">Pour finir · Étape 22 sur 22<span class="meta">15 min</span></p><h2>Évaluation chronométrée : espaces vectoriels</h2></header><div class="lbody">
+<p class="objectif">Cinq exercices en 15 minutes, sur une feuille, sans le cours.</p>
+<div class="chrono" data-min="15"><p class="chrono-lab">Évaluation espaces vectoriels, 15 minutes</p><p class="chrono-t" aria-live="off">15:00</p><div class="chrono-b"><button type="button" class="btn c-start">Démarrer</button><button type="button" class="btn ghost c-reset">Remettre à zéro</button></div><p class="chrono-end" hidden>Temps écoulé. Pose ton stylo, puis ouvre les corrections.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Montre que \(F=\{(x,y,z)\in\R^3\ ;\ x-2y+z=0\}\) est un sous-espace vectoriel de \(\R^3\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>• \((0,0,0)\in F\) car \(0-2\times0+0=0\). Donc \(F\) est non vide.</p>
+<p>• Soit \(u=(x,y,z)\in F\), \(v=(x',y',z')\in F\) et \(\lambda\in\R\). On a \(x-2y+z=0\) et \(x'-2y'+z'=0\).</p>
+<p>\(\lambda u+v=(\lambda x+x',\ \lambda y+y',\ \lambda z+z')\) et \((\lambda x+x')-2(\lambda y+y')+(\lambda z+z')=\lambda(x-2y+z)+(x'-2y'+z')=0\).</p>
+<p>Donc \(\lambda u+v\in F\). Donc \(F\) est un sous-espace vectoriel de \(\R^3\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Les ensembles suivants sont-ils des sous-espaces vectoriels de \(\R^2\) ? Justifie. <strong>a.</strong> \(G=\{(x,y)\ ;\ x+y=1\}\) <strong>b.</strong> \(H=\{(x,y)\ ;\ xy=0\}\)</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \((0,0)\notin G\) car \(0+0\neq1\). Un s.e.v. contient toujours le vecteur nul, donc \(G\) n'est pas un s.e.v.</p>
+<p>b. \((1,0)\in H\) et \((0,1)\in H\), mais \((1,0)+(0,1)=(1,1)\notin H\) car \(1\times1\neq0\). \(H\) n'est pas stable par addition, donc ce n'est pas un s.e.v.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Soit \(F_1\) et \(F_2\) deux s.e.v. de \(E\). Donne sans démonstration : <strong>a.</strong> ce que l'on peut dire de \(F_1\cap F_2\) ; <strong>b.</strong> une condition nécessaire et suffisante pour que \(F_1\cup F_2\) soit un s.e.v.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \(F_1\cap F_2\) est un sous-espace vectoriel de \(E\).</p><p>b. \(F_1\cup F_2\) est un s.e.v. \(\iff F_1\subset F_2\) ou \(F_2\subset F_1\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 4</p><div class="exo-q"><p>Soit \(F=\{(x,y,z)\in\R^3\ ;\ x+y+z=0\}\) et \(G=\{(x,y,z)\in\R^3\ ;\ y=0\}\). <strong>a.</strong> Écris \(F\) sous la forme d'un s.e.v. engendré par deux vecteurs. <strong>b.</strong> Écris \(F\cap G\) sous la forme d'un s.e.v. engendré par un vecteur.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \((x,y,z)\in F\iff x=-y-z\iff(x,y,z)=y\,(-1,1,0)+z\,(-1,0,1)\). Donc \(F=\Vect\big((-1,1,0),(-1,0,1)\big)\).</p>
+<p>b. \((x,y,z)\in F\cap G\iff\begin{cases}x+y+z=0\\y=0\end{cases}\iff\begin{cases}y=0\\z=-x\end{cases}\iff(x,y,z)=x\,(1,0,-1)\). Donc \(F\cap G=\Vect\big((1,0,-1)\big)\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 5</p><div class="exo-q"><p>Dans \(\R^3\), soit \(a=(1,1,0)\), \(b=(0,1,1)\) et \(c=(1,0,1)\). Montre que \((a,b,c)\) est une famille génératrice de \(\R^3\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Soit \((x,y,z)\in\R^3\). On cherche \(\lambda,\mu,\nu\) tels que \(\lambda a+\mu b+\nu c=(x,y,z)\).</p>
+\[\iff\begin{cases}\lambda+\nu=x\\\lambda+\mu=y\\\mu+\nu=z\end{cases}\]
+<p>En additionnant les trois lignes : \(2(\lambda+\mu+\nu)=x+y+z\). Puis, ligne par ligne :</p>
+\[\lambda=\frac{x+y-z}2,\qquad\mu=\frac{-x+y+z}2,\qquad\nu=\frac{x-y+z}2.\]
+<p>Le système a une solution pour tout \((x,y,z)\). Donc \((a,b,c)\) est une famille génératrice de \(\R^3\).</p></div></details></article></div></section>
+    <div class="pager">
+      <a class="btn ghost" id="prev" href="#accueil">← Étape précédente</a>
+      <div class="right">
+        <p class="done-note" id="done-note" hidden>Étape validée</p>
+        <button type="button" class="linkbtn" id="undo" hidden>Annuler la validation</button>
+        <a class="btn" id="next" href="#a1">J'ai compris, étape suivante →</a>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']],
+         macros: { R: '\\mathbb{R}', N: '\\mathbb{N}', Vect: '\\operatorname{Vect}' } },
+  svg: { fontCache: 'global' },
+  startup: { typeset: false }
+};
+</script>
+<script src="assets/mathjax/tex-svg.js"></script>
+<script>
+(function(){
+  var lessons = Array.prototype.slice.call(document.querySelectorAll('.lesson'));
+  var ids = lessons.map(function(s){ return s.id; });
+  var KEY = 'parcours-algebre-etapes';
+  var done = {};
+  try { done = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e){ done = {}; }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(done)); } catch(e){} }
+
+  // ----- sommaire -----
+  var nav = document.getElementById('nav'), html = '', part = null, n = 0;
+  lessons.forEach(function(s){
+    var p = s.dataset.part || '';
+    if (p !== part){ if (part !== null) html += '</ol>'; html += (p ? '<p class="nav-part">' + p + '</p>' : '') + '<ol class="nav-list">'; part = p; }
+    var num = s.id === 'accueil' ? 'i' : String(++n);
+    html += '<li><a href="#' + s.id + '" data-id="' + s.id + '"><span class="nav-n">' + num + '</span><span>' + s.dataset.title + '</span></a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+  var links = Array.prototype.slice.call(nav.querySelectorAll('a'));
+  var total = ids.length - 1;
+
+  links.forEach(function(a){ a.dataset.num = a.querySelector('.nav-n').textContent; });
+  var resetBtn = document.getElementById('reset');
+
+  function refreshProgress(){
+    var c = 0;
+    links.forEach(function(a){
+      var d = !!done[a.dataset.id] && a.dataset.id !== 'accueil';
+      a.classList.toggle('done', d);
+      a.querySelector('.nav-n').textContent = d ? '✓' : a.dataset.num;
+      if (d) c++;
+    });
+    document.getElementById('prog-fill').style.width = (100 * c / total) + '%';
+    document.getElementById('prog-txt').textContent = c + ' étape' + (c > 1 ? 's' : '') + ' validée' + (c > 1 ? 's' : '') + ' sur ' + total;
+    document.getElementById('mini-prog').textContent = c + ' / ' + total;
+    resetBtn.hidden = c === 0;
+    disarmReset();
+  }
+
+  // remise à zéro : deux appuis, sans fenêtre de confirmation
+  var armed = false, armTimer = null;
+  function disarmReset(){ armed = false; clearTimeout(armTimer); resetBtn.textContent = 'Remettre ma progression à zéro'; resetBtn.classList.remove('warn'); }
+  resetBtn.addEventListener('click', function(){
+    if (!armed){ armed = true; resetBtn.textContent = 'Appuie encore pour tout effacer'; resetBtn.classList.add('warn'); armTimer = setTimeout(disarmReset, 5000); return; }
+    done = {}; save(); refreshProgress(); refreshDone();
+  });
+
+  // ----- formules : rendues à l'ouverture de l'étape -----
+  var typeset = {};
+  function renderMath(el){
+    if (typeset[el.id] || !window.MathJax || !MathJax.typesetPromise) return;
+    typeset[el.id] = true;
+    MathJax.typesetPromise([el]).catch(function(){ typeset[el.id] = false; });
+  }
+
+  var side = document.getElementById('side'), scrim = document.getElementById('scrim'), menuBtn = document.getElementById('menu-btn');
+  function closeMenu(){ side.classList.remove('open'); scrim.hidden = true; menuBtn.setAttribute('aria-expanded','false'); }
+  menuBtn.addEventListener('click', function(){
+    var o = !side.classList.contains('open');
+    side.classList.toggle('open', o); scrim.hidden = !o; menuBtn.setAttribute('aria-expanded', String(o));
+  });
+  scrim.addEventListener('click', closeMenu);
+
+  var prev = document.getElementById('prev'), next = document.getElementById('next'), doneNote = document.getElementById('done-note'), undo = document.getElementById('undo');
+  var current = 0;
+  function refreshDone(){ var d = !!done[ids[current]] && current > 0; doneNote.hidden = !d; undo.hidden = !d; }
+  undo.addEventListener('click', function(){ delete done[ids[current]]; save(); refreshProgress(); refreshDone(); });
+  function show(id, scroll){
+    var i = ids.indexOf(id); if (i < 0) i = 0;
+    current = i;
+    document.querySelectorAll('video').forEach(function(v){ try { v.pause(); } catch(e){} });
+    lessons.forEach(function(s, k){ s.hidden = k !== i; });
+    links.forEach(function(a){ if (a.dataset.id === ids[i]) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+    renderMath(lessons[i]);
+    prev.hidden = i === 0;
+    if (i > 0) prev.setAttribute('href', '#' + ids[i-1]);
+    var last = i === ids.length - 1;
+    next.setAttribute('href', last ? '#accueil' : '#' + ids[i+1]);
+    next.textContent = i === 0 ? 'Commencer le parcours →' : (last ? 'Valider et revenir au début' : "J'ai compris, étape suivante →");
+    refreshDone();
+    closeMenu();
+    if (scroll) window.scrollTo(0, 0);
+  }
+  next.addEventListener('click', function(){ if (current > 0){ done[ids[current]] = true; save(); refreshProgress(); } });
+  window.addEventListener('hashchange', function(){ show(location.hash.slice(1), true); });
+
+  // ----- chronomètres : calculés sur l'heure réelle, donc justes même si l'onglet passe en arrière-plan -----
+  document.querySelectorAll('.chrono').forEach(function(c){
+    var totalS = (+c.dataset.min || 15) * 60, left = totalS, timer = null, endAt = 0;
+    var t = c.querySelector('.chrono-t'), b = c.querySelector('.c-start'), r = c.querySelector('.c-reset'), end = c.querySelector('.chrono-end');
+    function draw(){ var m = Math.floor(left / 60), s = left % 60; t.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s; }
+    function stop(){ clearInterval(timer); timer = null; b.textContent = left === totalS ? 'Démarrer' : 'Reprendre'; }
+    function tick(){
+      left = Math.max(0, Math.ceil((endAt - Date.now()) / 1000)); draw();
+      if (left <= 0){ stop(); b.textContent = 'Terminé'; end.hidden = false; }
+    }
+    b.addEventListener('click', function(){
+      if (timer){ tick(); if (timer) stop(); return; }
+      if (left === 0) return;
+      end.hidden = true; b.textContent = 'Pause';
+      endAt = Date.now() + left * 1000;
+      timer = setInterval(tick, 250);
+    });
+    r.addEventListener('click', function(){ clearInterval(timer); timer = null; left = totalS; draw(); b.textContent = 'Démarrer'; end.hidden = true; });
+    document.addEventListener('visibilitychange', function(){ if (timer && !document.hidden) tick(); });
+  });
+
+  // corrections : formules rendues à l'ouverture
+  document.querySelectorAll('.exo details').forEach(function(d){
+    d.addEventListener('toggle', function(){
+      if (!d.open || !d.classList.contains('tex2jax_ignore')) return;
+      d.classList.remove('tex2jax_ignore');
+      if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([d]).catch(function(){});
+    });
+  });
+
+  refreshProgress();
+  show(location.hash.slice(1) || 'accueil', true);
+  // si MathJax arrive après le premier affichage
+  var tries = 0, wait = setInterval(function(){
+    if (window.MathJax && MathJax.typesetPromise){ clearInterval(wait); renderMath(lessons[current]); }
+    else if (++tries > 100) clearInterval(wait);
+  }, 150);
+})();
+</script>
+
+</body>
+</html>

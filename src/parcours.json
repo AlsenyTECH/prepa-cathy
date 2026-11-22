@@ -1,0 +1,349 @@
+[
+ {
+  "id": "suites-fonctions",
+  "file": "suites-fonctions.html",
+  "chap": "II",
+  "title": "Suites et fonctions",
+  "steps": [
+   {
+    "id": "s1",
+    "part": "Partie A · Suites",
+    "title": "Qu'est-ce qu'une suite ?"
+   },
+   {
+    "id": "s2",
+    "part": "Partie A · Suites",
+    "title": "Suites majorées, minorées, bornées"
+   },
+   {
+    "id": "s3",
+    "part": "Partie A · Suites",
+    "title": "Monotonie d'une suite"
+   },
+   {
+    "id": "s4",
+    "part": "Partie A · Suites",
+    "title": "Le raisonnement par récurrence"
+   },
+   {
+    "id": "s5",
+    "part": "Partie A · Suites",
+    "title": "Suites arithmétiques et géométriques"
+   },
+   {
+    "id": "s6",
+    "part": "Partie A · Suites",
+    "title": "Suites arithmético-géométriques"
+   },
+   {
+    "id": "s7",
+    "part": "Partie A · Suites",
+    "title": "Récurrences linéaires d'ordre 2"
+   },
+   {
+    "id": "s8",
+    "part": "Partie A · Suites",
+    "title": "Suites de matrices : suites couplées"
+   },
+   {
+    "id": "f1",
+    "part": "Partie B · Fonctions",
+    "title": "Ensemble de définition et composition"
+   },
+   {
+    "id": "f2",
+    "part": "Partie B · Fonctions",
+    "title": "Bornée, monotone, paire, périodique"
+   },
+   {
+    "id": "f3",
+    "part": "Partie B · Fonctions",
+    "title": "Continuité et valeurs intermédiaires"
+   },
+   {
+    "id": "f4",
+    "part": "Partie B · Fonctions",
+    "title": "Dérivation et tangente"
+   },
+   {
+    "id": "f5",
+    "part": "Partie B · Fonctions",
+    "title": "Asymptotes"
+   },
+   {
+    "id": "u1",
+    "part": "Partie C · Fonctions usuelles",
+    "title": "Valeur absolue, partie entière, fractions rationnelles"
+   },
+   {
+    "id": "u2",
+    "part": "Partie C · Fonctions usuelles",
+    "title": "La fonction exponentielle"
+   },
+   {
+    "id": "u3",
+    "part": "Partie C · Fonctions usuelles",
+    "title": "Le logarithme népérien"
+   },
+   {
+    "id": "u4",
+    "part": "Partie C · Fonctions usuelles",
+    "title": "Fonctions puissances et fonctions circulaires"
+   },
+   {
+    "id": "d1",
+    "part": "Partie D · Démonstrations",
+    "title": "Suites bornées : rang, somme et produit"
+   },
+   {
+    "id": "d2",
+    "part": "Partie D · Démonstrations",
+    "title": "Une suite périodique est bornée"
+   },
+   {
+    "id": "d3",
+    "part": "Partie D · Démonstrations",
+    "title": "Preuves des propositions II-2 et II-4"
+   },
+   {
+    "id": "d4",
+    "part": "Partie D · Démonstrations",
+    "title": "Caractériser une suite arithmétique"
+   },
+   {
+    "id": "d5",
+    "part": "Partie D · Démonstrations",
+    "title": "Fonction périodique, ou pas ?"
+   },
+   {
+    "id": "d6",
+    "part": "Partie D · Démonstrations",
+    "title": "Exponentielle : positivité et limites"
+   },
+   {
+    "id": "d7",
+    "part": "Partie D · Démonstrations",
+    "title": "Croissances comparées : lemme II-15 et prop. II-16"
+   },
+   {
+    "id": "d8",
+    "part": "Partie D · Démonstrations",
+    "title": "Logarithme : prop. II-17 et II-18"
+   },
+   {
+    "id": "copie",
+    "part": "Pour finir",
+    "title": "Ce que le correcteur attend"
+   },
+   {
+    "id": "eval-suites",
+    "part": "Pour finir",
+    "title": "Évaluation chronométrée : suites"
+   },
+   {
+    "id": "eval-fonctions",
+    "part": "Pour finir",
+    "title": "Évaluation chronométrée : fonctions"
+   },
+   {
+    "id": "eval-demos",
+    "part": "Pour finir",
+    "title": "Évaluation chronométrée : démonstrations du cours"
+   }
+  ],
+  "videos": 17
+ },
+ {
+  "id": "algebre-lineaire",
+  "file": "algebre-lineaire.html",
+  "chap": "III",
+  "title": "Algèbre linéaire",
+  "steps": [
+   {
+    "id": "a1",
+    "part": "Partie A · Matrices",
+    "title": "Le vocabulaire des matrices"
+   },
+   {
+    "id": "a2",
+    "part": "Partie A · Matrices",
+    "title": "Additionner et multiplier des matrices"
+   },
+   {
+    "id": "a3",
+    "part": "Partie A · Matrices",
+    "title": "Les matrices E(i,j)"
+   },
+   {
+    "id": "a4",
+    "part": "Partie A · Matrices",
+    "title": "Matrice inversible"
+   },
+   {
+    "id": "a5",
+    "part": "Partie A · Matrices",
+    "title": "Trouver l'inverse en résolvant un système"
+   },
+   {
+    "id": "a6",
+    "part": "Partie A · Matrices",
+    "title": "Trouver l'inverse avec une relation"
+   },
+   {
+    "id": "a7",
+    "part": "Partie A · Matrices",
+    "title": "Puissances : matrice diagonale et binôme de Newton"
+   },
+   {
+    "id": "a8",
+    "part": "Partie A · Matrices",
+    "title": "Puissances : le polynôme annulateur"
+   },
+   {
+    "id": "a9",
+    "part": "Partie A · Matrices",
+    "title": "Système homogène"
+   },
+   {
+    "id": "b1",
+    "part": "Partie B · Espaces vectoriels",
+    "title": "Qu'est-ce qu'un espace vectoriel ?"
+   },
+   {
+    "id": "b2",
+    "part": "Partie B · Espaces vectoriels",
+    "title": "Sous-espace vectoriel"
+   },
+   {
+    "id": "b3",
+    "part": "Partie B · Espaces vectoriels",
+    "title": "Le sous-espace engendré : Vect"
+   },
+   {
+    "id": "b4",
+    "part": "Partie B · Espaces vectoriels",
+    "title": "Passer d'une équation à un Vect, et l'inverse"
+   },
+   {
+    "id": "b5",
+    "part": "Partie B · Espaces vectoriels",
+    "title": "Intersection et réunion"
+   },
+   {
+    "id": "b6",
+    "part": "Partie B · Espaces vectoriels",
+    "title": "Famille génératrice"
+   },
+   {
+    "id": "b7",
+    "part": "Partie B · Espaces vectoriels",
+    "title": "Sous-famille, sur-famille et vecteur redondant"
+   },
+   {
+    "id": "b8",
+    "part": "Partie B · Espaces vectoriels",
+    "title": "Famille libre"
+   },
+   {
+    "id": "b9",
+    "part": "Partie B · Espaces vectoriels",
+    "title": "Base et coordonnées"
+   },
+   {
+    "id": "b10",
+    "part": "Partie B · Espaces vectoriels",
+    "title": "Dimension"
+   },
+   {
+    "id": "copie",
+    "part": "Pour finir",
+    "title": "Ce que le correcteur attend"
+   },
+   {
+    "id": "eval-matrices",
+    "part": "Pour finir",
+    "title": "Évaluation chronométrée : matrices"
+   },
+   {
+    "id": "eval-espaces",
+    "part": "Pour finir",
+    "title": "Évaluation chronométrée : espaces vectoriels"
+   }
+  ],
+  "videos": 13
+ },
+ {
+  "id": "limites",
+  "file": "limites.html",
+  "chap": "IV",
+  "title": "Limites de suites",
+  "steps": [
+   {
+    "id": "l1",
+    "part": "Partie A · Limite d'une suite",
+    "title": "Converger vers ℓ : la définition"
+   },
+   {
+    "id": "l2",
+    "part": "Partie A · Limite d'une suite",
+    "title": "Unicité de la limite, suites divergentes"
+   },
+   {
+    "id": "l3",
+    "part": "Partie A · Limite d'une suite",
+    "title": "Limite infinie"
+   },
+   {
+    "id": "l4",
+    "part": "Partie A · Limite d'une suite",
+    "title": "Suites convergentes : bornées, signe constant"
+   },
+   {
+    "id": "l5",
+    "part": "Partie A · Limite d'une suite",
+    "title": "Passage à la limite dans les inégalités"
+   },
+   {
+    "id": "l6",
+    "part": "Partie A · Limite d'une suite",
+    "title": "Opérations : limites finies"
+   },
+   {
+    "id": "l7",
+    "part": "Partie A · Limite d'une suite",
+    "title": "Opérations : les tableaux"
+   },
+   {
+    "id": "l8",
+    "part": "Partie A · Limite d'une suite",
+    "title": "Formes indéterminées : les lever"
+   },
+   {
+    "id": "l9",
+    "part": "Partie A · Limite d'une suite",
+    "title": "Le théorème des gendarmes"
+   },
+   {
+    "id": "l10",
+    "part": "Partie A · Limite d'une suite",
+    "title": "Comparaison et limites infinies"
+   },
+   {
+    "id": "copie",
+    "part": "Pour finir",
+    "title": "Ce que le correcteur attend"
+   },
+   {
+    "id": "eval-calculs",
+    "part": "Pour finir",
+    "title": "Évaluation chronométrée : calculs de limites"
+   },
+   {
+    "id": "eval-demos",
+    "part": "Pour finir",
+    "title": "Évaluation chronométrée : démonstrations du cours"
+   }
+  ],
+  "videos": 9
+ }
+]

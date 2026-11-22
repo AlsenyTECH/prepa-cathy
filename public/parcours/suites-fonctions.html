@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Parcours Suites et fonctions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Polices et MathJax sont dans assets/ : le site fonctionne sans connexion. */
+@font-face{font-family:'Caveat';font-style:normal;font-weight:500;font-display:swap;src:url(assets/fonts/caveat-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Caveat';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/caveat-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'Kalam';font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/kalam-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Kalam';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/kalam-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'Source Sans 3';font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/source-sans-3-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Source Sans 3';font-style:normal;font-weight:600;font-display:swap;src:url(assets/fonts/source-sans-3-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'Source Sans 3';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/source-sans-3-latin-700-normal.woff2) format('woff2')}
+/* Mise en page : un cahier de cours. Sommaire à gauche (les étapes dans l'ordre), une étape à la fois à droite.
+   Clair = page de cahier quadrillée (encre bleue, titres rouges, stylo vert du prof). Sombre = tableau noir et craies. */
+:root{
+  --paper:#f7f9fc; --surface:#ffffff; --ink:#1b2440; --muted:#586381; --line:#d6ddec; --grid:#e3e9f5;
+  --pen:#1c3bb0; --pen-bg:#eef2fd; --rouge:#bd1f2b; --rouge-bg:#fdf2f2; --prof:#0a7441; --prof-bg:#e9f5ee;
+  --btn-fg:#ffffff;
+  --f-body:'Source Sans 3',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-hand:'Caveat','Segoe Print','Bradley Hand',cursive;
+  --f-prof:'Kalam','Comic Sans MS','Segoe Print',cursive;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#141d1a; --surface:#1b2723; --ink:#eef2ea; --muted:#a6b5ab; --line:#33453d; --grid:#22302b;
+    --pen:#a9c4ff; --pen-bg:#202d45; --rouge:#ff9d92; --rouge-bg:#372422; --prof:#8fe0ae; --prof-bg:#1e3329;
+    --btn-fg:#10201a; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#141d1a; --surface:#1b2723; --ink:#eef2ea; --muted:#a6b5ab; --line:#33453d; --grid:#22302b;
+  --pen:#a9c4ff; --pen-bg:#202d45; --rouge:#ff9d92; --rouge-bg:#372422; --prof:#8fe0ae; --prof-bg:#1e3329;
+  --btn-fg:#10201a; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;margin:0}
+a{color:var(--pen)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--pen);outline-offset:2px}
+
+.app{display:grid;grid-template-columns:310px minmax(0,1fr);min-height:100%}
+
+/* ---------- sommaire ---------- */
+.side{background:var(--surface);border-right:1px solid var(--line);position:sticky;top:0;align-self:start;height:100vh;height:100dvh;overflow-y:auto;overscroll-behavior:contain;
+  padding-block:20px 28px;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:18px}
+.brand{font-family:var(--f-hand);font-weight:700;font-size:1.9rem;line-height:1.05;color:var(--rouge);margin:0 0 2px}
+.brand-sub{margin:0 0 14px;color:var(--muted);font-size:.92rem}
+.prog{margin:0 0 18px}
+.prog-bar{height:8px;border-radius:4px;background:var(--grid);overflow:hidden}
+.prog-fill{height:100%;width:0;background:var(--prof);transition:width .3s}
+.prog-txt{margin:6px 0 0;font-size:.88rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.nav-part{margin:16px 0 6px;font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.nav-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.nav-list a{display:grid;grid-template-columns:26px minmax(0,1fr);gap:8px;align-items:start;padding:7px 8px;border-radius:4px;text-decoration:none;color:var(--ink);font-size:.95rem;line-height:1.3}
+.nav-list a:hover{background:var(--pen-bg)}
+.nav-list a[aria-current="page"]{background:var(--pen-bg);color:var(--pen);font-weight:700}
+.nav-n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line);font-size:.78rem;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.nav-list a.done .nav-n{background:var(--prof);border-color:var(--prof);color:var(--btn-fg)}
+
+/* ---------- barre mobile ---------- */
+.topbar{display:none}
+.scrim{display:none}
+
+/* ---------- étape ---------- */
+.main{min-width:0;padding-block:0 60px}
+.lesson{max-width:860px;margin:0 auto;padding-left:max(22px,env(safe-area-inset-left,0px));padding-right:max(22px,env(safe-area-inset-right,0px))}
+.lhead{padding:30px 0 16px;margin:0 0 6px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:22px 22px;
+  border-bottom:2px solid var(--rouge)}
+.eyebrow{margin:0 0 4px;font-size:.84rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;display:flex;gap:12px;flex-wrap:wrap;align-items:baseline}
+.eyebrow .meta{letter-spacing:0;text-transform:none;font-weight:600;color:var(--prof)}
+.lhead h2{font-family:var(--f-hand);font-weight:700;font-size:clamp(2.1rem,5.2vw,3rem);line-height:1.05;margin:0;color:var(--rouge);text-wrap:balance}
+.lbody{display:flex;flex-direction:column;gap:14px;padding-top:16px}
+.lbody > p,.lbody > ul,.lbody > ol{margin:0;max-width:70ch}
+.lbody ul,.lbody ol{padding-left:1.3em}
+.lbody li{margin:4px 0}
+.lbody h3{font-size:1.22rem;margin:14px 0 0;line-height:1.25;text-wrap:balance}
+.lead{font-size:1.15rem}
+.objectif{font-size:1.08rem;color:var(--muted);font-weight:600}
+.objectif::before{content:"Objectif : ";color:var(--pen);font-weight:700}
+
+mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%;padding:4px 0;margin:.5em 0 !important}
+mjx-container{color:inherit;position:relative}
+.table-wrap,.copie,.exo{position:relative}
+
+.lab{margin:0 0 6px;font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;font-weight:700;font-family:var(--f-body)}
+.retenir{border:2px solid var(--rouge);border-radius:4px;background:var(--rouge-bg);padding:12px 16px}
+.retenir .lab{color:var(--rouge)}
+.retenir p,.retenir ul,.retenir ol{margin:6px 0}
+.retenir ul,.retenir ol{padding-left:1.3em}
+.prof{background:var(--prof-bg);border-radius:4px;padding:12px 16px;color:var(--prof);font-family:var(--f-prof);font-size:1rem;line-height:1.55}
+.prof .lab{color:var(--prof)}
+.prof p,.prof ul{margin:4px 0}
+.prof ul{padding-left:1.2em}
+.copie{border:1px solid var(--line);border-radius:3px;padding:14px 16px 12px;color:var(--pen);font-family:var(--f-hand);font-size:1.42rem;line-height:1.5;min-width:0;
+  background-color:var(--surface);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:22px 22px}
+.copie .lab{color:var(--muted)}
+.copie p{margin:4px 0}
+.copie mjx-container{font-size:.82em}
+.copie u{text-decoration-thickness:1.5px;text-underline-offset:3px}
+
+.video{margin:6px 0;display:flex;flex-direction:column;gap:6px}
+.video video{width:100%;max-width:100%;aspect-ratio:16/9;background:#101614;border-radius:4px;border:1px solid var(--line);display:block}
+.video figcaption{font-size:.95rem;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;align-items:baseline}
+.tag{font-size:.74rem;letter-spacing:.07em;text-transform:uppercase;font-weight:700;color:var(--btn-fg);background:var(--pen);padding:2px 7px;border-radius:3px}
+.dur{font-variant-numeric:tabular-nums}
+
+.table-wrap{overflow-x:auto;max-width:100%}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:.98rem}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--pen-bg);font-weight:700}
+
+.exos-h{border-top:1px solid var(--line);padding-top:18px;margin-top:18px !important}
+.exo{border:1px solid var(--line);border-radius:4px;background:var(--surface);padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.exo-n{margin:0;font-weight:700;color:var(--pen);font-size:.86rem;letter-spacing:.06em;text-transform:uppercase}
+.exo-q p{margin:4px 0}
+.exo details{display:flex;flex-direction:column;gap:10px}
+.exo summary{cursor:pointer;font-weight:700;color:var(--pen);padding:6px 0;width:max-content;max-width:100%}
+.exo details[open] summary{margin-bottom:8px}
+.exo details > * + *{margin-top:10px}
+
+.howto{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.howto > div{border:1px solid var(--line);border-radius:4px;background:var(--surface);padding:12px 14px}
+.howto p{margin:0}
+.howto .num{font-family:var(--f-hand);font-weight:700;font-size:2rem;line-height:1;color:var(--rouge);margin-bottom:4px}
+
+.chrono{border:2px solid var(--pen);border-radius:4px;background:var(--pen-bg);padding:14px 16px;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.chrono-lab{margin:0;font-weight:700}
+.chrono-t{margin:0;font-size:3rem;line-height:1;font-weight:700;font-variant-numeric:tabular-nums;color:var(--pen)}
+.chrono-b{display:flex;gap:10px;flex-wrap:wrap}
+.chrono-end{margin:0;font-weight:700;color:var(--rouge)}
+
+.btn{border:1.5px solid var(--pen);background:var(--pen);color:var(--btn-fg);font-weight:700;padding:10px 16px;border-radius:4px;cursor:pointer;text-decoration:none;display:inline-block;line-height:1.2}
+.btn.ghost{background:transparent;color:var(--pen)}
+.btn[disabled]{opacity:.45;cursor:default}
+.pager{max-width:860px;margin:30px auto 0;padding-left:max(22px,env(safe-area-inset-left,0px));padding-right:max(22px,env(safe-area-inset-right,0px));display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.pager .right{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.done-note{color:var(--prof);font-weight:700;margin:0}
+.linkbtn{background:none;border:0;padding:4px 0;color:var(--muted);font-size:.88rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.linkbtn:hover{color:var(--pen)}
+.linkbtn.warn{color:var(--rouge);font-weight:700}
+.prog .linkbtn{margin-top:4px}
+.lesson{scroll-margin-top:70px;overflow-x:hidden;overflow-x:clip} /* le texte caché de MathJax pour lecteurs d'écran ne doit pas élargir la page */
+.video .hint{display:none;font-size:.88rem;color:var(--muted);margin:0}
+
+@media (max-width: 880px){
+  .app{display:block}
+  .topbar{display:flex;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line);
+    padding-block:8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));gap:12px;align-items:center;justify-content:space-between}
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+  .topbar .brand{font-size:1.45rem;margin:0}
+  .topbar .mini{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums;margin:0}
+  .side{position:fixed;inset:0 auto 0 0;width:min(88vw,330px);z-index:40;transform:translateX(-102%);transition:transform .22s;
+    /* align-self:start (utile sur ordinateur) empêchait le panneau de prendre la hauteur de l'écran : il ne défilait plus */
+    align-self:auto;height:100%;height:100dvh;max-height:100dvh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+    padding-top:calc(18px + env(safe-area-inset-top,0px));padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+  .side.open{transform:none;box-shadow:0 0 40px rgba(0,0,0,.35)}
+  .scrim{display:block;position:fixed;inset:0;z-index:30;background:rgba(10,16,30,.45)}
+  .lesson,.pager{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .lhead{padding-top:20px}
+  body{font-size:16.5px}
+  .copie{font-size:1.3rem;padding:12px 12px 10px}
+  .pager .btn{flex:1 1 auto;text-align:center}
+  .video .hint{display:block}
+}
+@media (prefers-reduced-motion: reduce){.side,.prog-fill{transition:none}}
+</style>
+<script src="/parcours/supabase.js"></script>
+<script src="/parcours/sync.js"></script>
+</head>
+<body>
+
+
+<div class="app">
+  <div class="topbar">
+    <button type="button" class="btn ghost" id="menu-btn" aria-controls="side" aria-expanded="false">Sommaire</button>
+    <p class="brand">Suites et fonctions</p>
+    <p class="mini" id="mini-prog"></p>
+  </div>
+  <div class="scrim" id="scrim" hidden></div>
+
+  <nav class="side" id="side" aria-label="Sommaire du parcours">
+    <p class="brand">Parcours Suites et fonctions</p>
+    <p class="brand-sub">Chapitre II · ECG 1</p>
+    <p class="brand-sub"><a href="/">← Mon espace</a></p>
+    <div class="prog">
+      <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+      <p class="prog-txt" id="prog-txt"></p>
+      <button type="button" class="linkbtn" id="reset" hidden>Remettre ma progression à zéro</button>
+    </div>
+    <div id="nav"></div>
+  </nav>
+
+  <main class="main" id="main">
+<section class="lesson" id="accueil" data-part="" data-title="Comment utiliser ce parcours" hidden><header class="lhead"><p class="eyebrow">Bienvenue</p><h2>Comment utiliser ce parcours</h2></header><div class="lbody">
+<p class="lead">Ce parcours reprend tout le chapitre II, <strong>suites</strong> puis <strong>fonctions</strong>, dans l'ordre où il faut l'apprendre. Chaque étape tient en quelques minutes.</p>
+<div class="howto">
+  <div><p class="num">1</p><p><strong>Lis l'explication.</strong> Les encadrés rouges sont à connaître par cœur.</p></div>
+  <div><p class="num">2</p><p><strong>Regarde la vidéo</strong> quand il y en a une : la méthode ou la démonstration est écrite et expliquée pas à pas.</p></div>
+  <div><p class="num">3</p><p><strong>Fais les exercices sur une feuille</strong>, puis ouvre la correction et compare ligne à ligne.</p></div>
+  <div><p class="num">4</p><p><strong>Coche l'étape</strong> avec le bouton du bas. Ta progression est gardée sur cet appareil.</p></div>
+</div>
+<h3>Le plan</h3>
+<p><strong>Partie A, les suites</strong> (8 étapes) : définition, suites bornées, monotonie, raisonnement par récurrence, suites arithmétiques et géométriques, suites arithmético-géométriques, récurrences linéaires d'ordre 2, suites de matrices.</p>
+<p><strong>Partie B, les fonctions</strong> (5 étapes) : ensemble de définition et composition, propriétés globales, continuité et valeurs intermédiaires, dérivation, asymptotes.</p>
+<p><strong>Partie C, les fonctions usuelles</strong> (4 étapes) : valeur absolue et partie entière, exponentielle, logarithme, puissances et fonctions circulaires.</p>
+<p><strong>Partie D, les démonstrations à savoir refaire</strong> (8 étapes) : suites bornées, suite périodique bornée, preuves des propositions II-2 et II-4, caractérisation d'une suite arithmétique, fonctions périodiques, exponentielle, croissances comparées, logarithme. Ce sont celles qui tombent en évaluation.</p>
+<p><strong>Pour finir</strong> : ce que le correcteur attend, puis trois évaluations chronométrées au format du lundi (15 minutes, sur 20) : suites, fonctions, démonstrations du cours.</p>
+<div class="prof"><p class="lab">Le mot du prof</p><p>Ne passe pas à l'étape suivante tant que les exercices ne sont pas réussis <em>sans regarder la correction</em>. Dans ce chapitre, la rédaction d'une récurrence et la justification de chaque inégalité comptent autant que le résultat.</p></div></div></section>
+<section class="lesson" id="s1" data-part="Partie A · Suites" data-title="Qu&#x27;est-ce qu&#x27;une suite ?" hidden><header class="lhead"><p class="eyebrow">Partie A · Suites · Étape 1 sur 29<span class="meta">8 min</span></p><h2>Qu'est-ce qu'une suite ?</h2></header><div class="lbody">
+<p class="objectif">Savoir lire et écrire une suite, et distinguer une suite donnée explicitement d'une suite définie par récurrence.</p>
+<h3>La définition</h3>
+<div class="retenir"><p class="lab">À connaître par cœur</p><p>Une <strong>suite réelle</strong> est une application \(u:\N\to\R,\ n\mapsto u_n\). On la note \(u=(u_n)_{n\in\N}\), ou \((u_n)_{n\geq1}\), \((u_n)_{n\geq n_0}\) quand elle commence plus loin. Le réel \(u_n\) est le <strong>terme général</strong>.</p></div>
+<h3>Trois façons de définir une suite</h3>
+<ul>
+<li><strong>Explicitement</strong> : \(u_n\) est donné par une formule en \(n\). Par exemple \(u_n=n^2-1\), donc \(u_0=-1\), \(u_1=0\), \(u_2=3\).</li>
+<li><strong>Par récurrence</strong> : on donne le premier terme et une relation pour passer d'un terme au suivant. Par exemple \(u_0=0\) et \(u_{n+1}=\sqrt{2+u_n}\), donc \(u_1=\sqrt2\), \(u_2=\sqrt{2+\sqrt2}\), …</li>
+<li><strong>Implicitement</strong> : \(u_n\) est la solution d'une équation qui dépend de \(n\).</li>
+</ul>
+<p>La suite de Fibonacci est définie par récurrence avec deux termes de départ : \(F_0=1\), \(F_1=1\) et \(F_{n+2}=F_{n+1}+F_n\). Ses premiers termes sont \(1,1,2,3,5,8,13,\dots\)</p>
+<h3>Opérations</h3>
+<p>On calcule terme à terme : \((u+v)_n=u_n+v_n\), \((uv)_n=u_nv_n\), \((\lambda u)_n=\lambda u_n\), et \(\left(\frac uv\right)_n=\frac{u_n}{v_n}\) si \(v_n\neq0\) pour tout \(n\).</p>
+<div class="prof"><p class="lab">Conseil</p><p>Avec une suite récurrente, on ne peut pas calculer \(u_{100}\) directement : il faut tous les termes d'avant. Tout l'enjeu des étapes suivantes est de trouver, quand c'est possible, une formule explicite.</p><p>Attention aux indices : \(u_{n+1}\) est le terme suivant, alors que \(u_n+1\) est le terme \(u_n\) augmenté de 1.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Soit \(u_0=3\) et, pour tout \(n\in\N\), \(u_{n+1}=2u_n-1\). Calcule \(u_1\), \(u_2\), \(u_3\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(u_1=2\times3-1=5\), \(u_2=2\times5-1=9\), \(u_3=2\times9-1=17\).</p></div><div class="prof"><p class="lab">Remarque</p><p>On peut conjecturer \(u_n=2^{n+1}+1\). On saura le démontrer à l'étape 6.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Soit \(u_n=\dfrac{n}{n+1}\) pour \(n\in\N\). Calcule \(u_0\), \(u_1\), \(u_9\), puis écris \(u_{n+1}\) et \(u_n+1\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(u_0=0\), \(u_1=\frac12\), \(u_9=\frac{9}{10}\).</p><p>\(u_{n+1}=\dfrac{n+1}{n+2}\) : on remplace \(n\) par \(n+1\). \(u_n+1=\dfrac{n}{n+1}+1=\dfrac{2n+1}{n+1}\).</p></div></details></article></div></section>
+<section class="lesson" id="s2" data-part="Partie A · Suites" data-title="Suites majorées, minorées, bornées" hidden><header class="lhead"><p class="eyebrow">Partie A · Suites · Étape 2 sur 29<span class="meta">12 min</span></p><h2>Suites majorées, minorées, bornées</h2></header><div class="lbody">
+<p class="objectif">Savoir montrer qu'une suite est bornée, et savoir montrer qu'elle ne l'est pas.</p>
+<div class="retenir"><p class="lab">À connaître par cœur</p><ul>
+<li>\(u\) est <strong>majorée</strong> s'il existe un réel \(M\) tel que \(u_n\leq M\) pour tout \(n\).</li>
+<li>\(u\) est <strong>minorée</strong> s'il existe un réel \(m\) tel que \(m\leq u_n\) pour tout \(n\).</li>
+<li>\(u\) est <strong>bornée</strong> si elle est majorée et minorée, c'est-à-dire s'il existe \(K\geq0\) tel que \(|u_n|\leq K\) pour tout \(n\).</li>
+</ul></div>
+<p>Le point essentiel : \(m\) et \(M\) sont des <strong>constantes</strong>. Elles ne dépendent pas de \(n\).</p>
+<h3>Montrer qu'une suite est bornée</h3>
+<p>On encadre \(u_n\) étape par étape, en justifiant chaque opération sur les inégalités. Avec \(u_n=\dfrac3{2^n}\) :</p>
+<div class="copie"><p class="lab">Sur la copie</p><p>Pour tout \(n\in\N\), \(2^n\geq1\), donc \(0&lt;\dfrac1{2^n}\leq1\).</p>
+<p>On multiplie par \(3&gt;0\) : \(0&lt;\dfrac3{2^n}\leq3\).</p>
+<p>Donc pour tout \(n\in\N\), \(0&lt;u_n\leq3\) : <u>la suite \(u\) est bornée</u>.</p></div>
+<h3>Montrer qu'une suite n'est pas majorée</h3>
+<p>Il faut montrer que <em>pour tout</em> réel \(M\), un terme dépasse \(M\). Avec \(u_n=\big((-1)^n+1\big)n\) : les termes pairs valent \(u_{2p}=4p\). Pour \(M\) quelconque, on choisit un entier \(p&gt;M\) (propriété d'Archimède) ; alors \(u_{2p}=4p&gt;M\). La suite n'est pas majorée, donc pas bornée, même si elle revient à 0 une fois sur deux.</p>
+<div class="prof"><p class="lab">Les pièges</p><ul><li>Quand on multiplie une inégalité par un nombre, on vérifie son signe : par un nombre négatif, le sens change.</li>
+<li>Passer à l'inverse renverse le sens, et seulement entre nombres de même signe.</li>
+<li>Une suite est bornée si et seulement si elle l'est à partir d'un certain rang : les premiers termes, en nombre fini, ne gênent pas.</li></ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Montre que la suite \(u_n=\dfrac{2n+1}{n+1}\) vérifie \(1\leq u_n&lt;2\) pour tout \(n\in\N\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Pour tout \(n\in\N\), \(u_n=\dfrac{2(n+1)-1}{n+1}=2-\dfrac1{n+1}\).</p>
+<p>Comme \(n+1\geq1\), on a \(0&lt;\dfrac1{n+1}\leq1\), donc \(-1\leq-\dfrac1{n+1}&lt;0\).</p>
+<p>En ajoutant 2 : \(1\leq u_n&lt;2\). Donc \(u\) est bornée.</p></div><div class="prof"><p class="lab">Remarque</p><p>L'astuce : écrire la fraction comme « constante moins petit morceau ». C'est plus simple que d'encadrer le numérateur et le dénominateur séparément.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Soit \(v_n=\dfrac{\sin(n)}{n+1}\). Montre que \(v\) est bornée.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Pour tout \(n\in\N\), \(|\sin(n)|\leq1\) et \(n+1\geq1\), donc \(|v_n|=\dfrac{|\sin(n)|}{n+1}\leq1\).</p><p>Donc \(-1\leq v_n\leq1\) : la suite \(v\) est bornée.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Montre que la suite \(w_n=n^2-3n\) n'est pas majorée.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Pour \(n\geq4\) : \(w_n-n=n^2-4n=n(n-4)\geq0\), donc \(w_n\geq n\).</p>
+<p>Soit \(M\in\R\). Il existe un entier \(n\geq4\) tel que \(n&gt;M\) (Archimède). Alors \(w_n\geq n&gt;M\).</p>
+<p>Aucun réel \(M\) ne majore la suite : \(w\) n'est pas majorée.</p></div></details></article></div></section>
+<section class="lesson" id="s3" data-part="Partie A · Suites" data-title="Monotonie d&#x27;une suite" hidden><header class="lhead"><p class="eyebrow">Partie A · Suites · Étape 3 sur 29<span class="meta">12 min</span></p><h2>Monotonie d'une suite</h2></header><div class="lbody">
+<p class="objectif">Savoir étudier le sens de variation d'une suite, par la différence ou par le quotient.</p>
+<div class="retenir"><p class="lab">À connaître par cœur</p><ul><li>\(u\) est <strong>croissante</strong> si \(u_n\leq u_{n+1}\) pour tout \(n\), <strong>décroissante</strong> si \(u_{n+1}\leq u_n\) pour tout \(n\).</li>
+<li><strong>Monotone</strong> : croissante ou décroissante. Avec des inégalités strictes : <strong>strictement</strong> croissante ou décroissante.</li></ul></div>
+<h3>Méthode 1 : la différence</h3>
+<p>On calcule \(u_{n+1}-u_n\) et on étudie son signe. Avec \(u_n=1+\frac1n\) pour \(n\geq1\) :</p>
+\[u_{n+1}-u_n=\frac1{n+1}-\frac1n=\frac{-1}{n(n+1)}&lt;0,\]<p>donc \(u\) est strictement décroissante.</p>
+<h3>Méthode 2 : le quotient</h3>
+<p>Si <strong>tous les termes sont strictement positifs</strong>, on compare \(\dfrac{u_{n+1}}{u_n}\) à 1. C'est la bonne méthode avec des puissances ou des factorielles. Avec \(v_n=\dfrac{n^n}{n!}\) pour \(n\geq1\) :</p>
+\[\frac{v_{n+1}}{v_n}=\frac{(n+1)^{n+1}}{(n+1)!}\times\frac{n!}{n^n}\]\[=\frac{(n+1)^n}{n^n}=\Big(1+\frac1n\Big)^n&gt;1.\]
+<p>Comme \(v_n&gt;0\), on a \(v_{n+1}&gt;v_n\) : \(v\) est croissante.</p>
+<figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/sf-monotonie.mp4"></video><figcaption><span class="tag">Vidéo</span> Étudier la monotonie par la différence, puis par le quotient <span class="dur">2 min 39</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure>
+<h3>Montrer qu'une suite n'est pas monotone</h3>
+<p>Un contre-exemple suffit : un endroit où elle monte et un endroit où elle descend. Pour \(w_n=(-1)^n\) : \(w_0=1&gt;w_1=-1\) et \(w_1&lt;w_2=1\).</p>
+<div class="prof"><p class="lab">Ce qui rapporte les points</p><ul><li>Pour le quotient, il faut <strong>écrire</strong> que les termes sont strictement positifs : c'est ce qui permet de passer de \(\frac{u_{n+1}}{u_n}&gt;1\) à \(u_{n+1}&gt;u_n\).</li>
+<li>Pour une suite récurrente \(u_{n+1}=u_n+\dots\), la différence se lit directement dans la relation.</li></ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Étudie la monotonie de \(u_n=\dfrac n{n+1}\), \(n\in\N\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(u_{n+1}-u_n=\dfrac{n+1}{n+2}-\dfrac n{n+1}\)</p>\[=\frac{(n+1)^2-n(n+2)}{(n+1)(n+2)}=\frac1{(n+1)(n+2)}&gt;0.\]<p>Donc \(u\) est strictement croissante.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Étudie la monotonie de \(v_n=\dfrac{2^n}{n!}\), \(n\geq1\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Pour tout \(n\geq1\), \(v_n&gt;0\) et \(\dfrac{v_{n+1}}{v_n}=\dfrac{2^{n+1}}{(n+1)!}\times\dfrac{n!}{2^n}=\dfrac2{n+1}\leq1\) car \(n+1\geq2\).</p><p>Comme \(v_n&gt;0\), on obtient \(v_{n+1}\leq v_n\) : \(v\) est décroissante.</p></div><div class="prof"><p class="lab">Remarque</p><p>Puissance et factorielle : on pense tout de suite au quotient.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Soit \(u_0\in\R\) et \(u_{n+1}=u_n+u_n^2\). Montre que \(u\) est croissante. La suite \(w_n=\dfrac{(-1)^n}n\) (\(n\geq1\)) est-elle monotone ?</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(u_{n+1}-u_n=u_n^2\geq0\) pour tout \(n\), donc \(u\) est croissante.</p><p>\(w_1=-1\), \(w_2=\frac12\), \(w_3=-\frac13\) : \(w_1&lt;w_2\) et \(w_2&gt;w_3\). Donc \(w\) n'est pas monotone.</p></div></details></article></div></section>
+<section class="lesson" id="s4" data-part="Partie A · Suites" data-title="Le raisonnement par récurrence" hidden><header class="lhead"><p class="eyebrow">Partie A · Suites · Étape 4 sur 29<span class="meta">14 min</span></p><h2>Le raisonnement par récurrence</h2></header><div class="lbody">
+<p class="objectif">Savoir rédiger une démonstration par récurrence, en particulier pour encadrer une suite récurrente ou étudier sa monotonie.</p>
+<div class="retenir"><p class="lab">À connaître par cœur</p><p>Pour montrer qu'une propriété \(\mathcal P(n)\) est vraie pour tout \(n\geq n_0\) :</p>
+<ol><li><strong>Initialisation</strong> : on vérifie \(\mathcal P(n_0)\).</li>
+<li><strong>Hérédité</strong> : on fixe un entier \(n\geq n_0\), on suppose \(\mathcal P(n)\) vraie, et on en déduit \(\mathcal P(n+1)\).</li>
+<li><strong>Conclusion</strong> : par récurrence, \(\mathcal P(n)\) est vraie pour tout \(n\geq n_0\).</li></ol></div>
+<h3>L'exemple du cours</h3>
+<p>Avec \(u_0=0\) et \(u_{n+1}=\sqrt{2+u_n}\), montrons que \(0\leq u_n\leq2\) pour tout \(n\).</p>
+<div class="copie"><p class="lab">Sur la copie</p><p>Soit \(\mathcal P(n)\) : « \(0\leq u_n\leq2\) ».</p>
+<p><u>Initialisation.</u> \(u_0=0\), donc \(0\leq u_0\leq2\) : \(\mathcal P(0)\) est vraie.</p>
+<p><u>Hérédité.</u> Soit \(n\in\N\) tel que \(\mathcal P(n)\) est vraie : \(0\leq u_n\leq2\). Alors \(2\leq2+u_n\leq4\), et comme la racine carrée est croissante sur \([0,+\infty[\) : \(\sqrt2\leq u_{n+1}\leq2\). Donc \(0\leq u_{n+1}\leq2\) : \(\mathcal P(n+1)\) est vraie.</p>
+<p><u>Conclusion.</u> Par récurrence, pour tout \(n\in\N\), \(0\leq u_n\leq2\).</p></div><figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/sf-recurrence.mp4"></video><figcaption><span class="tag">Vidéo</span> Encadrer une suite récurrente, puis montrer qu'elle est croissante, par récurrence <span class="dur">2 min 43</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure>
+<p>Le même schéma donne la monotonie : on montre par récurrence \(u_n\leq u_{n+1}\). C'est vrai pour \(n=0\) (\(0\leq\sqrt2\)), et si \(u_n\leq u_{n+1}\), alors \(2+u_n\leq2+u_{n+1}\), puis \(u_{n+1}\leq u_{n+2}\) par croissance de la racine.</p>
+<div class="prof"><p class="lab">Ce que le correcteur regarde</p><ul><li>Écris \(\mathcal P(n)\) en entier avant de commencer.</li>
+<li>Dans l'hérédité, « soit \(n\) tel que \(\mathcal P(n)\) » : on suppose \(\mathcal P(n)\) pour <em>un</em> \(n\) fixé, jamais « pour tout \(n\) », sinon on suppose ce qu'on veut démontrer.</li>
+<li>Chaque opération sur une inégalité se justifie : « la fonction racine est croissante », « on multiplie par un nombre positif ».</li></ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Montre par récurrence que pour tout \(n\in\N\), \(2^n\geq n+1\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Soit \(\mathcal P(n)\) : « \(2^n\geq n+1\) ».</p><p>Initialisation : \(2^0=1\geq0+1\). \(\mathcal P(0)\) est vraie.</p>
+<p>Hérédité : soit \(n\in\N\) tel que \(2^n\geq n+1\). Alors \(2^{n+1}=2\times2^n\geq2(n+1)=2n+2\geq n+2\). Donc \(\mathcal P(n+1)\) est vraie.</p><p>Conclusion : par récurrence, \(2^n\geq n+1\) pour tout \(n\in\N\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Soit \(u_0=1\) et \(u_{n+1}=\dfrac{u_n}{1+u_n}\). Montre que \(u_n&gt;0\) pour tout \(n\) (la suite est donc bien définie).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Soit \(\mathcal P(n)\) : « \(u_n\) est bien défini et \(u_n&gt;0\) ».</p><p>Initialisation : \(u_0=1&gt;0\).</p>
+<p>Hérédité : soit \(n\in\N\) tel que \(u_n&gt;0\). Alors \(1+u_n&gt;1&gt;0\), donc \(u_{n+1}=\dfrac{u_n}{1+u_n}\) est bien défini, et c'est un quotient de deux nombres strictement positifs : \(u_{n+1}&gt;0\).</p>
+<p>Conclusion : par récurrence, \(u_n&gt;0\) pour tout \(n\in\N\).</p></div><div class="prof"><p class="lab">Remarque</p><p>« Bien définie » : il faut vérifier qu'on ne divise jamais par 0. La récurrence le fait en même temps que le signe.</p></div></details></article></div></section>
+<section class="lesson" id="s5" data-part="Partie A · Suites" data-title="Suites arithmétiques et géométriques" hidden><header class="lhead"><p class="eyebrow">Partie A · Suites · Étape 5 sur 29<span class="meta">12 min</span></p><h2>Suites arithmétiques et géométriques</h2></header><div class="lbody">
+<p class="objectif">Connaître le terme général et la somme des termes des suites arithmétiques et géométriques.</p>
+<div class="retenir"><p class="lab">Propositions II-2 et II-4</p><p><strong>Arithmétique</strong> de raison \(b\) : \(u_{n+1}=u_n+b\). Alors \(u_n=u_{n_0}+(n-n_0)b\), et</p>
+\[u_{n_0}+\dots+u_{n_0+k}=(k+1)\,\frac{u_{n_0}+u_{n_0+k}}2\]<p>(nombre de termes × moyenne du premier et du dernier).</p>
+<p><strong>Géométrique</strong> de raison \(a\) : \(u_{n+1}=a\,u_n\). Alors \(u_n=u_{n_0}\,a^{\,n-n_0}\), et si \(a\neq1\) :</p>
+\[u_{n_0}+\dots+u_{n_0+k}=u_{n_0}\,\frac{1-a^{k+1}}{1-a}\]<p>(premier terme × \(\frac{1-a^{\text{nb de termes}}}{1-a}\)).</p></div>
+<p>Les cas à retenir : \(1+2+\dots+n=\dfrac{n(n+1)}2\) et, pour \(q\neq1\), \(1+q+\dots+q^n=\dfrac{1-q^{n+1}}{1-q}\).</p>
+<h3>La monotonie</h3>
+<p>Arithmétique : croissante si \(b&gt;0\), décroissante si \(b&lt;0\). Géométrique : si \(a&lt;0\) la suite n'est pas monotone (les signes alternent) ; si \(a&gt;1\) elle est croissante quand \(u_{n_0}&gt;0\) et décroissante quand \(u_{n_0}&lt;0\).</p>
+<h3>Pourquoi la formule du terme général</h3>
+<p>Pour la suite géométrique, une récurrence : \(u_{n_0}=u_{n_0}a^0\), et si \(u_n=u_{n_0}a^{n-n_0}\), alors \(u_{n+1}=a\,u_n=u_{n_0}a^{n+1-n_0}\). Pour la suite arithmétique, on additionne les égalités \(u_{k+1}-u_k=b\) pour \(k\) de \(n_0\) à \(n-1\) : tout se simplifie et il reste \(u_n-u_{n_0}=(n-n_0)b\).</p>
+<div class="prof"><p class="lab">Piège</p><p>Le piège des sommes : compter les termes. De \(u_0\) à \(u_{10}\), il y a 11 termes. De \(u_3\) à \(u_n\), il y en a \(n-2\).</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>\(u\) est arithmétique avec \(u_0=5\) et de raison \(-2\). Calcule \(u_{10}\), puis \(S=u_0+u_1+\dots+u_{10}\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(u_{10}=u_0+10\times(-2)=5-20=-15\).</p><p>\(S\) a 11 termes : \(S=11\times\dfrac{u_0+u_{10}}2=11\times\dfrac{5-15}2=-55\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>\(v\) est géométrique avec \(v_0=3\) et de raison 2. Donne \(v_n\), puis calcule \(v_0+v_1+\dots+v_5\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(v_n=3\times2^n\). La somme a 6 termes : \(3\times\dfrac{1-2^6}{1-2}=3\times63=189\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Calcule, pour \(n\in\N\), \(S_n=1+3+9+\dots+3^n\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>C'est la somme des termes d'une suite géométrique de raison \(3\neq1\), de premier terme 1, avec \(n+1\) termes :</p>\[S_n=\frac{1-3^{n+1}}{1-3}=\frac{3^{n+1}-1}2.\]</div><div class="prof"><p class="lab">Remarque</p><p>Vérification avec \(n=1\) : \(1+3=4\) et \(\frac{9-1}2=4\).</p></div></details></article></div></section>
+<section class="lesson" id="s6" data-part="Partie A · Suites" data-title="Suites arithmético-géométriques" hidden><header class="lhead"><p class="eyebrow">Partie A · Suites · Étape 6 sur 29<span class="meta">12 min</span></p><h2>Suites arithmético-géométriques</h2></header><div class="lbody">
+<p class="objectif">Savoir trouver le terme général d'une suite \(u_{n+1}=au_n+b\), en rédigeant la méthode du cours.</p>
+<div class="retenir"><p class="lab">Proposition II-6</p><p>Si \(u_{n+1}=a\,u_n+b\) avec \(a\neq1\), soit \(\ell\) le réel tel que \(\ell=a\ell+b\). Alors la suite \((u_n-\ell)\) est <strong>géométrique de raison \(a\)</strong>, et</p>\[u_n=\ell+a^{\,n-n_0}\,(u_{n_0}-\ell).\]</div>
+<h3>Pourquoi ça marche</h3>
+<p>On soustrait les deux égalités \(u_{n+1}=au_n+b\) et \(\ell=a\ell+b\) : les \(b\) disparaissent et il reste \(u_{n+1}-\ell=a(u_n-\ell)\). C'est exactement la définition d'une suite géométrique de raison \(a\), pour la suite \(v_n=u_n-\ell\).</p>
+<figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/sf-arithmetico-geometrique.mp4"></video><figcaption><span class="tag">Vidéo</span> La méthode des suites arithmético-géométriques, sur un exemple <span class="dur">2 min 22</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p>Avec \(u_0=5\) et \(u_{n+1}=\frac12u_n+3\).</p>
+<p>On cherche \(\ell\) tel que \(\ell=\frac12\ell+3\) : \(\ell=6\).</p>
+<p>Pour tout \(n\), \(u_{n+1}-6=\frac12u_n+3-\left(\frac12\times6+3\right)=\frac12(u_n-6)\).</p>
+<p>Donc \((u_n-6)\) est géométrique de raison \(\frac12\) : \(u_n-6=\left(\frac12\right)^n(u_0-6)=-\left(\frac12\right)^n\).</p>
+<p><u>Donc pour tout \(n\in\N\), \(u_n=6-\left(\frac12\right)^n\).</u></p></div><div class="prof"><p class="lab">Ce qui rapporte les points</p><ul><li>Sur une copie, on <strong>redémontre</strong> que \((u_n-\ell)\) est géométrique : on ne se contente pas de citer la formule.</li>
+<li>Le réel \(\ell\) se trouve en résolvant \(\ell=a\ell+b\), donc \(\ell=\dfrac b{1-a}\). C'est possible parce que \(a\neq1\).</li>
+<li>Vérification : la formule doit redonner \(u_0\) pour \(n=0\) et \(u_1\) pour \(n=1\). Ici \(u_1=\frac52+3=\frac{11}2\) et \(6-\frac12=\frac{11}2\).</li></ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Soit \(u_0=0\) et \(u_{n+1}=3u_n-4\). Détermine \(u_n\) en fonction de \(n\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(\ell=3\ell-4\) donne \(\ell=2\). Pour tout \(n\), \(u_{n+1}-2=3u_n-4-(3\times2-4)=3(u_n-2)\).</p><p>Donc \((u_n-2)\) est géométrique de raison 3 : \(u_n-2=3^n(u_0-2)=-2\times3^n\).</p><p>Donc \(u_n=2-2\times3^n\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Vérification : \(u_1=-4\) et \(2-6=-4\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Soit \(u_0=0\) et \(u_{n+1}=2u_n+1\). Montre que \(u_n=2^n-1\) pour tout \(n\). <em>(Deux méthodes possibles : récurrence, ou méthode du cours.)</em></p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Méthode du cours : \(\ell=2\ell+1\) donne \(\ell=-1\). Alors \(u_{n+1}+1=2u_n+2=2(u_n+1)\), donc \((u_n+1)\) est géométrique de raison 2 et \(u_n+1=2^n(u_0+1)=2^n\).</p><p>Donc \(u_n=2^n-1\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Reprends la suite de l'étape 1 : \(u_0=3\) et \(u_{n+1}=2u_n-1\). Démontre que \(u_n=2^{n+1}+1\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(\ell=2\ell-1\) donne \(\ell=1\). Alors \(u_{n+1}-1=2u_n-2=2(u_n-1)\), donc \(u_n-1=2^n(u_0-1)=2^n\times2=2^{n+1}\).</p><p>Donc \(u_n=2^{n+1}+1\).</p></div></details></article></div></section>
+<section class="lesson" id="s7" data-part="Partie A · Suites" data-title="Récurrences linéaires d&#x27;ordre 2" hidden><header class="lhead"><p class="eyebrow">Partie A · Suites · Étape 7 sur 29<span class="meta">14 min</span></p><h2>Récurrences linéaires d'ordre 2</h2></header><div class="lbody">
+<p class="objectif">Savoir trouver le terme général d'une suite \(u_{n+2}=au_{n+1}+bu_n\).</p>
+<div class="retenir"><p class="lab">Proposition II-7</p><p>Si \(u_{n+2}=a\,u_{n+1}+b\,u_n\), on résout l'<strong>équation caractéristique</strong> \(r^2=ar+b\).</p>
+<ul><li><strong>Deux racines réelles distinctes</strong> \(r_1\), \(r_2\) : il existe \(\lambda,\mu\) tels que \(u_n=\lambda r_1^{\,n}+\mu r_2^{\,n}\).</li>
+<li><strong>Une racine double</strong> \(r\) : il existe \(\lambda,\mu\) tels que \(u_n=(\lambda n+\mu)\,r^n\).</li></ul>
+<p>On trouve \(\lambda\) et \(\mu\) avec \(u_0\) et \(u_1\).</p></div><figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/sf-recurrence-ordre-2.mp4"></video><figcaption><span class="tag">Vidéo</span> Récurrence linéaire d'ordre 2 : racines distinctes, puis racine double <span class="dur">2 min 45</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p>Avec \(u_0=0\), \(u_1=3\) et \(u_{n+2}=u_{n+1}+2u_n\).</p>
+<p>Équation caractéristique : \(r^2=r+2\iff r^2-r-2=0\iff(r-2)(r+1)=0\). Deux racines distinctes : \(2\) et \(-1\).</p>
+<p>Il existe \(\lambda,\mu\) tels que \(u_n=\lambda\,2^n+\mu\,(-1)^n\) pour tout \(n\).</p>
+<p>\(n=0\) : \(\lambda+\mu=0\). \(n=1\) : \(2\lambda-\mu=3\). Donc \(\lambda=1\) et \(\mu=-1\).</p>
+<p><u>Donc pour tout \(n\in\N\), \(u_n=2^n-(-1)^n\).</u></p></div>
+<h3>Le cas de la racine double</h3>
+<p>Avec \(u_0=1\), \(u_1=4\) et \(u_{n+2}=4u_{n+1}-4u_n\) : \(r^2-4r+4=(r-2)^2\), racine double 2. Donc \(u_n=(\lambda n+\mu)2^n\). Avec \(n=0\) : \(\mu=1\) ; avec \(n=1\) : \(2(\lambda+1)=4\), \(\lambda=1\). Donc \(u_n=(n+1)2^n\).</p>
+<div class="prof"><p class="lab">Les points d'attention</p><ul><li>Écris l'équation caractéristique en passant tout du même côté : \(r^2-ar-b=0\). L'erreur de signe sur \(b\) est la plus fréquente.</li>
+<li>Vérifie avec \(u_2\), calculé par la relation : ici \(u_2=u_1+2u_0=3\) et \(2^2-(-1)^2=3\).</li></ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Soit \(u_0=1\), \(u_1=4\) et \(u_{n+2}=5u_{n+1}-6u_n\). Détermine \(u_n\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(r^2-5r+6=(r-2)(r-3)=0\) : racines 2 et 3. Donc \(u_n=\lambda2^n+\mu3^n\).</p><p>\(\lambda+\mu=1\) et \(2\lambda+3\mu=4\), donc \(\mu=2\), \(\lambda=-1\).</p><p>\(u_n=2\times3^n-2^n\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Vérification : \(u_2=5\times4-6\times1=14\) et \(2\times9-4=14\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Soit \(u_0=2\), \(u_1=3\) et \(u_{n+2}=6u_{n+1}-9u_n\). Détermine \(u_n\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(r^2-6r+9=(r-3)^2\) : racine double 3. Donc \(u_n=(\lambda n+\mu)3^n\).</p><p>\(n=0\) : \(\mu=2\). \(n=1\) : \(3(\lambda+2)=3\), donc \(\lambda=-1\).</p><p>\(u_n=(2-n)\,3^n\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Vérification : \(u_2=6\times3-9\times2=0\) et \((2-2)\times9=0\).</p></div></details></article></div></section>
+<section class="lesson" id="s8" data-part="Partie A · Suites" data-title="Suites de matrices : suites couplées" hidden><header class="lhead"><p class="eyebrow">Partie A · Suites · Étape 8 sur 29<span class="meta">18 min</span></p><h2>Suites de matrices : suites couplées</h2></header><div class="lbody">
+<p class="objectif">Savoir écrire deux suites couplées sous la forme \(X_{n+1}=AX_n\), démontrer \(X_n=A^nX_0\), et en déduire \(u_n\) et \(v_n\) à partir de \(A^n\).</p>
+<h3>Le problème</h3>
+<p>Avec \(u_0=1\), \(v_0=1\) et, pour tout \(n\), \(u_{n+1}=2u_n+v_n\) et \(v_{n+1}=2v_n\) : on ne peut pas étudier \(u\) seule, car \(u_{n+1}\) dépend de \(v_n\). Les deux suites sont <strong>couplées</strong>. On les range dans une matrice colonne :</p>
+\[X_n=\begin{pmatrix}u_n\\ v_n\end{pmatrix},\qquad X_{n+1}=\begin{pmatrix}2&amp;1\\ 0&amp;2\end{pmatrix}X_n=AX_n.\]
+<p>Chaque ligne de \(A\) contient les coefficients d'une équation : celui devant \(u_n\), puis celui devant \(v_n\). Si une suite n'apparaît pas, on met 0.</p>
+<div class="retenir"><p class="lab">À connaître par cœur</p><p>Si \(X_{n+1}=AX_n\) pour tout \(n\in\N\), alors <strong>\(X_n=A^nX_0\)</strong> pour tout \(n\in\N\).</p><p>Tout le travail consiste ensuite à <strong>calculer \(A^n\)</strong>.</p></div><figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/sf-suites-matrices.mp4"></video><figcaption><span class="tag">Vidéo</span> Suites de matrices : écrire X(n+1) = A X(n), démontrer X(n) = Aⁿ X(0), calculer Aⁿ <span class="dur">3 min 58</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p>Soit \(\mathcal P(n)\) : « \(X_n=A^nX_0\) ».</p>
+<p><u>Initialisation.</u> \(A^0X_0=I_2X_0=X_0\) : \(\mathcal P(0)\) est vraie.</p>
+<p><u>Hérédité.</u> Soit \(n\in\N\) tel que \(X_n=A^nX_0\). Alors \(X_{n+1}=AX_n=A(A^nX_0)=A^{n+1}X_0\).</p>
+<p><u>Conclusion.</u> Par récurrence, \(X_n=A^nX_0\) pour tout \(n\in\N\).</p></div>
+<h3>Calculer \(A^n\) : les trois méthodes</h3>
+<ul>
+<li><strong>Formule du binôme</strong>, quand \(A=\lambda I+N\) avec \(N\) nilpotente. Il faut écrire que \(\lambda I\) et \(N\) commutent. Ici \(N=\begin{pmatrix}0&amp;1\\0&amp;0\end{pmatrix}\), \(N^2=0\) et \(A^n=2^nI+n2^{n-1}N\).</li>
+<li><strong>Polynôme annulateur</strong> : si par exemple \(A^2=A+2I\), on montre par récurrence que \(A^n=a_nA+b_nI\).</li>
+<li><strong>Diagonalisation</strong> : si l'énoncé donne \(P\) inversible avec \(P^{-1}AP=D\) diagonale, alors \(A^n=PD^nP^{-1}\), et \(D^n\) s'obtient en élevant chaque coefficient diagonal à la puissance \(n\).</li>
+</ul>
+<p>Sur l'exemple : \(A^n=\begin{pmatrix}2^n&amp;n2^{n-1}\\0&amp;2^n\end{pmatrix}\), donc \(X_n=A^nX_0\) donne \(u_n=2^n+n2^{n-1}\) et \(v_n=2^n\).</p>
+<div class="prof"><p class="lab">Ce qui rapporte les points</p><ul><li>\(A\) se met toujours <strong>à gauche</strong> : \(X_{n+1}=AX_n\), et \(X_n=A^nX_0\).</li>
+<li>Avant le binôme, écris « \(\lambda I\) et \(N\) commutent » : sans cette phrase, la formule n'est pas justifiée.</li>
+<li>Vérifie avec \(n=1\) : \(A^1X_0\) doit redonner \(u_1\) et \(v_1\) calculés avec les relations.</li>
+<li>Les méthodes de calcul de \(A^n\) sont détaillées dans le <a href="/parcours/algebre-lineaire.html">parcours Algèbre linéaire</a> (puissances de matrices).</li></ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Écris sous la forme \(X_{n+1}=AX_n\) le système \(u_{n+1}=u_n-v_n\), \(v_{n+1}=2u_n+4v_n\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Avec \(X_n=\begin{pmatrix}u_n\\v_n\end{pmatrix}\) : \(X_{n+1}=AX_n\) où \(A=\begin{pmatrix}1&amp;-1\\2&amp;4\end{pmatrix}\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Ligne 1 : coefficients de \(u_n\) et \(v_n\) dans \(u_{n+1}\). Ligne 2 : ceux de \(v_{n+1}\). Attention au signe \(-1\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Soit \(u_0=1\), \(v_0=2\) et, pour tout \(n\), \(u_{n+1}=3u_n+v_n\), \(v_{n+1}=3v_n\).</p>
+<p><strong>a.</strong> Donne \(A\) telle que \(X_{n+1}=AX_n\). <strong>b.</strong> Montre que \(X_n=A^nX_0\). <strong>c.</strong> Calcule \(A^n\) avec le binôme. <strong>d.</strong> En déduis \(u_n\) et \(v_n\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \(A=\begin{pmatrix}3&amp;1\\0&amp;3\end{pmatrix}\).</p>
+<p>b. Récurrence identique à celle du cours.</p>
+<p>c. \(A=3I+N\) avec \(N=\begin{pmatrix}0&amp;1\\0&amp;0\end{pmatrix}\), \(N^2=0\). \(3I\) et \(N\) commutent, donc par le binôme \(A^n=3^nI+n3^{n-1}N=\begin{pmatrix}3^n&amp;n3^{n-1}\\0&amp;3^n\end{pmatrix}\).</p>
+<p>d. \(X_n=A^nX_0\) : \(u_n=3^n+2n\,3^{n-1}\) et \(v_n=2\times3^n\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Vérification : \(u_1=3+2=5\) et \(3\times1+2=5\) ; \(u_2=9+12=21\) et \(3\times5+6=21\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Soit \(A\) une matrice carrée et \(P\) inversible telles que \(P^{-1}AP=D\). Montre que \(A^n=PD^nP^{-1}\) pour tout \(n\in\N\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>De \(P^{-1}AP=D\), on tire \(A=PDP^{-1}\) (on multiplie à gauche par \(P\), à droite par \(P^{-1}\)).</p>
+<p>Initialisation : \(PD^0P^{-1}=PP^{-1}=I=A^0\).</p>
+<p>Hérédité : si \(A^n=PD^nP^{-1}\), alors, car \(P^{-1}P=I\) :</p>\[A^{n+1}=A^nA=PD^nP^{-1}PDP^{-1}\]\[=PD^nDP^{-1}=PD^{n+1}P^{-1}.\]
+<p>Par récurrence, \(A^n=PD^nP^{-1}\) pour tout \(n\).</p></div><div class="prof"><p class="lab">Remarque</p><p>C'est l'autre démonstration classique de ce thème : elle se rédige en quatre lignes.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 4</p><div class="exo-q"><p><em>Pour aller plus loin.</em> Soit \(u_0=0\), \(v_0=1\), \(u_{n+1}=v_n\) et \(v_{n+1}=2u_n+v_n\). On pose \(A=\begin{pmatrix}0&amp;1\\2&amp;1\end{pmatrix}\).</p>
+<p><strong>a.</strong> Vérifie que \(A^2=A+2I\). <strong>b.</strong> Montre que \(u_{n+2}=u_{n+1}+2u_n\), puis calcule \(u_n\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \(A^2=\begin{pmatrix}2&amp;1\\2&amp;3\end{pmatrix}=A+2I\).</p>
+<p>b. \(u_{n+2}=v_{n+1}=2u_n+v_n=2u_n+u_{n+1}\). Équation caractéristique \(r^2=r+2\) : racines \(2\) et \(-1\), donc \(u_n=\lambda2^n+\mu(-1)^n\). Avec \(u_0=0\) et \(u_1=v_0=1\) : \(\lambda=\frac13\), \(\mu=-\frac13\).</p>\[u_n=\frac{2^n-(-1)^n}3.\]</div><div class="prof"><p class="lab">Remarque</p><p>Les racines de \(r^2=r+2\) sont les mêmes que celles du polynôme annulateur \(x^2-x-2\) : suites d'ordre 2 et suites de matrices sont deux façons de voir le même problème.</p></div></details></article></div></section>
+<section class="lesson" id="f1" data-part="Partie B · Fonctions" data-title="Ensemble de définition et composition" hidden><header class="lhead"><p class="eyebrow">Partie B · Fonctions · Étape 9 sur 29<span class="meta">10 min</span></p><h2>Ensemble de définition et composition</h2></header><div class="lbody">
+<p class="objectif">Savoir trouver l'ensemble de définition d'une fonction et calculer une composée.</p>
+<h3>Le vocabulaire</h3>
+<p>Une fonction \(f:E\to F,\ x\mapsto f(x)\) associe à \(x\) son <strong>image</strong> \(f(x)\) ; \(x\) est un <strong>antécédent</strong> de \(f(x)\). L'<strong>image d'une partie</strong> \(A\) est \(f(A)=\{f(x)\ ;\ x\in A\}\). Par exemple, pour \(f(x)=\sqrt x\) : \(f([0,4])=[0,2]\).</p>
+<h3>Trouver l'ensemble de définition</h3>
+<p>On liste les contraintes :</p>
+<ul><li>un <strong>dénominateur</strong> ne s'annule pas ;</li><li>sous une <strong>racine carrée</strong>, la quantité est \(\geq0\) ;</li><li>dans un <strong>logarithme</strong>, la quantité est \(&gt;0\).</li></ul>
+<p>Exemple : \(f(x)=\sqrt{x-1}\) est définie sur \([1,+\infty[\), \(g(x)=\dfrac1{x-2}\) sur \(\R\setminus\{2\}\).</p>
+<h3>La composée</h3>
+<div class="retenir"><p class="lab">À connaître par cœur</p><p>\((g\circ f)(x)=g\big(f(x)\big)\) : on applique d'abord \(f\), puis \(g\).</p></div>
+<p>Avec \(f(x)=x^2\) et \(g(x)=x+1\) : \((g\circ f)(x)=x^2+1\), mais \((f\circ g)(x)=(x+1)^2\). En général \(g\circ f\neq f\circ g\).</p>
+<p>Deux exemples à retenir : \(\sqrt{x^2}=|x|\) pour tout réel \(x\), et \(\big(\sqrt x\big)^2=x\) seulement pour \(x\geq0\).</p>
+<h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Donne l'ensemble de définition de \(h(x)=\ln(3-x)\) et de \(k(x)=\sqrt{x^2-4}\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(h\) : il faut \(3-x&gt;0\), donc \(x&lt;3\) : \(D_h=]-\infty,3[\).</p><p>\(k\) : il faut \(x^2-4\geq0\iff(x-2)(x+2)\geq0\iff x\leq-2\) ou \(x\geq2\) : \(D_k=]-\infty,-2]\cup[2,+\infty[\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Soit \(f(x)=x+1\) et \(g(x)=x^2\). Calcule \(g\circ f\) et \(f\circ g\). Sont-elles égales ?</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\((g\circ f)(x)=g(x+1)=(x+1)^2=x^2+2x+1\) et \((f\circ g)(x)=f(x^2)=x^2+1\).</p><p>Elles ne sont pas égales : par exemple en \(x=1\), on trouve 4 et 2.</p></div></details></article></div></section>
+<section class="lesson" id="f2" data-part="Partie B · Fonctions" data-title="Bornée, monotone, paire, périodique" hidden><header class="lhead"><p class="eyebrow">Partie B · Fonctions · Étape 10 sur 29<span class="meta">12 min</span></p><h2>Bornée, monotone, paire, périodique</h2></header><div class="lbody">
+<p class="objectif">Connaître les propriétés globales d'une fonction et savoir les démontrer.</p>
+<h3>Bornée et monotone</h3>
+<p>Comme pour les suites : \(f\) est <strong>bornée</strong> sur \(I\) s'il existe \(K\geq0\) tel que \(|f(x)|\leq K\) pour tout \(x\in I\). Elle est <strong>croissante</strong> sur \(I\) si pour tous \(u&lt;v\) dans \(I\), \(f(u)\leq f(v)\).</p>
+<div class="prof"><p class="lab">Piège</p><p>La fonction \(x\mapsto\frac1x\) est décroissante sur \(]-\infty,0[\) et sur \(]0,+\infty[\), mais <strong>pas</strong> sur \(\R^*\) : \(-1&lt;1\) et pourtant \(f(-1)=-1&lt;f(1)=1\).</p></div>
+<h3>Paire, impaire</h3>
+<div class="retenir"><p class="lab">À connaître par cœur</p><p>Sur un ensemble \(D\) symétrique par rapport à 0 :</p>
+<ul><li>\(f\) est <strong>paire</strong> si \(f(-x)=f(x)\) pour tout \(x\in D\) : graphe symétrique par rapport à l'axe des ordonnées.</li>
+<li>\(f\) est <strong>impaire</strong> si \(f(-x)=-f(x)\) pour tout \(x\in D\) : graphe symétrique par rapport à l'origine.</li></ul></div><div class="copie"><p class="lab">Sur la copie</p><p>Soit \(f(x)=x^3-x\), définie sur \(\R\), qui est symétrique par rapport à 0.</p><p>Pour tout \(x\in\R\), \(f(-x)=(-x)^3-(-x)=-x^3+x=-f(x)\). <u>Donc \(f\) est impaire.</u></p></div>
+<p>Pour montrer qu'une fonction n'est <strong>ni paire ni impaire</strong>, un contre-exemple : \(h(x)=x+1\) donne \(h(-1)=0\) et \(h(1)=2\), donc \(h(-1)\neq h(1)\) et \(h(-1)\neq-h(1)\).</p>
+<h3>Périodique</h3>
+<p>\(f\) est \(T\)-périodique (\(T&gt;0\)) si \(f(x+T)=f(x)\) pour tout \(x\). Le cosinus et le sinus sont \(2\pi\)-périodiques ; \(x\mapsto\sin(2x)\) est \(\pi\)-périodique car \(\sin(2(x+\pi))=\sin(2x+2\pi)=\sin(2x)\).</p>
+<h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Étudie la parité de \(f(x)=x^2+\cos(x)\) et de \(g(x)=\dfrac x{1+x^2}\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Les deux sont définies sur \(\R\), symétrique par rapport à 0.</p><p>\(f(-x)=(-x)^2+\cos(-x)=x^2+\cos(x)=f(x)\) : \(f\) est paire.</p><p>\(g(-x)=\dfrac{-x}{1+x^2}=-g(x)\) : \(g\) est impaire.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Montre que \(g(x)=\dfrac x{1+x^2}\) est bornée sur \(\R\), avec \(|g(x)|\leq\frac12\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Pour tout \(x\in\R\), \((|x|-1)^2\geq0\), donc \(x^2+1\geq2|x|\).</p><p>Comme \(1+x^2&gt;0\) : \(|g(x)|=\dfrac{|x|}{1+x^2}\leq\dfrac{|x|}{2|x|}=\frac12\) si \(x\neq0\), et \(g(0)=0\).</p><p>Donc \(|g(x)|\leq\frac12\) pour tout \(x\) : \(g\) est bornée.</p></div><div class="prof"><p class="lab">Remarque</p><p>L'astuce \((|x|-1)^2\geq0\) donne l'inégalité \(x^2+1\geq2|x|\), très utile.</p></div></details></article></div></section>
+<section class="lesson" id="f3" data-part="Partie B · Fonctions" data-title="Continuité et valeurs intermédiaires" hidden><header class="lhead"><p class="eyebrow">Partie B · Fonctions · Étape 11 sur 29<span class="meta">12 min</span></p><h2>Continuité et valeurs intermédiaires</h2></header><div class="lbody">
+<p class="objectif">Comprendre la continuité et savoir utiliser le théorème des valeurs intermédiaires pour montrer qu'une équation a une solution, unique ou non.</p>
+<h3>L'idée</h3>
+<p>\(f\) est <strong>continue en \(x_0\)</strong> si \(\lim_{x\to x_0}f(x)=f(x_0)\). Sur un intervalle, c'est une courbe qu'on trace « sans lever le crayon ». Exemple : la fonction valeur absolue est continue sur \(\R\), mais la fonction qui vaut 0 sur \(]-\infty,0[\) et 1 sur \([0,+\infty[\) ne l'est pas en 0 (elle « saute »).</p>
+<div class="retenir"><p class="lab">À connaître par cœur</p><p><strong>Théorème des valeurs intermédiaires (II-8).</strong> Si \(f\) est continue sur un intervalle \(I\), \(a&lt;b\) dans \(I\), et \(k\) est compris entre \(f(a)\) et \(f(b)\), alors il existe \(c\in[a,b]\) tel que \(f(c)=k\).</p>
+<p><strong>Corollaire II-10.</strong> Si \(f\) est continue et <strong>strictement monotone</strong> sur \(I\), alors \(f\) réalise une bijection de \(I\) sur \(f(I)\) : chaque \(y\in f(I)\) a <strong>un et un seul</strong> antécédent.</p></div><figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/sf-valeurs-intermediaires.mp4"></video><figcaption><span class="tag">Vidéo</span> Montrer qu'une équation a une unique solution <span class="dur">2 min 27</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p>Montrons que l'équation \(x^3+x-1=0\) a une unique solution dans \([0,1]\).</p>
+<p>Soit \(f(x)=x^3+x-1\). \(f\) est continue sur \([0,1]\) (polynôme), et dérivable avec \(f'(x)=3x^2+1&gt;0\) : \(f\) est strictement croissante sur \([0,1]\).</p>
+<p>\(f(0)=-1&lt;0\) et \(f(1)=1&gt;0\), donc \(0\) est compris entre \(f(0)\) et \(f(1)\).</p>
+<p>D'après le corollaire II-10, <u>l'équation \(f(x)=0\) a une unique solution dans \([0,1]\)</u>.</p></div><div class="prof"><p class="lab">Ce qui rapporte les points</p><ul><li>Le TVI seul donne <strong>au moins une</strong> solution. Pour <strong>une seule</strong>, il faut en plus la stricte monotonie.</li>
+<li>Les trois mots à écrire : « continue », « strictement monotone », « \(k\) est entre \(f(a)\) et \(f(b)\) ».</li></ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Montre que l'équation \(x^3-3x+1=0\) a une unique solution dans \([0,1]\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Soit \(f(x)=x^3-3x+1\), continue sur \([0,1]\), avec \(f'(x)=3x^2-3=3(x-1)(x+1)\). Sur \([0,1[\), \(f'(x)&lt;0\) et \(f'(1)=0\) : \(f\) est strictement décroissante sur \([0,1]\) (théorème II-12).</p>
+<p>\(f(0)=1&gt;0\) et \(f(1)=-1&lt;0\). D'après le corollaire II-10, l'équation \(f(x)=0\) a une unique solution dans \([0,1]\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Une fonction \(f\) est continue sur \([0,2]\), avec \(f(0)=3\) et \(f(2)=-1\). Que peut-on dire de l'équation \(f(x)=1\) ?</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(1\) est compris entre \(f(2)=-1\) et \(f(0)=3\), et \(f\) est continue sur l'intervalle \([0,2]\). D'après le TVI, l'équation \(f(x)=1\) a <strong>au moins une</strong> solution dans \([0,2]\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Sans information sur la monotonie, on ne peut pas dire qu'il n'y en a qu'une.</p></div></details></article></div></section>
+<section class="lesson" id="f4" data-part="Partie B · Fonctions" data-title="Dérivation et tangente" hidden><header class="lhead"><p class="eyebrow">Partie B · Fonctions · Étape 12 sur 29<span class="meta">14 min</span></p><h2>Dérivation et tangente</h2></header><div class="lbody">
+<p class="objectif">Savoir ce qu'est le nombre dérivé, écrire une équation de tangente, et étudier les variations d'une fonction avec sa dérivée.</p>
+<div class="retenir"><p class="lab">Définition II-11</p><p>\(f\) est <strong>dérivable en \(a\)</strong> si \(\dfrac{f(a+h)-f(a)}h\) a une limite finie quand \(h\to0\). Cette limite est \(f'(a)\).</p>
+<p><strong>Tangente</strong> au point d'abscisse \(a\) : \(y=f'(a)(x-a)+f(a)\).</p></div>
+<p>Exemple : pour \(f(x)=\sqrt x\) en \(a=1\), \(\dfrac{\sqrt x-1}{x-1}=\dfrac1{\sqrt x+1}\to\frac12\), donc \(f'(1)=\frac12\) et la tangente est \(y=\frac12x+\frac12\). En revanche \(x\mapsto|x|\) n'est pas dérivable en 0 : le taux \(\frac{|x|}x\) vaut 1 à droite et \(-1\) à gauche.</p>
+<div class="retenir"><p class="lab">Théorème II-12</p><p>Si \(f\) est dérivable sur un <strong>intervalle</strong> \(I\) :</p><ul><li>\(f'&gt;0\) sur \(I\) (sauf en un nombre fini de points où \(f'\) s'annule) \(\Rightarrow\) \(f\) strictement croissante ;</li><li>\(f'&lt;0\) sur \(I\) (même réserve) \(\Rightarrow\) \(f\) strictement décroissante ;</li><li>\(f'=0\) sur \(I\) \(\Rightarrow\) \(f\) constante.</li></ul></div>
+<h3>Le formulaire à connaître</h3>
+<div class="table-wrap"><table><thead><tr><th>Fonction</th><th>Dérivée</th><th>Fonction</th><th>Dérivée</th></tr></thead><tbody>
+<tr><td>\(x^n\)</td><td>\(nx^{n-1}\)</td><td>\(u^n\)</td><td>\(nu'u^{n-1}\)</td></tr>
+<tr><td>\(\frac1x\)</td><td>\(-\frac1{x^2}\)</td><td>\(\frac1u\)</td><td>\(-\frac{u'}{u^2}\)</td></tr>
+<tr><td>\(\sqrt x\)</td><td>\(\frac1{2\sqrt x}\)</td><td>\(uv\)</td><td>\(u'v+uv'\)</td></tr>
+<tr><td>\(e^x\)</td><td>\(e^x\)</td><td>\(e^u\)</td><td>\(u'e^u\)</td></tr>
+<tr><td>\(\ln x\)</td><td>\(\frac1x\)</td><td>\(\ln(u)\)</td><td>\(\frac{u'}u\)</td></tr>
+<tr><td>\(\sin x\)</td><td>\(\cos x\)</td><td>\(\frac uv\)</td><td>\(\frac{u'v-uv'}{v^2}\)</td></tr>
+<tr><td>\(\cos x\)</td><td>\(-\sin x\)</td><td>\(f\circ u\)</td><td>\((f'\circ u)\,u'\)</td></tr>
+</tbody></table></div>
+<div class="prof"><p class="lab">Piège</p><p>Le théorème II-12 ne marche que sur un <strong>intervalle</strong>. Et une dérivée qui s'annule en un point isolé n'empêche pas la stricte monotonie : \(x^3\) est strictement croissante alors que sa dérivée \(3x^2\) s'annule en 0.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Donne l'équation de la tangente à la courbe de \(f(x)=x^2+1\) au point d'abscisse 1.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(f'(x)=2x\), donc \(f'(1)=2\), et \(f(1)=2\).</p><p>Tangente : \(y=f'(1)(x-1)+f(1)=2(x-1)+2\), soit \(y=2x\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Dérive : \(a(x)=(2x+1)^3\), \(b(x)=\ln(x^2+1)\), \(c(x)=e^{-x^2}\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(a'(x)=3\times2\times(2x+1)^2=6(2x+1)^2\) (formule \((u^n)'=nu'u^{n-1}\)).</p><p>\(b'(x)=\dfrac{2x}{x^2+1}\) (formule \((\ln u)'=\frac{u'}u\)).</p><p>\(c'(x)=-2x\,e^{-x^2}\) (formule \((e^u)'=u'e^u\)).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Étudie les variations de \(f(x)=x^3-3x\) sur \(\R\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(f'(x)=3x^2-3=3(x-1)(x+1)\). Donc \(f'(x)&gt;0\) si \(x&lt;-1\) ou \(x&gt;1\), et \(f'(x)&lt;0\) si \(-1&lt;x&lt;1\).</p><p>\(f\) est strictement croissante sur \(]-\infty,-1]\), strictement décroissante sur \([-1,1]\), strictement croissante sur \([1,+\infty[\). Avec \(f(-1)=2\) et \(f(1)=-2\).</p></div></details></article></div></section>
+<section class="lesson" id="f5" data-part="Partie B · Fonctions" data-title="Asymptotes" hidden><header class="lhead"><p class="eyebrow">Partie B · Fonctions · Étape 13 sur 29<span class="meta">10 min</span></p><h2>Asymptotes</h2></header><div class="lbody">
+<p class="objectif">Savoir reconnaître une asymptote verticale, horizontale ou oblique, et la justifier.</p>
+<div class="retenir"><p class="lab">Définitions II-13 et II-14</p><ul><li><strong>Verticale</strong> \(x=\alpha\) : si \(f(x)\to\pm\infty\) quand \(x\to\alpha\).</li>
+<li><strong>Horizontale</strong> \(y=\ell\) en \(+\infty\) : si \(f(x)\to\ell\) quand \(x\to+\infty\).</li>
+<li><strong>Oblique</strong> \(y=ax+b\) en \(+\infty\) : si \(f(x)-(ax+b)\to0\) quand \(x\to+\infty\).</li></ul></div>
+<p>Pour trouver une asymptote oblique : \(a=\lim\limits_{x\to+\infty}\dfrac{f(x)}x\), puis \(b=\lim\limits_{x\to+\infty}\big(f(x)-ax\big)\).</p>
+<h3>La méthode la plus rapide : écrire \(f\) sous la forme « droite + reste »</h3>
+<p>Avec \(f(x)=\dfrac{x^2+1}x\) sur \(]0,+\infty[\) : \(f(x)=x+\dfrac1x\).</p>
+<div class="copie"><p class="lab">Sur la copie</p><p>\(f(x)-x=\dfrac1x\to0\) quand \(x\to+\infty\) : <u>la droite \(y=x\) est asymptote oblique</u> en \(+\infty\).</p>
+<p>\(f(x)\to+\infty\) quand \(x\to0^+\) : <u>la droite \(x=0\) est asymptote verticale</u>.</p></div>
+<p>Un autre exemple du cours : \(f(x)=2x+\dfrac{\cos x}{x^2}\). On a \(\left|f(x)-2x\right|\leq\dfrac1{x^2}\to0\), donc \(y=2x\) est asymptote en \(+\infty\).</p>
+<h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Soit \(g(x)=\dfrac{2x+1}{x-1}\). Trouve ses asymptotes.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(g(x)=\dfrac{2(x-1)+3}{x-1}=2+\dfrac3{x-1}\).</p><p>Quand \(x\to\pm\infty\), \(\frac3{x-1}\to0\), donc \(g(x)\to2\) : asymptote horizontale \(y=2\).</p><p>Quand \(x\to1^+\), \(g(x)\to+\infty\) (et \(-\infty\) en \(1^-\)) : asymptote verticale \(x=1\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Soit \(h(x)=\dfrac{x^2-x+1}{x-1}\). Vérifie que \(h(x)=x+\dfrac1{x-1}\) et déduis-en une asymptote oblique.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(x+\dfrac1{x-1}=\dfrac{x(x-1)+1}{x-1}=\dfrac{x^2-x+1}{x-1}=h(x)\).</p><p>Donc \(h(x)-x=\dfrac1{x-1}\to0\) quand \(x\to+\infty\) : la droite \(y=x\) est asymptote oblique en \(+\infty\) (et en \(-\infty\)).</p></div></details></article></div></section>
+<section class="lesson" id="u1" data-part="Partie C · Fonctions usuelles" data-title="Valeur absolue, partie entière, fractions rationnelles" hidden><header class="lhead"><p class="eyebrow">Partie C · Fonctions usuelles · Étape 14 sur 29<span class="meta">10 min</span></p><h2>Valeur absolue, partie entière, fractions rationnelles</h2></header><div class="lbody">
+<p class="objectif">Connaître les propriétés de la valeur absolue et de la partie entière, et l'ensemble de définition d'une fraction rationnelle.</p>
+<h3>La valeur absolue</h3>
+<p>\(|x|=x\) si \(x\geq0\) et \(|x|=-x\) sinon. Elle est continue sur \(\R\), dérivable sur \(\R^*\) seulement.</p>
+<div class="retenir"><p class="lab">À connaître par cœur</p><p>Pour \(r&gt;0\) : \(|x-a|\leq r\iff a-r\leq x\leq a+r\). C'est la distance entre \(x\) et \(a\).</p></div>
+<h3>La partie entière</h3>
+<p>Pour tout réel \(x\), il existe un unique entier \(n\) tel que \(n\leq x&lt;n+1\) : c'est \(\lfloor x\rfloor\). Par exemple \(\lfloor2{,}7\rfloor=2\), \(\lfloor3\rfloor=3\) et \(\lfloor-1{,}5\rfloor=-2\).</p>
+<p>Elle est continue sur \(\R\setminus\mathbb Z\). Aux entiers, elle est continue à droite mais pas à gauche : elle saute de \(n-1\) à \(n\).</p>
+<div class="prof"><p class="lab">Piège</p><p>\(\lfloor-1{,}5\rfloor=-2\), pas \(-1\) : la partie entière arrondit toujours <strong>vers le bas</strong>.</p></div>
+<h3>Polynômes et fractions rationnelles</h3>
+<p>Un polynôme est défini et dérivable sur \(\R\). Une fraction rationnelle \(\frac PQ\) est définie et dérivable sur \(\R\) privé des racines de \(Q\).</p>
+<h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Donne \(\lfloor\pi\rfloor\), \(\lfloor-0{,}2\rfloor\), \(\lfloor5\rfloor\), puis résous \(|x-2|\leq3\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(\lfloor\pi\rfloor=3\), \(\lfloor-0{,}2\rfloor=-1\), \(\lfloor5\rfloor=5\).</p><p>\(|x-2|\leq3\iff-1\leq x\leq5\) : l'ensemble des solutions est \([-1,5]\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Donne l'ensemble de définition de \(f(x)=\dfrac{x+1}{x^2-4}\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Il faut \(x^2-4\neq0\iff x\neq2\) et \(x\neq-2\). Donc \(D_f=\R\setminus\{-2,2\}\).</p></div></details></article></div></section>
+<section class="lesson" id="u2" data-part="Partie C · Fonctions usuelles" data-title="La fonction exponentielle" hidden><header class="lhead"><p class="eyebrow">Partie C · Fonctions usuelles · Étape 15 sur 29<span class="meta">16 min</span></p><h2>La fonction exponentielle</h2></header><div class="lbody">
+<p class="objectif">Connaître les propriétés de l'exponentielle, l'inégalité \(e^x\geq1+x\) et les limites à retenir.</p>
+<p>L'exponentielle est l'unique fonction dérivable sur \(\R\) telle que \(\exp(0)=1\) et \(\exp'=\exp\). On note \(e=\exp(1)\) et \(e^x=\exp(x)\).</p>
+<div class="retenir"><p class="lab">Propriétés (page 24 du cours)</p><ul><li>\(e^x\,e^{-x}=1\), donc \(e^x\neq0\) et \(e^{-x}=\dfrac1{e^x}\).</li>
+<li>\(e^{x+y}=e^xe^y\).</li>
+<li>\(e^x&gt;0\) pour tout \(x\), donc \(\exp\) est strictement croissante.</li>
+<li>\(e^x\geq1+x\) pour tout réel \(x\), avec égalité seulement en \(x=0\).</li></ul></div><figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/sf-exp-somme.mp4"></video><figcaption><span class="tag">Vidéo</span> Démonstration : exp(x+y) = exp(x) exp(y) <span class="dur">2 min 27</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure>
+<p>L'idée de la démonstration : on fixe \(y\) et on montre que \(x\mapsto\dfrac{e^{x+y}}{e^x}\) a une dérivée nulle. Elle est donc constante, égale à sa valeur en 0, qui est \(e^y\).</p>
+<figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/sf-exp-inegalite.mp4"></video><figcaption><span class="tag">Vidéo</span> Démonstration : pour tout réel x, exp(x) ≥ 1 + x <span class="dur">1 min 21</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="retenir"><p class="lab">Les limites à retenir</p>\[\lim_{x\to+\infty}e^x=+\infty\qquad\lim_{x\to-\infty}e^x=0\]\[\lim_{x\to0}\frac{e^x-1}x=1\]
+<p>Pour tout \(n\in\N^*\) :</p>\[\lim_{x\to+\infty}\frac{e^x}{x^n}=+\infty\qquad\lim_{x\to-\infty}x^ne^x=0\]</div><div class="prof"><p class="lab">Pour retenir</p><p>« L'exponentielle l'emporte sur les puissances » : face à \(x^n\), c'est toujours \(e^x\) qui gagne. Pour une forme indéterminée avec \(e^x\) et \(x^n\), on cherche à faire apparaître \(\frac{e^x}{x^n}\) ou \(x^ne^x\).</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Simplifie \(A=\dfrac{e^{2x}\,e^{-x}}{e^{x+1}}\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(A=e^{2x-x-(x+1)}=e^{-1}=\dfrac1e\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Calcule les limites : <strong>a.</strong> \(\dfrac{e^x}{x^3}\) en \(+\infty\) ; <strong>b.</strong> \(x^2e^x\) en \(-\infty\) ; <strong>c.</strong> \(\dfrac{e^{2x}-1}x\) en 0.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \(+\infty\) (proposition II-16 avec \(n=3\)).</p><p>b. \(0\) (proposition II-16 avec \(n=2\)).</p><p>c. \(\dfrac{e^{2x}-1}x=2\times\dfrac{e^{2x}-1}{2x}\). Avec \(X=2x\to0\), \(\dfrac{e^X-1}X\to1\). Donc la limite vaut \(2\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Pour c., on fait apparaître exactement la limite du cours en changeant de variable.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Déduis de \(e^x\geq1+x\) que \(e^{-x}\geq1-x\) pour tout réel \(x\), puis que \(e^x\leq\dfrac1{1-x}\) pour \(x&lt;1\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>On applique l'inégalité au réel \(-x\) : \(e^{-x}\geq1-x\).</p><p>Pour \(x&lt;1\), \(1-x&gt;0\) et \(e^{-x}&gt;0\). En passant à l'inverse (nombres strictement positifs, le sens change) : \(\dfrac1{e^{-x}}\leq\dfrac1{1-x}\), c'est-à-dire \(e^x\leq\dfrac1{1-x}\).</p></div></details></article></div></section>
+<section class="lesson" id="u3" data-part="Partie C · Fonctions usuelles" data-title="Le logarithme népérien" hidden><header class="lhead"><p class="eyebrow">Partie C · Fonctions usuelles · Étape 16 sur 29<span class="meta">14 min</span></p><h2>Le logarithme népérien</h2></header><div class="lbody">
+<p class="objectif">Connaître les propriétés du logarithme, l'inégalité \(\ln x\leq x-1\) et les limites à retenir.</p>
+<p>\(\ln:]0,+\infty[\to\R\) est la bijection réciproque de \(\exp\) : \(\ln(e^t)=t\) pour tout réel \(t\), et \(e^{\ln x}=x\) pour tout \(x&gt;0\).</p>
+<div class="retenir"><p class="lab">Propriétés (page 26 du cours)</p><ul><li>\(\ln\) est continue, strictement croissante, dérivable sur \(]0,+\infty[\) avec \(\ln'(x)=\dfrac1x\).</li>
+<li>\(\ln1=0\), \(\ln(xy)=\ln x+\ln y\), \(\ln\dfrac1x=-\ln x\), \(\ln(x^r)=r\ln x\).</li>
+<li>\(\ln x\leq x-1\) pour tout \(x&gt;0\), avec égalité seulement en \(x=1\).</li></ul></div><figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/sf-ln-produit.mp4"></video><figcaption><span class="tag">Vidéo</span> Démonstrations : ln(xy) = ln x + ln y, puis ln x ≤ x − 1 <span class="dur">2 min 36</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="retenir"><p class="lab">Les limites à retenir</p>\[\lim_{x\to0^+}\ln x=-\infty\qquad\lim_{x\to+\infty}\ln x=+\infty\]\[\lim_{t\to0}\frac{\ln(1+t)}t=1\]
+<p>Pour tout \(n\in\N^*\) :</p>\[\lim_{x\to+\infty}\frac{\ln x}{x^n}=0\qquad\lim_{x\to0^+}x^n\ln x=0\]</div><div class="prof"><p class="lab">Les pièges</p><p>Cette fois, ce sont les puissances qui l'emportent sur le logarithme. Remarque : \(x^n\ln x\) tend vers 0 par valeurs <strong>négatives</strong>, puisque \(\ln x&lt;0\) pour \(0&lt;x&lt;1\).</p><p>Avant de résoudre une équation avec des logarithmes, on écrit l'ensemble où elle a un sens, et on vérifie à la fin que les solutions y sont.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Résous sur \(]1,+\infty[\) l'équation \(\ln(x)+\ln(x-1)=\ln2\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Pour \(x&gt;1\), les deux logarithmes ont un sens et \(\ln(x)+\ln(x-1)=\ln\big(x(x-1)\big)\).</p><p>L'équation s'écrit \(\ln\big(x(x-1)\big)=\ln2\). Comme \(\ln\) est strictement croissante, donc injective :</p>\[x(x-1)=2\iff x^2-x-2=0\]\[\iff(x-2)(x+1)=0.\]<p>\(x=-1\) n'est pas dans \(]1,+\infty[\). La seule solution est \(x=2\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Calcule les limites : <strong>a.</strong> \(\dfrac{\ln x}x\) en \(+\infty\) ; <strong>b.</strong> \(x\ln x\) en \(0^+\) ; <strong>c.</strong> \(\dfrac{\ln(1+3x)}x\) en 0.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \(0\) (proposition II-17 avec \(n=1\)).</p><p>b. \(0\) (proposition II-17 avec \(n=1\)).</p><p>c. \(\dfrac{\ln(1+3x)}x=3\times\dfrac{\ln(1+3x)}{3x}\), et avec \(t=3x\to0\), \(\dfrac{\ln(1+t)}t\to1\). La limite vaut \(3\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Simplifie \(\ln(8)-2\ln(2)+\ln\left(\frac12\right)\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(\ln8=3\ln2\) et \(\ln\frac12=-\ln2\). Donc l'expression vaut \(3\ln2-2\ln2-\ln2=0\).</p></div></details></article></div></section>
+<section class="lesson" id="u4" data-part="Partie C · Fonctions usuelles" data-title="Fonctions puissances et fonctions circulaires" hidden><header class="lhead"><p class="eyebrow">Partie C · Fonctions usuelles · Étape 17 sur 29<span class="meta">12 min</span></p><h2>Fonctions puissances et fonctions circulaires</h2></header><div class="lbody">
+<p class="objectif">Savoir utiliser \(x^\alpha=e^{\alpha\ln x}\) et connaître les propriétés du cosinus, du sinus et de la tangente.</p>
+<h3>Les fonctions puissances</h3>
+<div class="retenir"><p class="lab">Proposition II-18</p><p>Pour \(\alpha\in\R\) et \(x&gt;0\) : \(x^\alpha=e^{\alpha\ln x}\). Cette fonction est dérivable sur \(]0,+\infty[\) et \((x^\alpha)'=\alpha x^{\alpha-1}\).</p></div>
+<p>Pourquoi : avec \((e^u)'=u'e^u\) et \(u(x)=\alpha\ln x\), on trouve \(\dfrac\alpha x\,e^{\alpha\ln x}=\dfrac\alpha xx^\alpha=\alpha x^{\alpha-1}\).</p>
+<p>Si \(\alpha&gt;0\), \(x\mapsto x^\alpha\) est strictement croissante ; si \(\alpha&lt;0\), strictement décroissante. Toutes les courbes passent par le point \((1,1)\).</p>
+<h3>Les fonctions circulaires</h3>
+<ul><li>\(\cos\) et \(\sin\) sont définies sur \(\R\), à valeurs dans \([-1,1]\), \(2\pi\)-périodiques, avec \(\cos'=-\sin\) et \(\sin'=\cos\).</li>
+<li>\(\cos\) est paire, \(\sin\) est impaire : il suffit d'étudier ces fonctions sur \([0,\pi]\).</li>
+<li>\(\tan=\dfrac{\sin}{\cos}\) est définie là où \(\cos x\neq0\), c'est-à-dire pour \(x\neq\frac\pi2+k\pi\). Elle est impaire, \(\pi\)-périodique, et \(\tan'=1+\tan^2=\dfrac1{\cos^2}\).</li></ul>
+<div class="prof"><p class="lab">Piège</p><p>La tangente est strictement croissante sur chaque intervalle \(]-\frac\pi2+k\pi,\frac\pi2+k\pi[\), mais pas globalement : elle est périodique.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Calcule \(8^{2/3}\) et \(\left(\frac14\right)^{-1/2}\), puis dérive \(f(x)=x^{\sqrt2}\) sur \(]0,+\infty[\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(8^{2/3}=\big(8^{1/3}\big)^2=2^2=4\). \(\left(\frac14\right)^{-1/2}=4^{1/2}=2\).</p><p>\(f'(x)=\sqrt2\,x^{\sqrt2-1}\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Montre que la tangente est impaire, puis que \(\tan'(x)=1+\tan^2(x)\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>L'ensemble de définition est symétrique par rapport à 0, et \(\tan(-x)=\dfrac{\sin(-x)}{\cos(-x)}=\dfrac{-\sin x}{\cos x}=-\tan x\) : la tangente est impaire.</p>
+<p>Par la formule du quotient :</p>\[\tan'(x)=\frac{\cos x\cos x-\sin x(-\sin x)}{\cos^2x}\]\[=\frac{\cos^2x+\sin^2x}{\cos^2x}=1+\tan^2x.\]</div></details></article></div></section>
+<section class="lesson" id="d1" data-part="Partie D · Démonstrations" data-title="Suites bornées : rang, somme et produit" hidden><header class="lhead"><p class="eyebrow">Partie D · Démonstrations · Étape 18 sur 29<span class="meta">15 min</span></p><h2>Suites bornées : rang, somme et produit</h2></header><div class="lbody">
+<p class="objectif">Savoir refaire deux démonstrations courtes : « bornée à partir d'un certain rang » suffit, et la somme et le produit de deux suites bornées sont bornés.</p>
+<div class="prof"><p class="lab">La méthode pour toute démonstration</p><p>Une démonstration du cours se rédige toujours dans le même ordre :</p><ol><li><strong>traduire l'hypothèse</strong> avec des quantificateurs (« il existe \(K\geq0\) tel que pour tout \(n\)… ») ;</li><li>écrire <strong>ce qu'on veut obtenir</strong> ;</li><li>faire le lien, en justifiant chaque inégalité ;</li><li><strong>conclure</strong> avec les mots de l'énoncé.</li></ol><p>Dans cette partie, chaque étape suit ce schéma.</p></div>
+<h3>Démonstration 1 : « à partir d'un certain rang »</h3>
+<div class="retenir"><p class="lab">L'énoncé, tel qu'il tombe en évaluation</p><p>Montrer que si une suite \(u\) est majorée à partir d'un certain rang, alors elle est majorée.</p></div><div class="prof"><p class="lab">L'idée en une phrase</p><p>Les termes « avant le rang » sont en nombre fini, donc on peut prendre le plus grand d'entre eux.</p></div><figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/sf-demo-bornees.mp4"></video><figcaption><span class="tag">Vidéo</span> Suites bornées : les deux démonstrations, pas à pas <span class="dur">3 min 34</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p>Par hypothèse, il existe \(M\in\R\) et \(n_0\in\N\) tels que \(u_n\leq M\) pour tout \(n\geq n_0\).</p>
+<p>On pose \(M'=\max\{M,u_0,u_1,\dots,u_{n_0-1}\}\) : c'est le maximum d'un nombre fini de réels, il existe.</p>
+<p>Soit \(n\in\N\).</p>
+<ul><li>Si \(n&lt;n_0\) : \(u_n\) est l'un des réels \(u_0,\dots,u_{n_0-1}\), donc \(u_n\leq M'\).</li>
+<li>Si \(n\geq n_0\) : \(u_n\leq M\leq M'\).</li></ul>
+<p>Donc pour tout \(n\in\N\), \(u_n\leq M'\), et \(M'\) ne dépend pas de \(n\) : <u>la suite \(u\) est majorée</u>.</p></div>
+<h3>Démonstration 2 : somme et produit (exercice C-36)</h3>
+<div class="retenir"><p class="lab">L'énoncé, tel qu'il tombe en évaluation</p><p>Montrer que la somme et le produit de deux suites bornées sont bornés.</p></div><div class="prof"><p class="lab">L'idée en une phrase</p><p>On passe par les valeurs absolues : l'inégalité triangulaire pour la somme, et le produit d'inégalités entre nombres positifs pour le produit.</p></div><div class="copie"><p class="lab">Sur la copie</p><p>Soit \(u\) et \(v\) bornées : il existe \(K\geq0\) et \(K'\geq0\) tels que, pour tout \(n\in\N\), \(|u_n|\leq K\) et \(|v_n|\leq K'\).</p>
+<p><u>Somme.</u> Pour tout \(n\), par l'inégalité triangulaire, \(|u_n+v_n|\leq|u_n|+|v_n|\leq K+K'\). La constante \(K+K'\) ne dépend pas de \(n\) : \(u+v\) est bornée.</p>
+<p><u>Produit.</u> Pour tout \(n\), \(|u_nv_n|=|u_n|\,|v_n|\). On a \(0\leq|u_n|\leq K\) et \(0\leq|v_n|\leq K'\) ; ces nombres sont positifs, donc on peut multiplier les inégalités : \(|u_nv_n|\leq KK'\). Donc \(uv\) est bornée.</p></div><div class="prof"><p class="lab">Les pièges</p><ul><li>Deux suites, donc <strong>deux constantes</strong> \(K\) et \(K'\). Écrire le même \(K\) pour les deux est une erreur.</li>
+<li>On ne multiplie des inégalités membre à membre <strong>qu'entre nombres positifs</strong>. Avec \(-1\leq u_n\leq1\) et \(-1\leq v_n\leq1\), multiplier donnerait n'importe quoi.</li>
+<li>Le quotient de deux suites bornées n'est pas toujours borné : \(u_n=1\), \(v_n=\frac1{n+1}\) et \(\frac{u_n}{v_n}=n+1\).</li></ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Soit \(u\) une suite bornée. Montre que la suite \((u_n^2)\) est bornée.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Il existe \(K\geq0\) tel que \(|u_n|\leq K\) pour tout \(n\). Alors \(0\leq|u_n|\leq K\), et en multipliant cette inégalité par elle-même (nombres positifs) : \(u_n^2=|u_n|^2\leq K^2\).</p><p>Donc \(0\leq u_n^2\leq K^2\) pour tout \(n\) : la suite \((u_n^2)\) est bornée.</p></div><div class="prof"><p class="lab">Remarque</p><p>C'est le cas particulier \(v=u\) du produit.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Montre que la suite \(w_n=(-1)^n+\dfrac{\cos n}{n+1}\) est bornée, en utilisant la démonstration 2.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(u_n=(-1)^n\) vérifie \(|u_n|=1\) : elle est bornée. \(v_n=\dfrac{\cos n}{n+1}\) vérifie \(|v_n|\leq\dfrac1{n+1}\leq1\) : elle est bornée.</p><p>\(w=u+v\) est la somme de deux suites bornées, donc elle est bornée (et \(|w_n|\leq2\)).</p></div></details></article></div></section>
+<section class="lesson" id="d2" data-part="Partie D · Démonstrations" data-title="Une suite périodique est bornée" hidden><header class="lhead"><p class="eyebrow">Partie D · Démonstrations · Étape 19 sur 29<span class="meta">20 min</span></p><h2>Une suite périodique est bornée</h2></header><div class="lbody">
+<p class="objectif">Savoir démontrer qu'une suite périodique est bornée, et savoir démontrer qu'une suite donnée est périodique.</p>
+<div class="retenir"><p class="lab">L'énoncé, tel qu'il tombe en évaluation</p><p>Montrer qu'une suite périodique est bornée. <em>(Exercice C-35, colle n°3.)</em></p></div><div class="retenir"><p class="lab">La définition à écrire en premier</p><p>\(u\) est <strong>périodique</strong> s'il existe un entier \(T\geq1\) tel que \(u_{n+T}=u_n\) pour tout \(n\in\N\). Exemple : \(1,2,3,1,2,3,\dots\) avec \(T=3\).</p></div><div class="prof"><p class="lab">L'idée en une phrase</p><p>Une suite périodique ne prend que les \(T\) valeurs \(u_0,\dots,u_{T-1}\) ; un nombre fini de réels a un plus grand élément.</p></div><figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/sf-demo-periodique.mp4"></video><figcaption><span class="tag">Vidéo</span> Une suite périodique est bornée : la démonstration en quatre étapes, puis C-39 <span class="dur">5 min 46</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p>Soit \(u\) une suite périodique, de période \(T\geq1\).</p>
+<p><u>Étape 1.</u> On pose \(K=\max\{|u_0|,|u_1|,\dots,|u_{T-1}|\}\), qui existe (maximum d'un nombre fini de réels).</p>
+<p><u>Étape 2.</u> Montrons que pour tout \(n\in\N\) et tout \(q\in\N\), \(u_{n+qT}=u_n\). On fixe \(n\) et on raisonne par récurrence sur \(q\).</p>
+<ul><li>Pour \(q=0\) : \(u_{n+0}=u_n\).</li>
+<li>Si \(u_{n+qT}=u_n\), alors, en appliquant la périodicité à l'indice \(n+qT\) : \(u_{n+(q+1)T}=u_{(n+qT)+T}=u_{n+qT}=u_n\).</li></ul>
+<p>Par récurrence, \(u_{n+qT}=u_n\) pour tout \(q\in\N\).</p>
+<p><u>Étape 3.</u> Soit \(n\in\N\). Par division euclidienne de \(n\) par \(T\), \(n=qT+r\) avec \(q\in\N\) et \(0\leq r\leq T-1\). D'après l'étape 2 (à l'indice \(r\)) : \(u_n=u_{r+qT}=u_r\).</p>
+<p><u>Étape 4.</u> Comme \(0\leq r\leq T-1\), \(|u_r|\leq K\). Donc \(|u_n|\leq K\).</p>
+<p>Pour tout \(n\in\N\), \(-K\leq u_n\leq K\) : <u>la suite \(u\) est bornée</u>.</p></div><div class="prof"><p class="lab">Ce que le correcteur regarde</p><ul><li>Écrire « \(u_n\) ne prend qu'un nombre fini de valeurs donc elle est bornée » sans les étapes 2 et 3 rapporte peu de points : c'est l'idée, pas la démonstration.</li>
+<li>Dans l'étape 2, on applique la périodicité à l'indice \(n+qT\), pas à \(n\). Écris-le.</li>
+<li>La réciproque est fausse : \(u_n=\frac1{n+1}\) est bornée mais pas périodique.</li></ul></div>
+<h3>Dans l'autre sens : montrer qu'une suite est périodique (C-39)</h3>
+<div class="copie"><p class="lab">Sur la copie</p><p>Soit \(u_0=2\) et \(u_{n+1}=f(u_n)\) avec \(f(x)=-x^2+2x+1\).</p>
+<p>\(u_1=f(2)=1\) et \(u_2=f(1)=2=u_0\).</p>
+<p>Montrons par récurrence \(\mathcal P(n)\) : « \(u_{n+2}=u_n\) ».</p>
+<ul><li>Initialisation : \(u_2=u_0\).</li>
+<li>Hérédité : si \(u_{n+2}=u_n\), alors \(u_{n+3}=f(u_{n+2})=f(u_n)=u_{n+1}\).</li></ul>
+<p>Donc \(u\) est périodique de période 2, et par conséquent elle est bornée.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Soit \(u_0=0\) et \(u_{n+1}=u_n^2-4u_n+3\). Montre que \(u\) est périodique, puis qu'elle est bornée.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Soit \(f(x)=x^2-4x+3\). \(u_1=f(0)=3\) et \(u_2=f(3)=9-12+3=0=u_0\).</p>
+<p>Par récurrence, \(\mathcal P(n)\) : « \(u_{n+2}=u_n\) ». Vrai pour \(n=0\). Si \(u_{n+2}=u_n\), alors \(u_{n+3}=f(u_{n+2})=f(u_n)=u_{n+1}\).</p>
+<p>Donc \(u\) est 2-périodique. Une suite périodique est bornée : ici \(u_n\in\{0,3\}\), donc \(0\leq u_n\leq3\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Soit \(u_n=\cos\left(\dfrac{2n\pi}3\right)\). Montre que \(u\) est périodique. Est-elle bornée ?</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Pour tout \(n\), \(u_{n+3}=\cos\left(\dfrac{2n\pi}3+2\pi\right)=\cos\left(\dfrac{2n\pi}3\right)=u_n\) : \(u\) est périodique de période 3.</p><p>Elle est donc bornée (et directement : \(|u_n|\leq1\)).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Refais la démonstration complète « une suite périodique est bornée », sans regarder, en moins de 4 minutes.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Compare avec le modèle ci-dessus. Les quatre éléments obligatoires sont :</p><ul><li>le maximum \(K\) ;</li><li>la récurrence sur \(q\) ;</li><li>la division euclidienne ;</li><li>la conclusion.</li></ul></div><div class="prof"><p class="lab">Remarque</p><p>Barème habituel sur 5 points : 1 point pour \(K\), 2 pour la récurrence, 1 pour la division euclidienne, 1 pour la conclusion.</p></div></details></article></div></section>
+<section class="lesson" id="d3" data-part="Partie D · Démonstrations" data-title="Preuves des propositions II-2 et II-4" hidden><header class="lhead"><p class="eyebrow">Partie D · Démonstrations · Étape 20 sur 29<span class="meta">15 min</span></p><h2>Preuves des propositions II-2 et II-4</h2></header><div class="lbody">
+<p class="objectif">Savoir redémontrer le terme général et la somme des termes des suites arithmétiques et géométriques.</p>
+<div class="retenir"><p class="lab">L'énoncé, tel qu'il tombe en évaluation</p><p>Soit \(u\) arithmétique de raison \(b\). Montrer que \(u_n=u_{n_0}+(n-n_0)b\), puis que \(u_{n_0}+\dots+u_{n_0+k}=(k+1)\dfrac{u_{n_0}+u_{n_0+k}}2\).</p></div><div class="prof"><p class="lab">L'idée en une phrase</p><p>Pour le terme général : additionner les écarts \(u_{k+1}-u_k\), qui se simplifient en cascade (télescopage). Pour la somme : écrire chaque terme avec le premier.</p></div><figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/sf-demo-arith-geom.mp4"></video><figcaption><span class="tag">Vidéo</span> Démonstrations des propositions II-2 et II-4 <span class="dur">4 min 02</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p><u>Terme général.</u> D'une part, \(\displaystyle\sum_{k=n_0}^{n-1}(u_{k+1}-u_k)=\sum_{k=n_0}^{n-1}b=(n-n_0)b\). D'autre part, par télescopage, \(\displaystyle\sum_{k=n_0}^{n-1}(u_{k+1}-u_k)=u_n-u_{n_0}\). Donc \(u_n=u_{n_0}+(n-n_0)b\).</p>
+<p><u>Somme.</u> Soit \(S=\displaystyle\sum_{j=0}^ku_{n_0+j}=\sum_{j=0}^k(u_{n_0}+jb)=(k+1)u_{n_0}+\frac{k(k+1)}2b\).</p>
+<p>Et :</p>\[(k+1)\frac{u_{n_0}+u_{n_0+k}}2=\frac{k+1}2(2u_{n_0}+kb)\]\[=(k+1)u_{n_0}+\frac{k(k+1)}2b.\]<p>D'où l'égalité.</p></div><div class="retenir"><p class="lab">L'énoncé, tel qu'il tombe en évaluation</p><p>Soit \(u\) géométrique de raison \(a\). Montrer que \(u_n=u_{n_0}a^{n-n_0}\), et que si \(a\neq1\), \(u_{n_0}+\dots+u_{n_0+k}=u_{n_0}\dfrac{1-a^{k+1}}{1-a}\).</p></div><div class="copie"><p class="lab">Sur la copie</p><p><u>Terme général</u>, par récurrence sur \(n\geq n_0\) : \(\mathcal P(n)\) : « \(u_n=u_{n_0}a^{n-n_0}\) ». \(\mathcal P(n_0)\) est vraie car \(a^0=1\). Si \(\mathcal P(n)\) est vraie, \(u_{n+1}=a\,u_n=a\,u_{n_0}a^{n-n_0}=u_{n_0}a^{n+1-n_0}\).</p>
+<p><u>Somme.</u> \(S=u_{n_0}(1+a+\dots+a^k)\). Soit \(\Sigma=1+a+\dots+a^k\). Alors \(a\Sigma=a+a^2+\dots+a^{k+1}\), donc \(\Sigma-a\Sigma=1-a^{k+1}\), soit \((1-a)\Sigma=1-a^{k+1}\). Comme \(a\neq1\), \(\Sigma=\dfrac{1-a^{k+1}}{1-a}\), d'où la formule.</p></div><div class="prof"><p class="lab">Les pièges</p><ul><li>Dans le télescopage, compte les termes : de \(k=n_0\) à \(k=n-1\), il y en a \(n-n_0\).</li>
+<li>La formule géométrique exige \(a\neq1\) : écris-le au moment où tu divises par \(1-a\).</li>
+<li>Pour la monotonie (point 2), tout vient de \(u_{n+1}-u_n=b\) pour l'arithmétique, et du quotient \(\frac{u_{n+1}}{u_n}=a\) pour la géométrique, en regardant le signe de \(u_{n_0}\).</li></ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Démontre que \(1+2+\dots+n=\dfrac{n(n+1)}2\) en écrivant la somme \(S\) deux fois, une fois à l'endroit et une fois à l'envers.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(S=1+2+\dots+n\) et \(S=n+(n-1)+\dots+1\). On additionne terme à terme : chaque colonne vaut \(n+1\), et il y a \(n\) colonnes.</p><p>Donc \(2S=n(n+1)\) et \(S=\dfrac{n(n+1)}2\).</p></div><div class="prof"><p class="lab">Remarque</p><p>C'est l'astuce attribuée à Gauss ; elle redonne aussi la formule « nombre de termes × moyenne ».</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Sans utiliser la formule du cours, calcule \(\Sigma=1+2+4+\dots+2^n\) par la méthode « \(\Sigma-a\Sigma\) ».</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(2\Sigma=2+4+\dots+2^{n+1}\). Donc \(2\Sigma-\Sigma=2^{n+1}-1\), c'est-à-dire \(\Sigma=2^{n+1}-1\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Vérification : \(n=2\), \(1+2+4=7=2^3-1\).</p></div></details></article></div></section>
+<section class="lesson" id="d4" data-part="Partie D · Démonstrations" data-title="Caractériser une suite arithmétique" hidden><header class="lhead"><p class="eyebrow">Partie D · Démonstrations · Étape 21 sur 29<span class="meta">12 min</span></p><h2>Caractériser une suite arithmétique</h2></header><div class="lbody">
+<p class="objectif">Savoir démontrer une équivalence en deux sens, sur l'exemple de l'exercice C-41 (colle n°4).</p>
+<div class="retenir"><p class="lab">L'énoncé, tel qu'il tombe en évaluation</p><p>Montrer qu'une suite est arithmétique si et seulement si chaque terme est la moyenne du terme qui le précède et de celui qui le suit.</p></div><div class="prof"><p class="lab">L'idée en une phrase</p><p>« Moyenne des voisins » veut dire « deux écarts consécutifs égaux » ; si tous les écarts sont égaux, la suite est arithmétique.</p></div><figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/sf-demo-caracterisation.mp4"></video><figcaption><span class="tag">Vidéo</span> Caractériser une suite arithmétique : les deux sens <span class="dur">2 min 39</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p>La propriété s'écrit \((\star)\) : pour tout \(n\geq n_0+1\), \(u_n=\dfrac{u_{n-1}+u_{n+1}}2\).</p>
+<p><u>(\(\Rightarrow\))</u> Supposons \(u\) arithmétique de raison \(b\). Soit \(n\geq n_0+1\) : \(u_{n+1}=u_n+b\) et \(u_{n-1}=u_n-b\), donc \(\dfrac{u_{n-1}+u_{n+1}}2=\dfrac{2u_n}2=u_n\).</p>
+<p><u>(\(\Leftarrow\))</u> Supposons \((\star)\). Posons \(d_n=u_{n+1}-u_n\). Pour \(n\geq n_0+1\), \((\star)\) donne \(2u_n=u_{n-1}+u_{n+1}\), soit \(u_{n+1}-u_n=u_n-u_{n-1}\), c'est-à-dire \(d_n=d_{n-1}\).</p>
+<p>Par récurrence, \(d_n=d_{n_0}\) pour tout \(n\geq n_0\). Avec \(b=d_{n_0}\) : \(u_{n+1}=u_n+b\) pour tout \(n\geq n_0\), et \(u\) est arithmétique.</p>
+<p>Les deux implications sont démontrées.</p></div><div class="prof"><p class="lab">Les pièges</p><ul><li>Un « si et seulement si » vaut deux démonstrations : annonce « (\(\Rightarrow\)) Supposons… » puis « (\(\Leftarrow\)) Supposons… ».</li>
+<li>Dans le sens (\(\Leftarrow\)), on ne connaît pas \(b\) : on le <strong>fabrique</strong> (\(b=u_{n_0+1}-u_{n_0}\)).</li></ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Soit \(u\) une suite à termes strictement positifs. Montre que \(u\) est géométrique si et seulement si \(u_n^2=u_{n-1}u_{n+1}\) pour tout \(n\geq1\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>(\(\Rightarrow\)) Si \(u_{n+1}=au_n\) et \(u_n=au_{n-1}\), alors \(u_{n-1}u_{n+1}=u_{n-1}\cdot a\,u_n=u_n\cdot(au_{n-1})=u_n^2\).</p>
+<p>(\(\Leftarrow\)) Les termes sont \(&gt;0\), on peut diviser : \(u_n^2=u_{n-1}u_{n+1}\iff\dfrac{u_{n+1}}{u_n}=\dfrac{u_n}{u_{n-1}}\). Posons \(q_n=\dfrac{u_{n+1}}{u_n}\) : \(q_n=q_{n-1}\) pour \(n\geq1\), donc par récurrence \(q_n=q_0\). Avec \(a=q_0\) : \(u_{n+1}=au_n\), la suite est géométrique.</p></div><div class="prof"><p class="lab">Remarque</p><p>C'est exactement la même démonstration, avec des quotients au lieu de différences.</p></div></details></article></div></section>
+<section class="lesson" id="d5" data-part="Partie D · Démonstrations" data-title="Fonction périodique, ou pas ?" hidden><header class="lhead"><p class="eyebrow">Partie D · Démonstrations · Étape 22 sur 29<span class="meta">12 min</span></p><h2>Fonction périodique, ou pas ?</h2></header><div class="lbody">
+<p class="objectif">Savoir démontrer qu'une fonction est périodique, et surtout qu'elle ne l'est pas (exercice C-50).</p>
+<div class="retenir"><p class="lab">Définition</p><p>\(f\) est \(T\)-périodique (\(T&gt;0\)) si, pour tout \(x\in D\) : \(x\pm T\in D\) et \(f(x+T)=f(x)\).</p><p>Alors \(f(x+nT)=f(x)\) pour tout \(n\in\N\) (récurrence).</p></div><figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/sf-demo-fonction-periodique.mp4"></video><figcaption><span class="tag">Vidéo</span> Montrer qu'une fonction est périodique, ou qu'elle ne l'est pas <span class="dur">2 min 54</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p><u>Est périodique.</u> \(f_1(x)=\sin x+\cos x\), définie sur \(\R\), stable par \(x\mapsto x\pm2\pi\). Pour tout \(x\) :</p>\[f_1(x+2\pi)=\sin(x+2\pi)+\cos(x+2\pi)\]\[=\sin x+\cos x=f_1(x).\]<p>Donc \(f_1\) est \(2\pi\)-périodique.</p>
+<p><u>N'est pas périodique.</u> \(f_4(x)=\cos x+x\). Supposons, par l'absurde, que \(f_4\) est périodique, de période \(T&gt;0\). Alors pour tout \(n\in\N\), \(f_4(nT)=f_4(0)=1\). Or \(f_4(nT)=\cos(nT)+nT\geq nT-1\), qui est \(&gt;1\) dès que \(n&gt;\frac2T\). Contradiction : \(f_4\) n'est pas périodique.</p></div><div class="prof"><p class="lab">Les pièges</p><ul><li>Pour « n'est pas périodique », on ne peut pas tester quelques valeurs de \(T\) : il faut traiter <strong>tout</strong> \(T&gt;0\), d'où le raisonnement par l'absurde.</li>
+<li>La contradiction vient en général de \(f(x_0+nT)=f(x_0)\) pour tout \(n\) : une fonction périodique reprend la même valeur, alors que \(f\) « part à l'infini » ou change de valeur.</li></ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Montre que \(g(x)=\cos(x)+\cos(2x)\) est \(2\pi\)-périodique.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(g\) est définie sur \(\R\). Pour tout \(x\) :</p>\[g(x+2\pi)=\cos(x+2\pi)+\cos(2x+4\pi)\]\[=\cos x+\cos(2x)=g(x).\]</div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Montre que \(h(x)=x^2\) n'est pas périodique sur \(\R\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Supposons \(h\) périodique de période \(T&gt;0\). Alors \(h(T)=h(0)=0\). Or \(h(T)=T^2&gt;0\). Contradiction : \(h\) n'est pas périodique.</p></div><div class="prof"><p class="lab">Remarque</p><p>Ici, il suffit de \(n=1\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3</p><div class="exo-q"><p>Montre que \(k(x)=x+\sin x\) n'est pas périodique.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Supposons \(k\) périodique de période \(T&gt;0\). Pour tout \(n\in\N\), \(k(nT)=k(0)=0\). Or \(k(nT)=nT+\sin(nT)\geq nT-1&gt;0\) dès que \(n&gt;\frac1T\). Contradiction.</p></div></details></article></div></section>
+<section class="lesson" id="d6" data-part="Partie D · Démonstrations" data-title="Exponentielle : positivité et limites" hidden><header class="lhead"><p class="eyebrow">Partie D · Démonstrations · Étape 23 sur 29<span class="meta">14 min</span></p><h2>Exponentielle : positivité et limites</h2></header><div class="lbody">
+<p class="objectif">Savoir démontrer, à partir de la définition, que \(e^x&gt;0\), que \(\exp\) est croissante, et ses limites en \(\pm\infty\).</p>
+<div class="prof"><p class="lab">Ce qu'on a le droit d'utiliser</p><p>Ce sont les démonstrations des pages 24 et 25 du cours, dans l'ordre :</p><ol><li>la définition : \(\exp'=\exp\) et \(\exp(0)=1\) ;</li><li>\(e^xe^{-x}=1\) et \(e^{x+y}=e^xe^y\) (vidéo de l'étape « La fonction exponentielle ») ;</li><li>une fonction de dérivée nulle sur un intervalle est constante, et une fonction de dérivée \(&gt;0\) est strictement croissante (théorème II-12) ;</li><li>\(e^x\geq1+x\).</li></ol><p>L'ordre compte : on ne doit pas utiliser un résultat qu'on n'a pas encore démontré.</p></div><div class="retenir"><p class="lab">L'énoncé, tel qu'il tombe en évaluation</p><p><strong>a.</strong> Montrer que \(e^x&gt;0\) pour tout réel \(x\), et que \(\exp\) est strictement croissante.<br><strong>b.</strong> Montrer que \(e^x\to+\infty\) en \(+\infty\) et \(e^x\to0^+\) en \(-\infty\).</p></div><figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/sf-demo-exp-positive.mp4"></video><figcaption><span class="tag">Vidéo</span> L'exponentielle : positivité, croissance et limites <span class="dur">2 min 58</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p><u>a.</u> Pour tout \(x\), \(e^x=e^{\frac x2+\frac x2}=\left(e^{\frac x2}\right)^2\geq0\). Et \(e^x\neq0\) car \(e^xe^{-x}=1\). Donc \(e^x&gt;0\).</p>
+<p>\(\exp'=\exp&gt;0\) sur l'intervalle \(\R\), donc \(\exp\) est strictement croissante sur \(\R\).</p>
+<p><u>b.</u> Pour tout \(x\), \(e^x\geq1+x\geq x\). Comme \(x\to+\infty\), par comparaison \(e^x\to+\infty\) en \(+\infty\).</p>
+<p>En \(-\infty\) : \(e^x=\dfrac1{e^{-x}}\). Quand \(x\to-\infty\), \(-x\to+\infty\), donc \(e^{-x}\to+\infty\) et \(e^x\to0\). Comme \(e^x&gt;0\), c'est \(0^+\).</p></div><div class="prof"><p class="lab">Les pièges</p><ul><li>« Un carré est positif » donne seulement \(\geq0\). Pour « \(&gt;0\) », il faut aussi « non nul ».</li>
+<li>Pour la limite en \(+\infty\), cite le <strong>théorème de comparaison</strong> : si \(f\geq g\) et \(g\to+\infty\), alors \(f\to+\infty\).</li></ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Montre par récurrence que pour tout \(n\in\N\) et tout réel \(x\), \(e^{nx}=\left(e^x\right)^n\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Soit \(x\) fixé. Pour \(n=0\) : \(e^0=1=(e^x)^0\).</p><p>Si \(e^{nx}=(e^x)^n\), alors \(e^{(n+1)x}=e^{nx+x}=e^{nx}e^x=(e^x)^ne^x=(e^x)^{n+1}\).</p><p>Par récurrence, c'est vrai pour tout \(n\in\N\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Montre que pour tout \(x\geq0\), \(e^x\geq1+x+\dfrac{x^2}2\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Soit \(g(x)=e^x-1-x-\frac{x^2}2\) sur \([0,+\infty[\). \(g'(x)=e^x-1-x\geq0\) (inégalité \(e^x\geq1+x\)). Donc \(g\) est croissante sur \([0,+\infty[\), et \(g(x)\geq g(0)=0\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Même méthode que pour \(e^x\geq1+x\) : on étudie la différence, et on réutilise l'inégalité déjà démontrée.</p></div></details></article></div></section>
+<section class="lesson" id="d7" data-part="Partie D · Démonstrations" data-title="Croissances comparées : lemme II-15 et prop. II-16" hidden><header class="lhead"><p class="eyebrow">Partie D · Démonstrations · Étape 24 sur 29<span class="meta">16 min</span></p><h2>Croissances comparées : lemme II-15 et prop. II-16</h2></header><div class="lbody">
+<p class="objectif">Savoir démontrer \(\dfrac{e^x}x\to+\infty\), puis \(\dfrac{e^x}{x^n}\to+\infty\) et \(x^ne^x\to0\) en \(-\infty\).</p>
+<div class="retenir"><p class="lab">L'énoncé, tel qu'il tombe en évaluation</p><p>On admet que \(e^t\geq1+t\) pour tout réel \(t\). Montrer que \(\displaystyle\lim_{x\to+\infty}\frac{e^x}x=+\infty\).</p></div><div class="prof"><p class="lab">L'idée en une phrase</p><p>\(e^x\geq1+x\) ne suffit pas ; on l'applique à \(\frac x2\) puis on élève au carré, ce qui fait apparaître \(x^2\).</p></div><figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/sf-demo-croissances-comparees.mp4"></video><figcaption><span class="tag">Vidéo</span> Croissances comparées : lemme II-15, puis proposition II-16 <span class="dur">3 min 32</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p>Soit \(x&gt;0\). On a \(e^x=\left(e^{x/2}\right)^2\) et, avec \(t=\frac x2\), \(e^{x/2}\geq1+\frac x2&gt;0\).</p>
+<p>Les deux membres sont positifs, donc en élevant au carré : \(e^x\geq\left(1+\frac x2\right)^2=1+x+\dfrac{x^2}4\geq\dfrac{x^2}4\).</p>
+<p>En divisant par \(x&gt;0\) : \(\dfrac{e^x}x\geq\dfrac x4\). Comme \(\frac x4\to+\infty\), par comparaison <u>\(\dfrac{e^x}x\to+\infty\)</u>.</p></div><div class="retenir"><p class="lab">L'énoncé, tel qu'il tombe en évaluation</p><p>Montrer que pour tout \(n\in\N^*\), \(\displaystyle\lim_{x\to+\infty}\frac{e^x}{x^n}=+\infty\) et \(\displaystyle\lim_{x\to-\infty}x^ne^x=0\).</p></div><div class="copie"><p class="lab">Sur la copie</p><p>Pour \(x&gt;0\) : \(\dfrac{e^x}{x^n}=\left(\dfrac{e^{x/n}}x\right)^n=A^n\) avec \(A=\dfrac1n\cdot\dfrac{e^X}X\) et \(X=\frac xn\).</p>
+<p>Quand \(x\to+\infty\), \(X\to+\infty\), donc \(A\to+\infty\) (lemme). Dès que \(A\geq1\), \(A^n\geq A\), donc \(A^n\to+\infty\).</p>
+<p>En \(-\infty\) : avec \(X=-x\to+\infty\), \(|x^ne^x|=\dfrac{X^n}{e^X}=\dfrac1{e^X/X^n}\to0\). Donc \(x^ne^x\to0\).</p></div><div class="prof"><p class="lab">Les pièges</p><ul><li>On élève au carré une inégalité <strong>entre nombres positifs</strong> : écris « \(1+\frac x2&gt;0\) ».</li>
+<li>Le changement de variable se rédige : « posons \(X=\dots\) ; quand \(x\to+\infty\), \(X\to+\infty\) ».</li></ul></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Montre que \(\dfrac{e^x}{x^2}\to+\infty\) en \(+\infty\), en écrivant \(\dfrac{e^x}{x^2}=\dfrac14\left(\dfrac{e^{x/2}}{x/2}\right)^2\) et en utilisant le lemme.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Vérification de l'égalité : \(\dfrac14\cdot\dfrac{(e^{x/2})^2}{x^2/4}=\dfrac{e^x}{x^2}\).</p><p>Avec \(X=\frac x2\to+\infty\), \(\dfrac{e^X}X\to+\infty\) (lemme), donc son carré aussi, et multiplié par \(\frac14&gt;0\) aussi.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Calcule \(\displaystyle\lim_{x\to+\infty}x^3e^{-x}\) et \(\displaystyle\lim_{x\to+\infty}\frac{e^x-x}{x^2}\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(x^3e^{-x}=\dfrac1{e^x/x^3}\to0\).</p><p>\(\dfrac{e^x-x}{x^2}=\dfrac{e^x}{x^2}-\dfrac1x\to+\infty-0=+\infty\).</p></div></details></article></div></section>
+<section class="lesson" id="d8" data-part="Partie D · Démonstrations" data-title="Logarithme : prop. II-17 et II-18" hidden><header class="lhead"><p class="eyebrow">Partie D · Démonstrations · Étape 25 sur 29<span class="meta">14 min</span></p><h2>Logarithme : prop. II-17 et II-18</h2></header><div class="lbody">
+<p class="objectif">Savoir démontrer \(\dfrac{\ln x}{x^n}\to0\), \(x^n\ln x\to0\) en \(0^+\), et la dérivée de \(x^\alpha\).</p>
+<div class="retenir"><p class="lab">L'énoncé, tel qu'il tombe en évaluation</p><p>Montrer que pour tout \(n\in\N^*\), \(\displaystyle\lim_{x\to+\infty}\frac{\ln x}{x^n}=0\) et \(\displaystyle\lim_{x\to0^+}x^n\ln x=0\).</p></div><div class="prof"><p class="lab">L'idée en une phrase</p><p>On pose \(X=\ln x\) pour revenir aux croissances comparées de l'exponentielle, puis \(t=\frac1x\) pour la limite en \(0^+\).</p></div><figure class="video"><video controls preload="metadata" playsinline src="https://alsenytech.github.io/parcours-algebre-lineaire/videos/sf-demo-ln-puissances.mp4"></video><figcaption><span class="tag">Vidéo</span> Logarithme : proposition II-17, puis dérivée de x puissance α <span class="dur">3 min 24</span></figcaption><p class="hint">Sur téléphone : passe la vidéo en plein écran et tourne l'écran.</p></figure><div class="copie"><p class="lab">Sur la copie</p><p>Pour \(x&gt;1\), posons \(X=\ln x\), donc \(x=e^X\) et \(X\to+\infty\) quand \(x\to+\infty\).</p>
+<p>\(\dfrac{\ln x}{x^n}=\dfrac X{e^{nX}}=\dfrac1n\cdot\dfrac1{e^Y/Y}\), avec \(Y=nX\to+\infty\). D'après le lemme II-15, \(\dfrac{e^Y}Y\to+\infty\), donc \(\dfrac{\ln x}{x^n}\to0\) (par valeurs positives).</p>
+<p>En \(0^+\) : posons \(t=\frac1x\to+\infty\). Alors \(\ln x=-\ln t\) et \(x^n\ln x=-\dfrac{\ln t}{t^n}\to0\) (par valeurs négatives).</p></div><div class="retenir"><p class="lab">L'énoncé, tel qu'il tombe en évaluation</p><p>Montrer que pour tout réel \(\alpha\), \(x\mapsto x^\alpha=e^{\alpha\ln x}\) est dérivable sur \(]0,+\infty[\), de dérivée \(\alpha x^{\alpha-1}\).</p></div><div class="copie"><p class="lab">Sur la copie</p><p>\(u(x)=\alpha\ln x\) est dérivable sur \(]0,+\infty[\), avec \(u'(x)=\dfrac\alpha x\). Par la formule \((e^u)'=u'e^u\) : \((x^\alpha)'=\dfrac\alpha x\,e^{\alpha\ln x}=\dfrac\alpha x\,x^\alpha\).</p>
+<p>Or \(x^{\alpha-1}=e^{(\alpha-1)\ln x}=e^{\alpha\ln x}\,e^{-\ln x}=\dfrac{x^\alpha}x\). Donc \((x^\alpha)'=\alpha x^{\alpha-1}\).</p></div><div class="prof"><p class="lab">Attention à la coquille du cours</p><p>La seconde limite de la proposition II-17 est écrite « \(0^+\) » dans le cours : c'est une coquille. Comme \(\ln x&lt;0\) pour \(0&lt;x&lt;1\), on a \(x^n\ln x&lt;0\), et la limite est \(0^-\). Par exemple, \(0{,}1\times\ln0{,}1\approx-0{,}23\).</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1</p><div class="exo-q"><p>Calcule \(\displaystyle\lim_{x\to+\infty}\frac{\ln x}{\sqrt x}\) en posant \(t=\sqrt x\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(\ln x=\ln(t^2)=2\ln t\), donc \(\dfrac{\ln x}{\sqrt x}=2\cdot\dfrac{\ln t}t\). Quand \(x\to+\infty\), \(t\to+\infty\) et \(\dfrac{\ln t}t\to0\). La limite vaut \(0\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2</p><div class="exo-q"><p>Dérive \(f(x)=x^{3/2}\) et \(g(x)=\dfrac1{\sqrt x}=x^{-1/2}\) sur \(]0,+\infty[\). Donne le sens de variation de chacune.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(f'(x)=\frac32x^{1/2}=\frac32\sqrt x&gt;0\) : \(f\) est strictement croissante.</p><p>\(g'(x)=-\frac12x^{-3/2}=-\dfrac1{2x\sqrt x}&lt;0\) : \(g\) est strictement décroissante.</p></div></details></article></div></section>
+<section class="lesson" id="copie" data-part="Pour finir" data-title="Ce que le correcteur attend" hidden><header class="lhead"><p class="eyebrow">Pour finir · Étape 26 sur 29<span class="meta">6 min</span></p><h2>Ce que le correcteur attend</h2></header><div class="lbody">
+<p class="objectif">Transformer des calculs justes en une copie qui rapporte tous les points.</p>
+<div class="retenir"><p class="lab">Les cinq réflexes</p><ol><li><strong>Une récurrence en trois temps</strong>, avec la propriété \(\mathcal P(n)\) écrite au début et les mots « initialisation », « hérédité », « conclusion ».</li>
+<li><strong>Chaque inégalité justifiée</strong> : « on multiplie par un nombre positif », « la fonction racine est croissante », « on passe à l'inverse, le sens change ».</li>
+<li><strong>Les hypothèses des théorèmes écrites</strong> : « continue », « strictement monotone », « sur un intervalle ».</li>
+<li><strong>Une conclusion qui reprend les mots de l'énoncé</strong> : « donc la suite est bornée », « donc l'équation a une unique solution ».</li>
+<li><strong>Une vérification</strong> de dix secondes.</li></ol></div>
+<h3>Les vérifications</h3>
+<div class="table-wrap"><table><thead><tr><th>Après…</th><th>Je vérifie…</th></tr></thead><tbody>
+<tr><td>un terme général \(u_n=\dots\)</td><td>\(n=0\) redonne \(u_0\), \(n=1\) redonne \(u_1\), et \(u_2\) avec la relation</td></tr>
+<tr><td>une somme</td><td>le nombre de termes, puis le cas \(n=1\)</td></tr>
+<tr><td>une équation avec \(\ln\)</td><td>que chaque solution est dans l'ensemble de définition</td></tr>
+<tr><td>une tangente</td><td>qu'elle passe par le point \((a,f(a))\)</td></tr>
+<tr><td>une dérivée</td><td>la formule utilisée, écrite à côté</td></tr>
+</tbody></table></div>
+<h3>Gérer 15 minutes</h3>
+<p>Cinq exercices en quinze minutes : trois minutes chacun. Commence par ce qui est direct (formules du cours, limites, dérivées), garde les récurrences et les études de fonction pour la fin.</p>
+<div class="prof"><p class="lab">Gagner du temps</p><p>Une suite arithmético-géométrique ou d'ordre 2 se traite toujours de la même façon : quand tu reconnais la forme, la méthode est automatique. C'est là qu'il faut gagner du temps.</p></div></div></section>
+<section class="lesson" id="eval-suites" data-part="Pour finir" data-title="Évaluation chronométrée : suites" hidden><header class="lhead"><p class="eyebrow">Pour finir · Étape 27 sur 29<span class="meta">15 min</span></p><h2>Évaluation chronométrée : suites</h2></header><div class="lbody">
+<p class="objectif">Cinq exercices en 15 minutes, sur une feuille, sans le cours.</p>
+<div class="chrono" data-min="15"><p class="chrono-lab">Évaluation suites, 15 minutes</p><p class="chrono-t" aria-live="off">15:00</p><div class="chrono-b"><button type="button" class="btn c-start">Démarrer</button><button type="button" class="btn ghost c-reset">Remettre à zéro</button></div><p class="chrono-end" hidden>Temps écoulé. Pose ton stylo, puis ouvre les corrections.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1 · 3 points</p><div class="exo-q"><p>Montre que la suite \(u_n=\dfrac{3n+2}{n+1}\) est bornée.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(u_n=\dfrac{3(n+1)-1}{n+1}=3-\dfrac1{n+1}\). Comme \(0&lt;\dfrac1{n+1}\leq1\), on a \(2\leq u_n&lt;3\) pour tout \(n\in\N\). Donc \(u\) est bornée.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2 · 4 points</p><div class="exo-q"><p>Étudie la monotonie de \(u_n=\dfrac n{2^n}\), \(n\geq1\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Pour tout \(n\geq1\), \(u_n&gt;0\) et \(\dfrac{u_{n+1}}{u_n}=\dfrac{n+1}{2^{n+1}}\times\dfrac{2^n}n=\dfrac{n+1}{2n}\leq1\) car \(n+1\leq2n\).</p><p>Comme \(u_n&gt;0\), \(u_{n+1}\leq u_n\) : \(u\) est décroissante.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3 · 5 points</p><div class="exo-q"><p>Soit \(u_0=1\) et \(u_{n+1}=\sqrt{u_n+6}\). Montre par récurrence que \(0\leq u_n\leq3\) pour tout \(n\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Soit \(\mathcal P(n)\) : « \(0\leq u_n\leq3\) ». Initialisation : \(u_0=1\in[0,3]\).</p><p>Hérédité : soit \(n\) tel que \(0\leq u_n\leq3\). Alors \(6\leq u_n+6\leq9\), et la racine carrée est croissante : \(\sqrt6\leq u_{n+1}\leq3\). Donc \(0\leq u_{n+1}\leq3\).</p><p>Conclusion : par récurrence, \(0\leq u_n\leq3\) pour tout \(n\in\N\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 4 · 4 points</p><div class="exo-q"><p>Soit \(u_0=4\) et \(u_{n+1}=-2u_n+3\). Détermine \(u_n\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(\ell=-2\ell+3\) donne \(\ell=1\). Alors \(u_{n+1}-1=-2u_n+2=-2(u_n-1)\) : \((u_n-1)\) est géométrique de raison \(-2\).</p><p>\(u_n-1=(-2)^n(u_0-1)=3(-2)^n\), donc \(u_n=1+3(-2)^n\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 5 · 4 points</p><div class="exo-q"><p>Soit \(u_0=1\), \(u_1=8\) et \(u_{n+2}=u_{n+1}+6u_n\). Détermine \(u_n\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(r^2-r-6=(r-3)(r+2)=0\) : racines 3 et \(-2\). Donc \(u_n=\lambda3^n+\mu(-2)^n\).</p><p>\(\lambda+\mu=1\) et \(3\lambda-2\mu=8\), donc \(\lambda=2\) et \(\mu=-1\) : \(u_n=2\times3^n-(-2)^n\).</p></div></details></article></div></section>
+<section class="lesson" id="eval-fonctions" data-part="Pour finir" data-title="Évaluation chronométrée : fonctions" hidden><header class="lhead"><p class="eyebrow">Pour finir · Étape 28 sur 29<span class="meta">15 min</span></p><h2>Évaluation chronométrée : fonctions</h2></header><div class="lbody">
+<p class="objectif">Cinq exercices en 15 minutes, sur une feuille, sans le cours.</p>
+<div class="chrono" data-min="15"><p class="chrono-lab">Évaluation fonctions, 15 minutes</p><p class="chrono-t" aria-live="off">15:00</p><div class="chrono-b"><button type="button" class="btn c-start">Démarrer</button><button type="button" class="btn ghost c-reset">Remettre à zéro</button></div><p class="chrono-end" hidden>Temps écoulé. Pose ton stylo, puis ouvre les corrections.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1 · 3 points</p><div class="exo-q"><p>Donne l'ensemble de définition de \(f(x)=\sqrt{2-x}+\ln(x+1)\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Il faut \(2-x\geq0\) et \(x+1&gt;0\), c'est-à-dire \(x\leq2\) et \(x&gt;-1\). Donc \(D_f=]-1,2]\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2 · 3 points</p><div class="exo-q"><p>Étudie la parité de \(f(x)=x\sin(x)\) et de \(g(x)=\dfrac{x^3}{x^2+1}\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Les deux sont définies sur \(\R\). \(f(-x)=(-x)\sin(-x)=x\sin x=f(x)\) : \(f\) est paire. \(g(-x)=\dfrac{-x^3}{x^2+1}=-g(x)\) : \(g\) est impaire.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3 · 5 points</p><div class="exo-q"><p>Montre que l'équation \(x^3+2x-1=0\) a une unique solution dans \([0,1]\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Soit \(f(x)=x^3+2x-1\), continue sur \([0,1]\), avec \(f'(x)=3x^2+2&gt;0\) : \(f\) est strictement croissante. \(f(0)=-1&lt;0\) et \(f(1)=2&gt;0\). D'après le corollaire II-10, l'équation \(f(x)=0\) a une unique solution dans \([0,1]\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 4 · 5 points</p><div class="exo-q"><p><strong>a.</strong> Donne la tangente à la courbe de \(\ln\) au point d'abscisse 1. <strong>b.</strong> Trouve les asymptotes de \(g(x)=\dfrac{x^2-x+1}{x-1}\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \(\ln'(1)=1\) et \(\ln1=0\) : \(y=x-1\).</p><p>b. \(g(x)=x+\dfrac1{x-1}\). Asymptote verticale \(x=1\) car \(g(x)\to\pm\infty\) quand \(x\to1\). Asymptote oblique \(y=x\) en \(\pm\infty\) car \(g(x)-x=\dfrac1{x-1}\to0\).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 5 · 4 points</p><div class="exo-q"><p>Calcule les limites : <strong>a.</strong> \(\dfrac{e^x}{x^2}\) en \(+\infty\) ; <strong>b.</strong> \(x^3e^{-x}\) en \(+\infty\) ; <strong>c.</strong> \(\dfrac{\ln(1+2x)}x\) en 0.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \(+\infty\) (croissances comparées).</p><p>b. \(x^3e^{-x}=\dfrac{x^3}{e^x}=\dfrac1{e^x/x^3}\to0\).</p><p>c. \(2\times\dfrac{\ln(1+2x)}{2x}\to2\times1=2\).</p></div></details></article></div></section>
+<section class="lesson" id="eval-demos" data-part="Pour finir" data-title="Évaluation chronométrée : démonstrations du cours" hidden><header class="lhead"><p class="eyebrow">Pour finir · Étape 29 sur 29<span class="meta">15 min</span></p><h2>Évaluation chronométrée : démonstrations du cours</h2></header><div class="lbody">
+<p class="objectif">Le format du lundi : cinq exercices, 15 minutes, noté sur 20. Sur une feuille, sans le cours.</p>
+<div class="prof"><p class="lab">Avant de commencer</p><p>Les exercices 1, 2 et 4 sont des démonstrations du cours : elles se préparent, et on doit pouvoir les écrire sans réfléchir. L'exercice 3 est une question « sans démonstration ». L'exercice 5 applique une méthode vue dans la partie D.</p><p>Gère ton temps : l'exercice 3 en 1 minute, les démonstrations 1 et 4 en 4 minutes chacune.</p></div><div class="chrono" data-min="15"><p class="chrono-lab">Évaluation démonstrations, 15 minutes</p><p class="chrono-t" aria-live="off">15:00</p><div class="chrono-b"><button type="button" class="btn c-start">Démarrer</button><button type="button" class="btn ghost c-reset">Remettre à zéro</button></div><p class="chrono-end" hidden>Temps écoulé. Pose ton stylo, puis ouvre les corrections.</p></div><h3 class="exos-h">Vérifie que tu as compris</h3><article class="exo"><p class="exo-n">Exercice 1 · 5 points</p><div class="exo-q"><p>Montrer qu'une suite périodique est bornée.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Soit \(u\) périodique de période \(T\geq1\), et \(K=\max\{|u_0|,\dots,|u_{T-1}|\}\).</p>
+<p>Par récurrence sur \(q\) : \(u_{n+qT}=u_n\) pour tout \(n\) et tout \(q\). C'est vrai pour \(q=0\), et si \(u_{n+qT}=u_n\), alors \(u_{n+(q+1)T}=u_{(n+qT)+T}=u_{n+qT}=u_n\).</p>
+<p>Soit \(n\in\N\) : \(n=qT+r\) avec \(0\leq r\leq T-1\) (division euclidienne). Donc \(u_n=u_{r+qT}=u_r\), et \(|u_n|=|u_r|\leq K\).</p>
+<p>Donc \(-K\leq u_n\leq K\) pour tout \(n\) : \(u\) est bornée.</p></div><div class="prof"><p class="lab">Remarque</p><p>Barème : \(K\) bien défini (1 pt) ; récurrence sur \(q\) (2 pts) ; division euclidienne (1 pt) ; conclusion (1 pt).</p><p>« Elle ne prend qu'un nombre fini de valeurs, donc elle est bornée », seul, vaut 1 point.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 2 · 4 points</p><div class="exo-q"><p>Soit \(u\) et \(v\) deux suites bornées.</p><p><strong>a.</strong> Montrer que \(uv\) est bornée.</p><p><strong>b.</strong> La suite \(\dfrac uv\) (quand elle est définie) est-elle toujours bornée ? Justifier.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. Il existe \(K\geq0\) et \(K'\geq0\) tels que \(|u_n|\leq K\) et \(|v_n|\leq K'\) pour tout \(n\). Ce sont des nombres positifs, donc \(|u_nv_n|=|u_n|\,|v_n|\leq KK'\). La constante \(KK'\) ne dépend pas de \(n\) : \(uv\) est bornée.</p>
+<p>b. Non. Avec \(u_n=1\) et \(v_n=\frac1{n+1}\), toutes deux bornées, \(\dfrac{u_n}{v_n}=n+1\) n'est pas majorée.</p></div><div class="prof"><p class="lab">Remarque</p><p>Barème : a. 2,5 pts, dont 1 pour avoir traduit l'hypothèse avec deux constantes différentes ; b. 1,5 pt (le contre-exemple doit être vérifié).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 3 · 2 points</p><div class="exo-q"><p>Donner <strong>sans démonstration</strong> le terme général d'une suite géométrique \((u_n)_{n\geq n_0}\) de raison \(a\), et la valeur de \(u_{n_0}+u_{n_0+1}+\dots+u_{n_0+k}\) lorsque \(a\neq1\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>\(u_n=u_{n_0}\,a^{n-n_0}\) pour tout \(n\geq n_0\), et \(u_{n_0}+\dots+u_{n_0+k}=u_{n_0}\dfrac{1-a^{k+1}}{1-a}\).</p></div><div class="prof"><p class="lab">Remarque</p><p>1 point par formule. L'erreur classique est \(a^{k}\) au lieu de \(a^{k+1}\) : il y a \(k+1\) termes.</p></div></details></article><article class="exo"><p class="exo-n">Exercice 4 · 5 points</p><div class="exo-q"><p>On admet que, pour tous réels \(x,y\) : \(e^{x+y}=e^xe^y\), \(e^x\neq0\), et \(e^x\geq1+x\).</p><p><strong>a.</strong> Montrer que \(e^x&gt;0\) pour tout réel \(x\).</p><p><strong>b.</strong> Montrer que \(\displaystyle\lim_{x\to+\infty}\frac{e^x}x=+\infty\).</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>a. \(e^x=e^{\frac x2+\frac x2}=\left(e^{x/2}\right)^2\geq0\), et \(e^x\neq0\), donc \(e^x&gt;0\).</p>
+<p>b. Soit \(x&gt;0\). \(e^{x/2}\geq1+\frac x2&gt;0\) ; on élève au carré (nombres positifs) : \(e^x\geq1+x+\frac{x^2}4\geq\frac{x^2}4\). Donc \(\dfrac{e^x}x\geq\dfrac x4\to+\infty\), et par comparaison \(\dfrac{e^x}x\to+\infty\).</p></div><div class="prof"><p class="lab">Remarque</p><p>Barème : a. 2 pts (1 pour le carré, 1 pour « non nul ») ; b. 3 pts (1 pour l'inégalité appliquée à \(\frac x2\), 1 pour le carré justifié, 1 pour la comparaison).</p></div></details></article><article class="exo"><p class="exo-n">Exercice 5 · 4 points</p><div class="exo-q"><p>Montrer que la fonction \(f:x\mapsto x+\sin x\), définie sur \(\R\), n'est pas périodique.</p></div><details class="tex2jax_ignore"><summary>Voir la correction</summary><div class="copie"><p class="lab">Correction</p><p>Supposons, par l'absurde, \(f\) périodique de période \(T&gt;0\). Alors, pour tout \(n\in\N\), \(f(nT)=f(0)=0\).</p>
+<p>Or \(f(nT)=nT+\sin(nT)\geq nT-1\), qui est strictement positif dès que \(n&gt;\frac1T\). Contradiction : \(f\) n'est pas périodique.</p></div><div class="prof"><p class="lab">Remarque</p><p>Barème : 1 pt pour « par l'absurde, soit \(T&gt;0\) une période » ; 1 pt pour \(f(nT)=f(0)\) ; 2 pts pour la minoration et la contradiction.</p></div></details></article></div></section>
+    <div class="pager">
+      <a class="btn ghost" id="prev" href="#accueil">← Étape précédente</a>
+      <div class="right">
+        <p class="done-note" id="done-note" hidden>Étape validée</p>
+        <button type="button" class="linkbtn" id="undo" hidden>Annuler la validation</button>
+        <a class="btn" id="next" href="#a1">J'ai compris, étape suivante →</a>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']],
+         macros: { R: '\\mathbb{R}', N: '\\mathbb{N}', Z: '\\mathbb{Z}', Vect: '\\operatorname{Vect}' } },
+  svg: { fontCache: 'global' },
+  startup: { typeset: false }
+};
+</script>
+<script src="assets/mathjax/tex-svg.js"></script>
+<script>
+(function(){
+  var lessons = Array.prototype.slice.call(document.querySelectorAll('.lesson'));
+  var ids = lessons.map(function(s){ return s.id; });
+  var KEY = 'parcours-suites-fonctions-etapes';
+  var done = {};
+  try { done = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e){ done = {}; }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(done)); } catch(e){} }
+
+  // ----- sommaire -----
+  var nav = document.getElementById('nav'), html = '', part = null, n = 0;
+  lessons.forEach(function(s){
+    var p = s.dataset.part || '';
+    if (p !== part){ if (part !== null) html += '</ol>'; html += (p ? '<p class="nav-part">' + p + '</p>' : '') + '<ol class="nav-list">'; part = p; }
+    var num = s.id === 'accueil' ? 'i' : String(++n);
+    html += '<li><a href="#' + s.id + '" data-id="' + s.id + '"><span class="nav-n">' + num + '</span><span>' + s.dataset.title + '</span></a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+  var links = Array.prototype.slice.call(nav.querySelectorAll('a'));
+  var total = ids.length - 1;
+
+  links.forEach(function(a){ a.dataset.num = a.querySelector('.nav-n').textContent; });
+  var resetBtn = document.getElementById('reset');
+
+  function refreshProgress(){
+    var c = 0;
+    links.forEach(function(a){
+      var d = !!done[a.dataset.id] && a.dataset.id !== 'accueil';
+      a.classList.toggle('done', d);
+      a.querySelector('.nav-n').textContent = d ? '✓' : a.dataset.num;
+      if (d) c++;
+    });
+    document.getElementById('prog-fill').style.width = (100 * c / total) + '%';
+    document.getElementById('prog-txt').textContent = c + ' étape' + (c > 1 ? 's' : '') + ' validée' + (c > 1 ? 's' : '') + ' sur ' + total;
+    document.getElementById('mini-prog').textContent = c + ' / ' + total;
+    resetBtn.hidden = c === 0;
+    disarmReset();
+  }
+
+  // remise à zéro : deux appuis, sans fenêtre de confirmation
+  var armed = false, armTimer = null;
+  function disarmReset(){ armed = false; clearTimeout(armTimer); resetBtn.textContent = 'Remettre ma progression à zéro'; resetBtn.classList.remove('warn'); }
+  resetBtn.addEventListener('click', function(){
+    if (!armed){ armed = true; resetBtn.textContent = 'Appuie encore pour tout effacer'; resetBtn.classList.add('warn'); armTimer = setTimeout(disarmReset, 5000); return; }
+    done = {}; save(); refreshProgress(); refreshDone();
+  });
+
+  // ----- formules : rendues à l'ouverture de l'étape -----
+  var typeset = {};
+  function renderMath(el){
+    if (typeset[el.id] || !window.MathJax || !MathJax.typesetPromise) return;
+    typeset[el.id] = true;
+    MathJax.typesetPromise([el]).catch(function(){ typeset[el.id] = false; });
+  }
+
+  var side = document.getElementById('side'), scrim = document.getElementById('scrim'), menuBtn = document.getElementById('menu-btn');
+  function closeMenu(){ side.classList.remove('open'); scrim.hidden = true; menuBtn.setAttribute('aria-expanded','false'); }
+  menuBtn.addEventListener('click', function(){
+    var o = !side.classList.contains('open');
+    side.classList.toggle('open', o); scrim.hidden = !o; menuBtn.setAttribute('aria-expanded', String(o));
+  });
+  scrim.addEventListener('click', closeMenu);
+
+  var prev = document.getElementById('prev'), next = document.getElementById('next'), doneNote = document.getElementById('done-note'), undo = document.getElementById('undo');
+  var current = 0;
+  function refreshDone(){ var d = !!done[ids[current]] && current > 0; doneNote.hidden = !d; undo.hidden = !d; }
+  undo.addEventListener('click', function(){ delete done[ids[current]]; save(); refreshProgress(); refreshDone(); });
+  function show(id, scroll){
+    var i = ids.indexOf(id); if (i < 0) i = 0;
+    current = i;
+    document.querySelectorAll('video').forEach(function(v){ try { v.pause(); } catch(e){} });
+    lessons.forEach(function(s, k){ s.hidden = k !== i; });
+    links.forEach(function(a){ if (a.dataset.id === ids[i]) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+    renderMath(lessons[i]);
+    prev.hidden = i === 0;
+    if (i > 0) prev.setAttribute('href', '#' + ids[i-1]);
+    var last = i === ids.length - 1;
+    next.setAttribute('href', last ? '#accueil' : '#' + ids[i+1]);
+    next.textContent = i === 0 ? 'Commencer le parcours →' : (last ? 'Valider et revenir au début' : "J'ai compris, étape suivante →");
+    refreshDone();
+    closeMenu();
+    if (scroll) window.scrollTo(0, 0);
+  }
+  next.addEventListener('click', function(){ if (current > 0){ done[ids[current]] = true; save(); refreshProgress(); } });
+  window.addEventListener('hashchange', function(){ show(location.hash.slice(1), true); });
+
+  // ----- chronomètres : calculés sur l'heure réelle, donc justes même si l'onglet passe en arrière-plan -----
+  document.querySelectorAll('.chrono').forEach(function(c){
+    var totalS = (+c.dataset.min || 15) * 60, left = totalS, timer = null, endAt = 0;
+    var t = c.querySelector('.chrono-t'), b = c.querySelector('.c-start'), r = c.querySelector('.c-reset'), end = c.querySelector('.chrono-end');
+    function draw(){ var m = Math.floor(left / 60), s = left % 60; t.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s; }
+    function stop(){ clearInterval(timer); timer = null; b.textContent = left === totalS ? 'Démarrer' : 'Reprendre'; }
+    function tick(){
+      left = Math.max(0, Math.ceil((endAt - Date.now()) / 1000)); draw();
+      if (left <= 0){ stop(); b.textContent = 'Terminé'; end.hidden = false; }
+    }
+    b.addEventListener('click', function(){
+      if (timer){ tick(); if (timer) stop(); return; }
+      if (left === 0) return;
+      end.hidden = true; b.textContent = 'Pause';
+      endAt = Date.now() + left * 1000;
+      timer = setInterval(tick, 250);
+    });
+    r.addEventListener('click', function(){ clearInterval(timer); timer = null; left = totalS; draw(); b.textContent = 'Démarrer'; end.hidden = true; });
+    document.addEventListener('visibilitychange', function(){ if (timer && !document.hidden) tick(); });
+  });
+
+  // corrections : formules rendues à l'ouverture
+  document.querySelectorAll('.exo details').forEach(function(d){
+    d.addEventListener('toggle', function(){
+      if (!d.open || !d.classList.contains('tex2jax_ignore')) return;
+      d.classList.remove('tex2jax_ignore');
+      if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([d]).catch(function(){});
+    });
+  });
+
+  refreshProgress();
+  show(location.hash.slice(1) || 'accueil', true);
+  // si MathJax arrive après le premier affichage
+  var tries = 0, wait = setInterval(function(){
+    if (window.MathJax && MathJax.typesetPromise){ clearInterval(wait); renderMath(lessons[current]); }
+    else if (++tries > 100) clearInterval(wait);
+  }, 150);
+})();
+</script>
+
+</body>
+</html>
