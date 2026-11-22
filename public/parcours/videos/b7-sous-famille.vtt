@@ -1,0 +1,115 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.867
+Bonjour !
+
+00:00:00.867 --> 00:00:09.427
+Dans cette vidéo, on voit le vocabulaire des sous-familles et des sur-familles, et trois remarques du cours qui préparent la proposition trois dix-huit.
+
+00:00:09.427 --> 00:00:11.173
+Commençons par la sous-famille.
+
+00:00:11.173 --> 00:00:19.630
+Une sous-famille, c'est ce qu'on obtient quand on garde seulement certains vecteurs d'une famille, sans changer leur ordre.
+
+00:00:19.680 --> 00:00:31.810
+Par exemple, si on part de la famille x un, x deux, x trois, x quatre, x cinq, et qu'on garde seulement x un, x quatre et x cinq, on obtient une sous-famille.
+
+00:00:31.860 --> 00:00:34.006
+La sur-famille, c'est le contraire.
+
+00:00:34.006 --> 00:00:38.359
+Une famille H est une sur-famille de F, si F est une sous-famille de H.
+
+00:00:38.359 --> 00:00:43.730
+Autrement dit, pour passer de F à H, on a ajouté des vecteurs.
+
+00:00:43.780 --> 00:00:45.308
+Première remarque du cours.
+
+00:00:45.308 --> 00:00:52.790
+Une combinaison linéaire d'une sous-famille est aussi une combinaison linéaire de la famille complète.
+
+00:00:52.840 --> 00:00:54.131
+Regarde cet exemple.
+
+00:00:54.131 --> 00:00:59.555
+Le vecteur deux x un moins x quatre est une combinaison linéaire de la sous-famille.
+
+00:00:59.555 --> 00:01:06.593
+Pour l'écrire avec la famille complète, il suffit de mettre le coefficient zéro devant les vecteurs absents :
+
+00:01:06.593 --> 00:01:11.610
+zéro fois x deux, zéro fois x trois, zéro fois x cinq.
+
+00:01:11.660 --> 00:01:12.841
+Deuxième remarque.
+
+00:01:12.841 --> 00:01:19.730
+Si on change l'ordre des vecteurs d'une famille, les combinaisons linéaires restent exactement les mêmes.
+
+00:01:19.730 --> 00:01:20.649
+C'est normal :
+
+00:01:20.649 --> 00:01:23.990
+l'addition est commutative.
+
+00:01:24.040 --> 00:01:26.273
+Troisième remarque, la plus importante.
+
+00:01:26.273 --> 00:01:31.030
+Elle dit ce qui se passe pour les familles génératrices.
+
+00:01:31.080 --> 00:01:32.186
+Premier résultat :
+
+00:01:32.186 --> 00:01:36.179
+une sur-famille d'une famille génératrice est encore génératrice.
+
+00:01:36.179 --> 00:01:43.750
+Si on arrive déjà à fabriquer tous les vecteurs, ajouter des vecteurs en plus ne peut rien casser.
+
+00:01:43.800 --> 00:01:47.957
+Par exemple, les vecteurs un, zéro, et zéro, un, engendrent le plan.
+
+00:01:47.957 --> 00:01:52.726
+Si on ajoute le vecteur un, un, la nouvelle famille engendre toujours le plan.
+
+00:01:52.726 --> 00:01:58.250
+Il suffit de mettre le coefficient zéro devant le vecteur ajouté.
+
+00:01:58.300 --> 00:01:59.409
+Deuxième résultat :
+
+00:01:59.409 --> 00:02:04.548
+une sous-famille d'une famille qui n'est pas génératrice n'est pas génératrice non plus.
+
+00:02:04.548 --> 00:02:12.910
+Si on n'arrive pas à tout fabriquer avec la famille complète, on n'y arrivera pas davantage en retirant des vecteurs.
+
+00:02:12.960 --> 00:02:18.036
+Par exemple, la famille formée de un, zéro, et de deux, zéro, n'engendre pas le plan :
+
+00:02:18.036 --> 00:02:21.814
+avec ces deux vecteurs, on n'obtient jamais le vecteur zéro, un.
+
+00:02:21.814 --> 00:02:27.890
+Donc la famille formée du seul vecteur un, zéro, ne l'engendre pas non plus.
+
+00:02:27.940 --> 00:02:29.377
+Il reste une question.
+
+00:02:29.377 --> 00:02:35.192
+Peut-on retirer un vecteur d'une famille génératrice, et garder une famille génératrice ?
+
+00:02:35.192 --> 00:02:36.042
+Pas toujours.
+
+00:02:36.042 --> 00:02:41.204
+C'est possible seulement si ce vecteur est une combinaison linéaire des autres.
+
+00:02:41.204 --> 00:02:47.541
+C'est exactement la proposition trois dix-huit, que tu peux voir dans la vidéo sur la redondance.
+
+00:02:47.541 --> 00:02:49.260
+À bientôt !

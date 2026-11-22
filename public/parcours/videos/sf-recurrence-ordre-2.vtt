@@ -1,0 +1,172 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.940
+Bonjour !
+
+00:00:00.940 --> 00:00:04.809
+On s'attaque aux suites récurrentes linéaires d'ordre deux :
+
+00:00:04.809 --> 00:00:08.614
+u, n plus deux, égale a fois u, n plus un, plus b fois u n.
+
+00:00:08.614 --> 00:00:13.128
+Tout part d'une équation du second degré, l'équation caractéristique :
+
+00:00:13.128 --> 00:00:16.290
+r carré égale a r plus b.
+
+00:00:16.340 --> 00:00:17.499
+Premier exemple :
+
+00:00:17.499 --> 00:00:23.635
+u zéro égale zéro, u un égale trois, et u, n plus deux, égale u, n plus un, plus deux u n.
+
+00:00:23.635 --> 00:00:27.210
+Ici, a vaut un et b vaut deux.
+
+00:00:27.260 --> 00:00:31.013
+L'équation caractéristique est r carré égale r plus deux.
+
+00:00:31.013 --> 00:00:32.856
+On passe tout du même côté :
+
+00:00:32.856 --> 00:00:35.358
+r carré moins r moins deux égale zéro.
+
+00:00:35.358 --> 00:00:38.980
+Attention aux signes, c'est l'erreur la plus fréquente.
+
+00:00:38.980 --> 00:00:40.231
+Cela se factorise :
+
+00:00:40.231 --> 00:00:43.690
+r moins deux, fois r plus un.
+
+00:00:43.740 --> 00:00:46.257
+Il y a deux racines réelles distinctes :
+
+00:00:46.257 --> 00:00:47.326
+deux et moins un.
+
+00:00:47.326 --> 00:00:57.350
+D'après le cours, il existe deux réels lambda et mu tels que u n égale lambda fois deux puissance n, plus mu fois moins un puissance n.
+
+00:00:57.400 --> 00:01:01.531
+Pour trouver lambda et mu, on utilise les deux premiers termes.
+
+00:01:01.531 --> 00:01:02.777
+Pour n égale zéro :
+
+00:01:02.777 --> 00:01:04.482
+lambda plus mu égale zéro.
+
+00:01:04.482 --> 00:01:05.596
+Pour n égale un :
+
+00:01:05.596 --> 00:01:09.310
+deux lambda moins mu égale trois.
+
+00:01:09.360 --> 00:01:11.420
+On additionne les deux équations :
+
+00:01:11.420 --> 00:01:14.208
+trois lambda égale trois, donc lambda vaut un.
+
+00:01:14.208 --> 00:01:16.990
+Et mu vaut moins un.
+
+00:01:17.040 --> 00:01:20.792
+Donc u n égale deux puissance n, moins, moins un puissance n.
+
+00:01:20.792 --> 00:01:22.268
+On vérifie avec u deux :
+
+00:01:22.268 --> 00:01:24.790
+la relation donne trois plus zéro, trois.
+
+00:01:24.790 --> 00:01:29.190
+La formule donne quatre moins un, trois aussi.
+
+00:01:29.240 --> 00:01:30.189
+Deuxième cas :
+
+00:01:30.189 --> 00:01:33.781
+quand l'équation caractéristique a une racine double.
+
+00:01:33.781 --> 00:01:34.391
+Exemple :
+
+00:01:34.391 --> 00:01:42.650
+u zéro égale un, u un égale quatre, et u, n plus deux, égale quatre u, n plus un, moins quatre u n.
+
+00:01:42.700 --> 00:01:47.617
+L'équation caractéristique est r carré moins quatre r plus quatre égale zéro.
+
+00:01:47.617 --> 00:01:49.661
+C'est une identité remarquable :
+
+00:01:49.661 --> 00:01:51.129
+r moins deux, au carré.
+
+00:01:51.129 --> 00:01:53.045
+Il y a une seule racine, deux.
+
+00:01:53.045 --> 00:01:56.810
+On dit que c'est une racine double.
+
+00:01:56.860 --> 00:01:59.377
+Dans ce cas, la forme est différente :
+
+00:01:59.377 --> 00:02:03.218
+u n égale lambda n plus mu, le tout fois deux puissance n.
+
+00:02:03.218 --> 00:02:06.490
+Il y a un n devant lambda.
+
+00:02:06.540 --> 00:02:07.892
+Pour n égale zéro :
+
+00:02:07.892 --> 00:02:08.746
+mu égale un.
+
+00:02:08.746 --> 00:02:09.956
+Pour n égale un :
+
+00:02:09.956 --> 00:02:12.802
+lambda plus mu, fois deux, égale quatre.
+
+00:02:12.802 --> 00:02:17.910
+Donc lambda plus un égale deux, et lambda vaut un.
+
+00:02:17.960 --> 00:02:21.230
+Donc u n égale n plus un, fois deux puissance n.
+
+00:02:21.230 --> 00:02:23.001
+Vérification avec u deux :
+
+00:02:23.001 --> 00:02:25.998
+la relation donne seize moins quatre, douze.
+
+00:02:25.998 --> 00:02:28.859
+La formule donne trois fois quatre, douze.
+
+00:02:28.859 --> 00:02:31.090
+C'est bon.
+
+00:02:31.140 --> 00:02:32.963
+Retiens les deux formes.
+
+00:02:32.963 --> 00:02:34.862
+Deux racines distinctes :
+
+00:02:34.862 --> 00:02:38.811
+lambda r un puissance n, plus mu r deux puissance n.
+
+00:02:38.811 --> 00:02:40.254
+Une racine double :
+
+00:02:40.254 --> 00:02:43.065
+lambda n plus mu, fois r puissance n.
+
+00:02:43.065 --> 00:02:44.900
+À bientôt !

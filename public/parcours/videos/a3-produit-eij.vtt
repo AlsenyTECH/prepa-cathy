@@ -1,0 +1,229 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.946
+Bonjour !
+
+00:00:00.946 --> 00:00:05.243
+Dans cette vidéo, on parle des matrices E i j, et de leur produit.
+
+00:00:05.243 --> 00:00:10.517
+C'est un résultat de cours qu'on te demande souvent de donner sans démonstration.
+
+00:00:10.517 --> 00:00:12.210
+La règle est la suivante :
+
+00:00:12.210 --> 00:00:16.833
+le produit de E i j par E k l est égal à E i l, lorsque j est égal à k.
+
+00:00:16.833 --> 00:00:20.999
+Et il est égal à la matrice nulle, lorsque j est différent de k.
+
+00:00:20.999 --> 00:00:25.890
+On va voir pourquoi, pour ne plus jamais l'oublier.
+
+00:00:25.940 --> 00:00:28.752
+D'abord, rappelons ce qu'est une matrice E i j.
+
+00:00:28.752 --> 00:00:31.864
+C'est une matrice remplie de zéros, avec un seul un.
+
+00:00:31.864 --> 00:00:34.197
+Le premier indice donne la ligne du un.
+
+00:00:34.197 --> 00:00:36.351
+Le deuxième indice donne sa colonne.
+
+00:00:36.351 --> 00:00:38.625
+Voici trois exemples, en taille trois.
+
+00:00:38.625 --> 00:00:41.437
+E un deux a son un à la ligne un, colonne deux.
+
+00:00:41.437 --> 00:00:44.609
+E deux trois a son un à la ligne deux, colonne trois.
+
+00:00:44.609 --> 00:00:49.290
+Et E trois un a son un à la ligne trois, colonne un.
+
+00:00:49.340 --> 00:00:52.776
+Calculons le produit de E un deux par E deux trois.
+
+00:00:52.776 --> 00:00:54.932
+On utilise la règle habituelle :
+
+00:00:54.932 --> 00:00:56.212
+ligne fois colonne.
+
+00:00:56.212 --> 00:00:58.435
+La ligne un de E un deux, c'est :
+
+00:00:58.435 --> 00:00:59.446
+zéro, un, zéro.
+
+00:00:59.446 --> 00:01:02.612
+La colonne trois de E deux trois, c'est aussi :
+
+00:01:02.612 --> 00:01:03.623
+zéro, un, zéro.
+
+00:01:03.623 --> 00:01:05.981
+On multiplie position par position.
+
+00:01:05.981 --> 00:01:09.551
+Zéro fois zéro, plus un fois un, plus zéro fois zéro.
+
+00:01:09.551 --> 00:01:10.495
+Cela donne un.
+
+00:01:10.495 --> 00:01:14.450
+Les deux un sont tombés face à face.
+
+00:01:14.500 --> 00:01:16.073
+Et les autres coefficients ?
+
+00:01:16.073 --> 00:01:22.198
+Toutes les autres lignes de E un deux sont nulles, et toutes les autres colonnes de E deux trois sont nulles.
+
+00:01:22.198 --> 00:01:25.401
+Tous les autres coefficients du produit valent donc zéro.
+
+00:01:25.401 --> 00:01:28.660
+Il reste un seul un, à la ligne un, et à la colonne trois.
+
+00:01:28.660 --> 00:01:32.550
+Le produit est donc la matrice E un trois.
+
+00:01:32.600 --> 00:01:33.815
+Deuxième exemple :
+
+00:01:33.815 --> 00:01:36.448
+le produit de E un deux par E trois un.
+
+00:01:36.448 --> 00:01:39.080
+La ligne un de E un deux est toujours :
+
+00:01:39.080 --> 00:01:40.093
+zéro, un, zéro.
+
+00:01:40.093 --> 00:01:42.860
+Mais la colonne un de E trois un, c'est :
+
+00:01:42.860 --> 00:01:43.873
+zéro, zéro, un.
+
+00:01:43.873 --> 00:01:44.683
+Cette fois :
+
+00:01:44.683 --> 00:01:48.260
+zéro fois zéro, plus un fois zéro, plus zéro fois un.
+
+00:01:48.260 --> 00:01:49.340
+Cela donne zéro.
+
+00:01:49.340 --> 00:01:54.110
+Les deux un ne sont pas en face l'un de l'autre.
+
+00:01:54.160 --> 00:01:56.256
+Aucun coefficient ne peut valoir un.
+
+00:01:56.256 --> 00:02:01.590
+Le produit de E un deux par E trois un est donc la matrice nulle.
+
+00:02:01.640 --> 00:02:03.007
+Retenons donc l'idée.
+
+00:02:03.007 --> 00:02:07.500
+Si les indices du milieu sont égaux, on garde les indices extérieurs.
+
+00:02:07.500 --> 00:02:11.590
+Sinon, le produit est la matrice nulle.
+
+00:02:11.640 --> 00:02:15.692
+Pour retenir cette règle sans effort, voici une image très simple :
+
+00:02:15.692 --> 00:02:18.310
+celle des dominos.
+
+00:02:18.360 --> 00:02:22.934
+On écrit les indices des deux matrices côte à côte, comme deux dominos :
+
+00:02:22.934 --> 00:02:23.951
+i, j, puis k, l.
+
+00:02:23.951 --> 00:02:26.428
+On regarde les deux indices du milieu :
+
+00:02:26.428 --> 00:02:26.873
+j et k.
+
+00:02:26.873 --> 00:02:32.082
+S'ils sont égaux, les dominos se collent, et il reste les deux indices des bouts :
+
+00:02:32.082 --> 00:02:32.527
+i et l.
+
+00:02:32.527 --> 00:02:34.306
+Le produit vaut alors E i l.
+
+00:02:34.306 --> 00:02:41.490
+S'ils sont différents, les dominos ne se collent pas, et le produit est la matrice nulle.
+
+00:02:41.540 --> 00:02:42.302
+Un exemple.
+
+00:02:42.302 --> 00:02:44.382
+E deux trois, fois E trois un.
+
+00:02:44.382 --> 00:02:47.363
+Les indices du milieu sont trois et trois :
+
+00:02:47.363 --> 00:02:48.402
+ils sont égaux.
+
+00:02:48.402 --> 00:02:50.898
+On garde les extérieurs, deux et un.
+
+00:02:50.898 --> 00:02:54.250
+Le produit vaut E deux un.
+
+00:02:54.300 --> 00:02:55.220
+Autre exemple.
+
+00:02:55.220 --> 00:02:57.192
+E deux trois, fois E un trois.
+
+00:02:57.192 --> 00:02:59.822
+Les indices du milieu sont trois et un :
+
+00:02:59.822 --> 00:03:01.136
+ils sont différents.
+
+00:03:01.136 --> 00:03:04.790
+Le produit est la matrice nulle.
+
+00:03:04.840 --> 00:03:07.110
+Dernière remarque, très importante :
+
+00:03:07.110 --> 00:03:08.057
+l'ordre compte.
+
+00:03:08.057 --> 00:03:10.579
+E un deux fois E deux un, donne E un un.
+
+00:03:10.579 --> 00:03:14.868
+Mais dans l'autre sens, E deux un fois E un deux, donne E deux deux.
+
+00:03:14.868 --> 00:03:18.310
+Les matrices ne commutent pas.
+
+00:03:18.360 --> 00:03:24.207
+Voilà la règle à écrire sur ta copie, quand on te demande ce produit sans démonstration :
+
+00:03:24.207 --> 00:03:28.018
+E i j fois E k l, égale E i l si j égale k, et zéro sinon.
+
+00:03:28.018 --> 00:03:32.157
+C'est une seule ligne, et ce sont des points faciles à prendre.
+
+00:03:32.157 --> 00:03:33.880
+À bientôt !

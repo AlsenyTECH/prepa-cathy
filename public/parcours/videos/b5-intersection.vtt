@@ -1,0 +1,124 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.950
+Bonjour !
+
+00:00:00.950 --> 00:00:06.389
+Dans cette vidéo, on va démontrer un résultat du cours sur les espaces vectoriels :
+
+00:00:06.389 --> 00:00:08.158
+la proposition trois seize.
+
+00:00:08.158 --> 00:00:19.910
+Elle dit que si F un et F deux sont deux sous-espaces vectoriels de E, alors leur intersection, F un inter F deux, est encore un sous-espace vectoriel de E.
+
+00:00:19.960 --> 00:00:22.173
+Avant de commencer, un petit rappel.
+
+00:00:22.173 --> 00:00:23.095
+Que veut dire :
+
+00:00:23.095 --> 00:00:25.185
+x appartient à F un inter F deux ?
+
+00:00:25.185 --> 00:00:29.303
+Cela veut dire que x est dans F un, et qu'il est aussi dans F deux.
+
+00:00:29.303 --> 00:00:35.750
+L'intersection, ce sont les vecteurs qui sont dans les deux ensembles à la fois.
+
+00:00:35.800 --> 00:00:37.831
+Maintenant, que faut-il montrer ?
+
+00:00:37.831 --> 00:00:43.799
+Pour prouver qu'un ensemble est un sous-espace vectoriel, il y a toujours deux choses à vérifier.
+
+00:00:43.799 --> 00:00:46.507
+Premièrement, que l'ensemble n'est pas vide.
+
+00:00:46.507 --> 00:00:50.014
+Deuxièmement, qu'il est stable par combinaison linéaire :
+
+00:00:50.014 --> 00:00:58.210
+si x et y sont dans l'ensemble, et si lambda est un réel, alors lambda x plus y doit rester dans l'ensemble.
+
+00:00:58.260 --> 00:01:00.336
+Commençons par le premier point.
+
+00:01:00.336 --> 00:01:04.682
+F un est un sous-espace vectoriel, donc il contient le vecteur nul.
+
+00:01:04.682 --> 00:01:12.050
+Et F deux est aussi un sous-espace vectoriel, donc il contient, lui aussi, le vecteur nul.
+
+00:01:12.100 --> 00:01:14.832
+Le vecteur nul est dans F un, et dans F deux.
+
+00:01:14.832 --> 00:01:16.774
+Il est donc dans l'intersection.
+
+00:01:16.774 --> 00:01:19.506
+L'intersection contient au moins un élément :
+
+00:01:19.506 --> 00:01:22.250
+elle n'est pas vide.
+
+00:01:22.300 --> 00:01:23.852
+Passons au deuxième point.
+
+00:01:23.852 --> 00:01:28.806
+On prend deux vecteurs quelconques, x et y, dans l'intersection, et un réel lambda.
+
+00:01:28.806 --> 00:01:31.014
+Le mot important, c'est quelconques :
+
+00:01:31.014 --> 00:01:35.190
+on ne choisit pas des vecteurs particuliers.
+
+00:01:35.240 --> 00:01:40.339
+x et y sont dans l'intersection, donc, en particulier, ils sont dans F un.
+
+00:01:40.339 --> 00:01:43.026
+Or, F un est un sous-espace vectoriel :
+
+00:01:43.026 --> 00:01:45.713
+il est stable par combinaison linéaire.
+
+00:01:45.713 --> 00:01:49.950
+Donc lambda x plus y appartient à F un.
+
+00:01:50.000 --> 00:01:53.756
+On refait exactement le même raisonnement avec F deux.
+
+00:01:53.756 --> 00:02:02.450
+x et y sont dans F deux, F deux est un sous-espace vectoriel, donc lambda x plus y appartient à F deux.
+
+00:02:02.500 --> 00:02:03.126
+Résumons.
+
+00:02:03.126 --> 00:02:07.574
+Le vecteur lambda x plus y est dans F un, et il est dans F deux.
+
+00:02:07.574 --> 00:02:13.850
+Par définition de l'intersection, il appartient à F un inter F deux.
+
+00:02:13.900 --> 00:02:15.842
+On a vérifié les deux points :
+
+00:02:15.842 --> 00:02:20.567
+l'intersection est non vide, et elle est stable par combinaison linéaire.
+
+00:02:20.567 --> 00:02:21.344
+Conclusion :
+
+00:02:21.344 --> 00:02:24.709
+F un inter F deux est un sous-espace vectoriel de E.
+
+00:02:24.709 --> 00:02:26.133
+Et retiens bien ceci :
+
+00:02:26.133 --> 00:02:31.765
+avec trois sous-espaces, ou même une infinité, la démonstration est exactement la même.
+
+00:02:31.765 --> 00:02:36.260
+Sur ta copie, n'oublie jamais la phrase de conclusion.

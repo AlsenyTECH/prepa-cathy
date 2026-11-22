@@ -1,0 +1,172 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.914
+Bonjour !
+
+00:00:00.914 --> 00:00:06.270
+Dans cette vidéo, la démonstration la plus importante du chapitre sur l'exponentielle :
+
+00:00:06.270 --> 00:00:07.563
+le lemme deux quinze.
+
+00:00:07.563 --> 00:00:12.242
+e puissance x sur x tend vers plus l'infini quand x tend vers plus l'infini.
+
+00:00:12.242 --> 00:00:16.850
+C'est la base de toutes les croissances comparées.
+
+00:00:16.900 --> 00:00:17.944
+Première idée :
+
+00:00:17.944 --> 00:00:21.634
+utiliser e puissance x supérieur ou égal à un plus x.
+
+00:00:21.634 --> 00:00:22.818
+On divise par x :
+
+00:00:22.818 --> 00:00:27.552
+on obtient e puissance x sur x supérieur ou égal à un sur x plus un.
+
+00:00:27.552 --> 00:00:31.660
+Mais un sur x plus un tend vers un, pas vers plus l'infini.
+
+00:00:31.660 --> 00:00:32.913
+Ça ne suffit pas :
+
+00:00:32.913 --> 00:00:36.810
+il faut une minoration plus forte.
+
+00:00:36.860 --> 00:00:37.506
+L'astuce :
+
+00:00:37.506 --> 00:00:39.637
+on coupe l'exponentielle en deux.
+
+00:00:39.637 --> 00:00:44.869
+Pour x strictement positif, e puissance x égale e puissance x sur deux, au carré.
+
+00:00:44.869 --> 00:00:47.904
+Et on applique l'inégalité au réel x sur deux :
+
+00:00:47.904 --> 00:00:55.590
+e puissance x sur deux est supérieur ou égal à un plus x sur deux, qui est strictement positif.
+
+00:00:55.640 --> 00:01:00.895
+Les deux membres sont positifs, donc on peut élever au carré sans changer le sens.
+
+00:01:00.895 --> 00:01:05.189
+e puissance x est supérieur ou égal à un plus x sur deux, au carré.
+
+00:01:05.189 --> 00:01:06.086
+On développe :
+
+00:01:06.086 --> 00:01:08.265
+un plus x plus x carré sur quatre.
+
+00:01:08.265 --> 00:01:14.750
+Et comme un plus x est positif, c'est supérieur ou égal à x carré sur quatre.
+
+00:01:14.800 --> 00:01:17.882
+On divise par x, qui est strictement positif :
+
+00:01:17.882 --> 00:01:23.050
+e puissance x sur x, supérieur ou égal à x sur quatre.
+
+00:01:23.100 --> 00:01:25.431
+Et x sur quatre tend vers plus l'infini.
+
+00:01:25.431 --> 00:01:31.390
+Par le théorème de comparaison, e puissance x sur x tend vers plus l'infini.
+
+00:01:31.440 --> 00:01:32.666
+Retiens la méthode :
+
+00:01:32.666 --> 00:01:37.323
+couper l'exponentielle en deux, appliquer l'inégalité, puis élever au carré.
+
+00:01:37.323 --> 00:01:40.650
+On gagne un x supplémentaire.
+
+00:01:40.700 --> 00:01:43.110
+Maintenant, la proposition deux seize.
+
+00:01:43.110 --> 00:01:50.465
+Pour tout entier n supérieur ou égal à un, e puissance x sur x puissance n tend vers plus l'infini en plus l'infini.
+
+00:01:50.465 --> 00:01:56.390
+Et x puissance n fois e puissance x tend vers zéro en moins l'infini.
+
+00:01:56.440 --> 00:01:57.528
+Première limite.
+
+00:01:57.528 --> 00:02:02.562
+Même idée que pour le lemme, mais on coupe l'exponentielle en n morceaux :
+
+00:02:02.562 --> 00:02:06.780
+e puissance x, c'est e puissance x sur n, le tout puissance n.
+
+00:02:06.780 --> 00:02:13.514
+Donc e puissance x sur x puissance n, c'est e puissance x sur n, divisé par x, le tout puissance n.
+
+00:02:13.514 --> 00:02:20.350
+Et on fait apparaître x sur n au dénominateur, en sortant un facteur un sur n.
+
+00:02:20.400 --> 00:02:22.323
+On pose grand X égale x sur n.
+
+00:02:22.323 --> 00:02:25.337
+Quand x tend vers plus l'infini, grand X aussi.
+
+00:02:25.337 --> 00:02:29.824
+Par le lemme, e puissance grand X sur grand X tend vers plus l'infini.
+
+00:02:29.824 --> 00:02:34.953
+Multiplié par la constante positive un sur n, ça tend encore vers plus l'infini.
+
+00:02:34.953 --> 00:02:38.150
+Appelons cette quantité A.
+
+00:02:38.200 --> 00:02:43.038
+Dès que A est supérieur ou égal à un, A puissance n est supérieur ou égal à A.
+
+00:02:43.038 --> 00:02:46.449
+Par comparaison, A puissance n tend vers plus l'infini.
+
+00:02:46.449 --> 00:02:49.550
+C'est la première limite.
+
+00:02:49.600 --> 00:02:51.811
+Seconde limite, en moins l'infini.
+
+00:02:51.811 --> 00:02:55.648
+On pose grand X égale moins x, qui tend vers plus l'infini.
+
+00:02:55.648 --> 00:02:59.095
+Alors x puissance n, c'est moins grand X puissance n.
+
+00:02:59.095 --> 00:03:02.347
+Et e puissance x, c'est e puissance moins grand X.
+
+00:03:02.347 --> 00:03:09.210
+On obtient moins un puissance n, fois grand X puissance n sur e puissance grand X.
+
+00:03:09.260 --> 00:03:13.382
+La valeur absolue vaut grand X puissance n sur e puissance grand X :
+
+00:03:13.382 --> 00:03:17.443
+c'est l'inverse de la première limite, qui tend vers plus l'infini.
+
+00:03:17.443 --> 00:03:18.958
+Donc elle tend vers zéro.
+
+00:03:18.958 --> 00:03:24.690
+Et une quantité dont la valeur absolue tend vers zéro tend vers zéro.
+
+00:03:24.740 --> 00:03:26.144
+La phrase à retenir :
+
+00:03:26.144 --> 00:03:30.424
+en l'infini, l'exponentielle l'emporte sur toute puissance de x.
+
+00:03:30.424 --> 00:03:32.160
+À bientôt !

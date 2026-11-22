@@ -1,0 +1,157 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.979
+Bonjour !
+
+00:00:00.979 --> 00:00:04.278
+Dans cette vidéo, la proposition deux dix-sept :
+
+00:00:04.278 --> 00:00:07.372
+les croissances comparées avec le logarithme.
+
+00:00:07.372 --> 00:00:16.690
+l n x sur x puissance n tend vers zéro en plus l'infini, et x puissance n fois l n x tend vers zéro en zéro plus.
+
+00:00:16.740 --> 00:00:17.863
+Première limite.
+
+00:00:17.863 --> 00:00:18.424
+L'idée :
+
+00:00:18.424 --> 00:00:22.002
+on se ramène à l'exponentielle, qu'on connaît déjà.
+
+00:00:22.002 --> 00:00:23.967
+On pose grand X égale l n x.
+
+00:00:23.967 --> 00:00:26.352
+Alors x égale e puissance grand X.
+
+00:00:26.352 --> 00:00:31.410
+Et quand x tend vers plus l'infini, grand X aussi.
+
+00:00:31.460 --> 00:00:32.406
+On remplace :
+
+00:00:32.406 --> 00:00:42.014
+l n x sur x puissance n, c'est grand X sur e puissance grand X, le tout puissance n, c'est-à-dire grand X sur e puissance n grand X.
+
+00:00:42.014 --> 00:00:46.236
+On fait apparaître n grand X en haut, en sortant un sur n.
+
+00:00:46.236 --> 00:00:54.390
+Et en posant y égale n grand X, on obtient un sur n, fois l'inverse de e puissance y sur y.
+
+00:00:54.440 --> 00:01:01.266
+D'après le lemme deux quinze, e puissance y sur y tend vers plus l'infini, donc son inverse tend vers zéro.
+
+00:01:01.266 --> 00:01:04.329
+Et pour x plus grand que un, l n x est positif :
+
+00:01:04.329 --> 00:01:07.430
+la limite est zéro plus.
+
+00:01:07.480 --> 00:01:09.608
+Seconde limite, en zéro plus.
+
+00:01:09.608 --> 00:01:13.569
+On pose t égale un sur x, qui tend vers plus l'infini.
+
+00:01:13.569 --> 00:01:17.825
+Et l n x, c'est l n de un sur t, c'est-à-dire moins l n t.
+
+00:01:17.825 --> 00:01:23.850
+Donc x puissance n l n x égale moins l n t sur t puissance n.
+
+00:01:23.900 --> 00:01:28.492
+D'après la première limite, l n t sur t puissance n tend vers zéro.
+
+00:01:28.492 --> 00:01:31.234
+Donc x puissance n l n x tend vers zéro.
+
+00:01:31.234 --> 00:01:34.456
+Et pour x entre zéro et un, l n x est négatif :
+
+00:01:34.456 --> 00:01:39.090
+la limite est atteinte par valeurs négatives.
+
+00:01:39.140 --> 00:01:39.899
+Attention :
+
+00:01:39.899 --> 00:01:43.625
+dans le cours, la seconde limite est écrite zéro plus.
+
+00:01:43.625 --> 00:01:44.936
+C'est une coquille.
+
+00:01:44.936 --> 00:01:51.974
+Par exemple, zéro virgule un fois l n de zéro virgule un vaut environ moins zéro virgule vingt-trois :
+
+00:01:51.974 --> 00:01:54.490
+c'est négatif.
+
+00:01:54.540 --> 00:01:57.196
+Pour finir, la proposition deux dix-huit.
+
+00:01:57.196 --> 00:02:03.740
+Pour un réel alpha quelconque, la fonction x puissance alpha est définie par e puissance alpha l n x.
+
+00:02:03.740 --> 00:02:09.890
+Elle est dérivable, et sa dérivée est alpha x puissance alpha moins un.
+
+00:02:09.940 --> 00:02:12.171
+On pose u de x égale alpha l n x.
+
+00:02:12.171 --> 00:02:17.241
+Elle est dérivable sur zéro, plus l'infini, et sa dérivée vaut alpha sur x.
+
+00:02:17.241 --> 00:02:21.650
+Et x puissance alpha, c'est e puissance u.
+
+00:02:21.700 --> 00:02:24.231
+On utilise la formule de dérivation :
+
+00:02:24.231 --> 00:02:27.994
+e puissance u, prime, égale u prime fois e puissance u.
+
+00:02:27.994 --> 00:02:36.590
+On obtient alpha sur x, fois e puissance alpha l n x, c'est-à-dire alpha sur x, fois x puissance alpha.
+
+00:02:36.640 --> 00:02:42.655
+Il reste à vérifier que x puissance alpha sur x, c'est x puissance alpha moins un.
+
+00:02:42.655 --> 00:02:48.817
+Par définition, x puissance alpha moins un, c'est e puissance alpha moins un, l n x.
+
+00:02:48.817 --> 00:02:49.624
+On sépare :
+
+00:02:49.624 --> 00:02:53.586
+e puissance alpha l n x, fois e puissance moins l n x.
+
+00:02:53.586 --> 00:02:58.290
+Et e puissance moins l n x, c'est un sur x.
+
+00:02:58.340 --> 00:02:59.800
+On obtient la formule :
+
+00:02:59.800 --> 00:03:01.896
+alpha x puissance alpha moins un.
+
+00:03:01.896 --> 00:03:07.490
+C'est exactement la même formule que pour les exposants entiers.
+
+00:03:07.540 --> 00:03:08.864
+Pour les variations :
+
+00:03:08.864 --> 00:03:14.411
+x puissance alpha moins un est strictement positif, donc la dérivée a le signe de alpha.
+
+00:03:14.411 --> 00:03:18.635
+Croissante si alpha est positif, décroissante si alpha est négatif.
+
+00:03:18.635 --> 00:03:21.787
+Et toutes les courbes passent par le point un, un.
+
+00:03:21.787 --> 00:03:23.480
+À bientôt !

@@ -1,0 +1,133 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.950
+Bonjour !
+
+00:00:00.950 --> 00:00:05.213
+Dans cette vidéo, deux démonstrations sur le logarithme népérien.
+
+00:00:05.213 --> 00:00:10.262
+On rappelle que le logarithme est la fonction réciproque de l'exponentielle :
+
+00:00:10.262 --> 00:00:15.510
+e puissance l n de x égale x, pour x strictement positif.
+
+00:00:15.560 --> 00:00:20.557
+On veut montrer que l n de x fois y, égale l n de x plus l n de y.
+
+00:00:20.557 --> 00:00:21.163
+L'idée :
+
+00:00:21.163 --> 00:00:27.690
+on passe par l'exponentielle, dont on connaît déjà les propriétés.
+
+00:00:27.740 --> 00:00:30.879
+On calcule l'exponentielle de l n x plus l n y.
+
+00:00:30.879 --> 00:00:36.750
+L'exponentielle d'une somme, c'est le produit des exponentielles.
+
+00:00:36.800 --> 00:00:39.712
+Et e puissance l n de x, c'est x.
+
+00:00:39.712 --> 00:00:41.035
+De même pour y.
+
+00:00:41.035 --> 00:00:44.350
+On obtient x fois y.
+
+00:00:44.400 --> 00:00:47.509
+On applique le logarithme des deux côtés.
+
+00:00:47.509 --> 00:00:52.211
+Le logarithme de l'exponentielle d'un nombre, c'est ce nombre.
+
+00:00:52.211 --> 00:00:53.121
+On obtient :
+
+00:00:53.121 --> 00:00:57.250
+l n x plus l n y égale l n de x y.
+
+00:00:57.300 --> 00:01:00.820
+C'est la propriété fondamentale du logarithme.
+
+00:01:00.820 --> 00:01:01.892
+On en déduit :
+
+00:01:01.892 --> 00:01:09.850
+l n de un sur x égale moins l n de x, et l n de x puissance n égale n fois l n de x.
+
+00:01:09.900 --> 00:01:11.532
+Deuxième démonstration :
+
+00:01:11.532 --> 00:01:16.770
+pour tout x strictement positif, l n de x est inférieur ou égal à x moins un.
+
+00:01:16.770 --> 00:01:19.831
+Pas besoin de refaire une étude de fonction :
+
+00:01:19.831 --> 00:01:24.490
+on utilise l'inégalité de la vidéo précédente.
+
+00:01:24.540 --> 00:01:29.384
+On sait que e puissance t est supérieur ou égal à un plus t, pour tout réel t.
+
+00:01:29.384 --> 00:01:33.150
+On l'applique avec t égale l n de x.
+
+00:01:33.200 --> 00:01:34.163
+On obtient :
+
+00:01:34.163 --> 00:01:38.414
+e puissance l n x, supérieur ou égal à un plus l n x.
+
+00:01:38.414 --> 00:01:42.350
+Et e puissance l n x, c'est x.
+
+00:01:42.400 --> 00:01:49.023
+Donc x est supérieur ou égal à un plus l n x, c'est-à-dire l n x inférieur ou égal à x moins un.
+
+00:01:49.023 --> 00:01:55.590
+Avec égalité seulement quand l n x vaut zéro, c'est-à-dire en x égale un.
+
+00:01:55.640 --> 00:01:59.092
+Pour finir, une application de la propriété du produit :
+
+00:01:59.092 --> 00:02:06.190
+résoudre l n x plus l n de x moins un, égale l n deux, sur l'intervalle un, plus l'infini.
+
+00:02:06.240 --> 00:02:07.127
+On regroupe :
+
+00:02:07.127 --> 00:02:09.924
+l n de x fois x moins un, égale l n deux.
+
+00:02:09.924 --> 00:02:13.745
+Le logarithme est strictement croissant, donc injectif :
+
+00:02:13.745 --> 00:02:16.611
+on peut égaler ce qu'il y a à l'intérieur.
+
+00:02:16.611 --> 00:02:19.204
+x carré moins x moins deux égale zéro.
+
+00:02:19.204 --> 00:02:23.190
+Les solutions sont deux et moins un.
+
+00:02:23.240 --> 00:02:27.140
+Mais moins un n'est pas dans l'intervalle un, plus l'infini :
+
+00:02:27.140 --> 00:02:27.971
+on l'élimine.
+
+00:02:27.971 --> 00:02:29.698
+La seule solution est deux.
+
+00:02:29.698 --> 00:02:30.593
+Retiens bien :
+
+00:02:30.593 --> 00:02:34.557
+avec des logarithmes, on vérifie toujours le domaine à la fin.
+
+00:02:34.557 --> 00:02:36.260
+À bientôt !

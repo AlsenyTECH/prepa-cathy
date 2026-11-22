@@ -1,0 +1,235 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.944
+Bonjour !
+
+00:00:00.944 --> 00:00:06.002
+Dans cette vidéo, on parle du sous-espace vectoriel engendré par des vecteurs.
+
+00:00:06.002 --> 00:00:10.736
+C'est la définition trois quinze du cours, et la notation à retenir est :
+
+00:00:10.736 --> 00:00:11.060
+Vect.
+
+00:00:11.060 --> 00:00:16.118
+Vect de u un, jusqu'à u k, c'est l'ensemble de tous les vecteurs de la forme :
+
+00:00:16.118 --> 00:00:20.593
+lambda un fois u un, plus, et ainsi de suite, plus lambda k fois u k.
+
+00:00:20.593 --> 00:00:25.450
+Les coefficients lambda sont des réels quelconques.
+
+00:00:25.500 --> 00:00:30.693
+Autrement dit, Vect, c'est l'ensemble de toutes les combinaisons linéaires des vecteurs donnés.
+
+00:00:30.693 --> 00:00:33.152
+Une combinaison linéaire, c'est très simple :
+
+00:00:33.152 --> 00:00:38.290
+on multiplie chaque vecteur par un réel, et on additionne le tout.
+
+00:00:38.340 --> 00:00:41.952
+Prenons un exemple dans R trois, avec deux vecteurs.
+
+00:00:41.952 --> 00:00:43.410
+u égale un, un, zéro.
+
+00:00:43.410 --> 00:00:45.077
+Et v égale un, zéro, un.
+
+00:00:45.077 --> 00:00:47.438
+Une combinaison linéaire s'écrit :
+
+00:00:47.438 --> 00:00:48.758
+lambda u plus mu v.
+
+00:00:48.758 --> 00:00:49.661
+Calculons-la.
+
+00:00:49.661 --> 00:00:52.578
+Lambda fois u, c'est lambda, lambda, zéro.
+
+00:00:52.578 --> 00:00:54.661
+Mu fois v, c'est mu, zéro, mu.
+
+00:00:54.661 --> 00:00:56.050
+La somme vaut donc :
+
+00:00:56.050 --> 00:01:00.190
+lambda plus mu, puis lambda, puis mu.
+
+00:01:00.240 --> 00:01:04.196
+Chaque choix de lambda et de mu donne un vecteur de Vect de u, v.
+
+00:01:04.196 --> 00:01:09.309
+Avec lambda égale un et mu égale un, on obtient u plus v, c'est-à-dire deux, un, un.
+
+00:01:09.309 --> 00:01:13.874
+Avec lambda égale deux et mu égale moins un, on obtient un, deux, moins un.
+
+00:01:13.874 --> 00:01:18.610
+Et avec lambda et mu nuls, on obtient le vecteur nul.
+
+00:01:18.660 --> 00:01:22.977
+Vect de u, v, c'est donc l'ensemble de tous les vecteurs de la forme :
+
+00:01:22.977 --> 00:01:24.642
+lambda plus mu, lambda, mu.
+
+00:01:24.642 --> 00:01:27.047
+Lambda et mu parcourent tous les réels.
+
+00:01:27.047 --> 00:01:31.310
+On dit que u et v engendrent ce sous-espace.
+
+00:01:31.360 --> 00:01:34.913
+Le cours dit que Vect est toujours un sous-espace vectoriel.
+
+00:01:34.913 --> 00:01:37.519
+Voyons pourquoi, avec deux vecteurs, u et v.
+
+00:01:37.519 --> 00:01:42.010
+On applique la méthode habituelle, en deux points.
+
+00:01:42.060 --> 00:01:43.107
+Premier point.
+
+00:01:43.107 --> 00:01:44.901
+Le vecteur nul s'écrit :
+
+00:01:44.901 --> 00:01:47.144
+zéro fois u, plus zéro fois v.
+
+00:01:47.144 --> 00:01:50.209
+C'est une combinaison linéaire de u et v.
+
+00:01:50.209 --> 00:01:51.629
+Il est donc dans F.
+
+00:01:51.629 --> 00:01:54.450
+F n'est pas vide.
+
+00:01:54.500 --> 00:01:55.575
+Deuxième point.
+
+00:01:55.575 --> 00:01:57.582
+On prend deux vecteurs de F.
+
+00:01:57.582 --> 00:02:00.807
+Le premier, x, est une combinaison linéaire :
+
+00:02:00.807 --> 00:02:02.670
+lambda un u, plus mu un v.
+
+00:02:02.670 --> 00:02:04.175
+Le second, y, aussi :
+
+00:02:04.175 --> 00:02:06.325
+lambda deux u, plus mu deux v.
+
+00:02:06.325 --> 00:02:09.810
+Et on prend un réel, alpha.
+
+00:02:09.860 --> 00:02:16.410
+On calcule alpha x plus y, en remplaçant x et y par leurs expressions.
+
+00:02:16.460 --> 00:02:20.826
+On développe, puis on regroupe les termes en u, et les termes en v.
+
+00:02:20.826 --> 00:02:22.259
+Devant u, on obtient :
+
+00:02:22.259 --> 00:02:24.474
+alpha lambda un, plus lambda deux.
+
+00:02:24.474 --> 00:02:25.126
+Devant v :
+
+00:02:25.126 --> 00:02:28.350
+alpha mu un, plus mu deux.
+
+00:02:28.400 --> 00:02:30.321
+Ce sont deux nombres réels.
+
+00:02:30.321 --> 00:02:35.799
+Le vecteur alpha x plus y est donc encore une combinaison linéaire de u et v.
+
+00:02:35.799 --> 00:02:38.610
+Il appartient à F.
+
+00:02:38.660 --> 00:02:39.445
+Conclusion :
+
+00:02:39.445 --> 00:02:43.697
+Vect de u un, jusqu'à u k, est toujours un sous-espace vectoriel.
+
+00:02:43.697 --> 00:02:46.902
+La preuve est exactement la même avec k vecteurs.
+
+00:02:46.902 --> 00:02:48.276
+C'est très pratique :
+
+00:02:48.276 --> 00:02:56.890
+dès qu'un ensemble s'écrit comme un Vect, on sait que c'est un sous-espace vectoriel, sans rien redémontrer.
+
+00:02:56.940 --> 00:03:01.110
+Terminons par quelques cas particuliers à connaître.
+
+00:03:01.160 --> 00:03:03.243
+D'abord, les sous-espaces triviaux.
+
+00:03:03.243 --> 00:03:04.195
+Il y en a deux :
+
+00:03:04.195 --> 00:03:08.717
+l'ensemble qui contient seulement le vecteur nul, et l'espace E tout entier.
+
+00:03:08.717 --> 00:03:14.650
+Ce sont le plus petit, et le plus grand, des sous-espaces vectoriels de E.
+
+00:03:14.700 --> 00:03:17.451
+Ensuite, le cas d'un seul vecteur u, non nul.
+
+00:03:17.451 --> 00:03:20.813
+Vect de u, c'est l'ensemble de tous les multiples de u.
+
+00:03:20.813 --> 00:03:21.974
+Regarde le dessin :
+
+00:03:21.974 --> 00:03:26.009
+deux u, moins u, et tous les autres multiples sont alignés avec u.
+
+00:03:26.009 --> 00:03:28.882
+Ils forment une droite qui passe par l'origine.
+
+00:03:28.882 --> 00:03:31.999
+On l'appelle la droite vectorielle engendrée par u.
+
+00:03:31.999 --> 00:03:35.750
+Et u s'appelle un vecteur directeur.
+
+00:03:35.800 --> 00:03:38.718
+Le mot vecteur ne désigne pas forcément une flèche.
+
+00:03:38.718 --> 00:03:45.355
+Dans l'espace des matrices deux deux, Vect de la matrice identité, c'est l'ensemble des matrices lambda fois I deux.
+
+00:03:45.355 --> 00:03:50.910
+Ce sont les matrices diagonales dont les deux coefficients sont égaux.
+
+00:03:50.960 --> 00:03:56.850
+Enfin, dans R trois, deux vecteurs non colinéaires engendrent un plan qui passe par l'origine.
+
+00:03:56.850 --> 00:03:59.670
+C'était le cas de notre exemple, avec u et v.
+
+00:03:59.670 --> 00:04:00.986
+Retiens l'essentiel :
+
+00:04:00.986 --> 00:04:06.751
+Vect, ce sont toutes les combinaisons linéaires, et c'est toujours un sous-espace vectoriel.
+
+00:04:06.751 --> 00:04:08.440
+À bientôt !

@@ -1,0 +1,205 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.981
+Bonjour !
+
+00:00:00.981 --> 00:00:04.501
+Dans cette vidéo, on étudie les suites de matrices.
+
+00:00:04.501 --> 00:00:08.848
+Elles servent à traiter deux suites qui sont définies ensemble.
+
+00:00:08.848 --> 00:00:09.470
+Exemple :
+
+00:00:09.470 --> 00:00:19.350
+u zéro égale un, v zéro égale un, et pour tout n, u, n plus un, égale deux u n plus v n, et v, n plus un, égale deux v n.
+
+00:00:19.400 --> 00:00:21.555
+On ne peut pas étudier u toute seule :
+
+00:00:21.555 --> 00:00:24.618
+pour calculer le terme suivant de u, on a besoin de v.
+
+00:00:24.618 --> 00:00:28.190
+On dit que les suites sont couplées.
+
+00:00:28.240 --> 00:00:28.744
+L'idée :
+
+00:00:28.744 --> 00:00:37.010
+on range les deux suites dans une seule matrice colonne, grand X n, qui contient u n en haut et v n en bas.
+
+00:00:37.060 --> 00:00:41.919
+On cherche une matrice A telle que le produit A fois X n donne X, n plus un.
+
+00:00:41.919 --> 00:00:45.563
+La première ligne de A doit donner deux u n plus un v n :
+
+00:00:45.563 --> 00:00:47.161
+elle contient deux et un.
+
+00:00:47.161 --> 00:00:50.614
+La deuxième ligne doit donner zéro u n plus deux v n :
+
+00:00:50.614 --> 00:00:53.890
+elle contient zéro et deux.
+
+00:00:53.940 --> 00:00:57.146
+Les deux relations s'écrivent maintenant en une seule :
+
+00:00:57.146 --> 00:00:58.953
+X, n plus un, égale A fois X n.
+
+00:00:58.953 --> 00:01:04.310
+C'est comme une suite géométrique, mais la raison est une matrice.
+
+00:01:04.360 --> 00:01:06.065
+Pour remplir A sans erreur :
+
+00:01:06.065 --> 00:01:08.440
+chaque ligne correspond à une équation.
+
+00:01:08.440 --> 00:01:12.520
+On écrit le coefficient devant u n, puis le coefficient devant v n.
+
+00:01:12.520 --> 00:01:16.710
+Et si une suite n'apparaît pas, on met zéro.
+
+00:01:16.760 --> 00:01:21.499
+Deuxième étape, la démonstration qui tombe presque toujours en évaluation :
+
+00:01:21.499 --> 00:01:26.650
+pour tout entier n, X n égale A puissance n, fois X zéro.
+
+00:01:26.700 --> 00:01:28.632
+On raisonne par récurrence.
+
+00:01:28.632 --> 00:01:30.421
+La propriété P de n est :
+
+00:01:30.421 --> 00:01:34.190
+X n égale A puissance n X zéro.
+
+00:01:34.240 --> 00:01:35.302
+Initialisation.
+
+00:01:35.302 --> 00:01:38.914
+A puissance zéro, c'est la matrice identité I deux.
+
+00:01:38.914 --> 00:01:41.464
+Et I deux fois X zéro, c'est X zéro.
+
+00:01:41.464 --> 00:01:44.430
+P de zéro est vraie.
+
+00:01:44.480 --> 00:01:45.170
+Hérédité.
+
+00:01:45.170 --> 00:01:51.010
+Soit n un entier tel que X n égale A puissance n X zéro.
+
+00:01:51.060 --> 00:01:55.734
+Alors X, n plus un, égale A fois X n, par la relation de récurrence.
+
+00:01:55.734 --> 00:01:56.903
+On remplace X n :
+
+00:01:56.903 --> 00:01:58.827
+A fois A puissance n X zéro.
+
+00:01:58.827 --> 00:02:02.883
+Le produit des matrices est associatif, on peut regrouper :
+
+00:02:02.883 --> 00:02:07.850
+A fois A puissance n, c'est A puissance n plus un.
+
+00:02:07.900 --> 00:02:08.746
+Conclusion :
+
+00:02:08.746 --> 00:02:15.350
+par récurrence, X n égale A puissance n fois X zéro, pour tout entier n.
+
+00:02:15.400 --> 00:02:20.671
+C'est exactement la même démonstration que u n égale a puissance n fois u zéro.
+
+00:02:20.671 --> 00:02:21.738
+Mais attention :
+
+00:02:21.738 --> 00:02:24.007
+avec des matrices, l'ordre compte.
+
+00:02:24.007 --> 00:02:26.275
+A se met toujours à gauche de X n.
+
+00:02:26.275 --> 00:02:33.410
+Écrire X n fois A n'a même pas de sens ici, car les tailles ne sont pas compatibles.
+
+00:02:33.460 --> 00:02:34.662
+Troisième étape :
+
+00:02:34.662 --> 00:02:36.287
+calculer A puissance n.
+
+00:02:36.287 --> 00:02:38.832
+Ici on utilise la formule du binôme.
+
+00:02:38.832 --> 00:02:44.981
+On écrit A égale deux I, plus N, où N est la matrice avec un seul un, en haut à droite.
+
+00:02:44.981 --> 00:02:46.394
+On calcule N carré :
+
+00:02:46.394 --> 00:02:49.550
+c'est la matrice nulle.
+
+00:02:49.600 --> 00:02:55.123
+Pour utiliser la formule du binôme avec des matrices, il faut que les deux matrices commutent.
+
+00:02:55.123 --> 00:03:00.117
+Ici, deux I commute avec N, car la matrice identité commute avec toutes les matrices.
+
+00:03:00.117 --> 00:03:03.410
+Il faut l'écrire sur la copie.
+
+00:03:03.460 --> 00:03:04.983
+On applique le binôme :
+
+00:03:04.983 --> 00:03:11.010
+la somme, pour k de zéro à n, de k parmi n, N puissance k, fois deux I puissance n moins k.
+
+00:03:11.010 --> 00:03:16.044
+Comme N carré est nulle, tous les termes à partir de k égale deux sont nuls.
+
+00:03:16.044 --> 00:03:22.210
+Il reste deux puissance n I, plus n fois deux puissance n moins un, N.
+
+00:03:22.260 --> 00:03:30.155
+Donc A puissance n a deux puissance n sur la diagonale, n deux puissance n moins un en haut à droite, et zéro en bas à gauche.
+
+00:03:30.155 --> 00:03:34.650
+On multiplie par X zéro, qui contient un et un.
+
+00:03:34.700 --> 00:03:36.312
+On lit les deux suites :
+
+00:03:36.312 --> 00:03:40.745
+u n égale deux puissance n, plus n fois deux puissance n moins un.
+
+00:03:40.745 --> 00:03:44.290
+Et v n égale deux puissance n.
+
+00:03:44.340 --> 00:03:45.049
+On vérifie.
+
+00:03:45.049 --> 00:03:47.048
+u un égale deux plus un, trois.
+
+00:03:47.048 --> 00:03:50.464
+La relation donne deux fois un, plus un, trois aussi.
+
+00:03:50.464 --> 00:03:55.751
+Et u deux égale quatre plus quatre, huit, qui vaut bien deux fois trois plus deux.
+
+00:03:55.751 --> 00:03:57.460
+À bientôt !

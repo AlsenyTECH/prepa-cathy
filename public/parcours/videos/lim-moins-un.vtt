@@ -1,0 +1,70 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.938
+Bonjour !
+
+00:00:00.938 --> 00:00:04.023
+Comment démontrer qu'une suite ne converge pas ?
+
+00:00:04.023 --> 00:00:05.372
+L'exemple classique :
+
+00:00:05.372 --> 00:00:12.750
+u n égale moins un puissance n, c'est-à-dire un, moins un, un, moins un, et ainsi de suite.
+
+00:00:12.800 --> 00:00:13.234
+L'idée :
+
+00:00:13.234 --> 00:00:17.196
+deux termes qui se suivent sont toujours à distance deux l'un de l'autre.
+
+00:00:17.196 --> 00:00:22.850
+Or, si tous les termes étaient proches de l, ils seraient proches entre eux.
+
+00:00:22.900 --> 00:00:24.510
+On raisonne par l'absurde.
+
+00:00:24.510 --> 00:00:28.950
+Supposons que la suite converge vers un réel l.
+
+00:00:29.000 --> 00:00:32.460
+On applique la définition avec epsilon égale un demi.
+
+00:00:32.460 --> 00:00:42.190
+Il existe un rang n zéro tel que pour tout n supérieur ou égal à n zéro, la distance entre u n et l est inférieure à un demi.
+
+00:00:42.240 --> 00:00:46.147
+Alors, pour n supérieur ou égal à n zéro, on passe par l :
+
+00:00:46.147 --> 00:00:54.769
+la distance entre u, n plus un, et u n, est inférieure ou égale à la distance de u, n plus un, à l, plus la distance de l à u n.
+
+00:00:54.769 --> 00:00:56.857
+C'est l'inégalité triangulaire.
+
+00:00:56.857 --> 00:00:59.754
+Et chaque morceau est inférieur à un demi :
+
+00:00:59.754 --> 00:01:03.190
+le total est inférieur à un.
+
+00:01:03.240 --> 00:01:07.253
+Or, la distance entre deux termes consécutifs vaut toujours deux.
+
+00:01:07.253 --> 00:01:10.216
+On obtiendrait deux strictement inférieur à un :
+
+00:01:10.216 --> 00:01:12.610
+c'est absurde.
+
+00:01:12.660 --> 00:01:15.786
+Donc la suite moins un puissance n ne converge pas :
+
+00:01:15.786 --> 00:01:16.988
+elle est divergente.
+
+00:01:16.988 --> 00:01:22.519
+Cette méthode marche pour toutes les suites qui sautent sans arrêt d'une valeur à une autre.
+
+00:01:22.519 --> 00:01:24.180
+À bientôt !

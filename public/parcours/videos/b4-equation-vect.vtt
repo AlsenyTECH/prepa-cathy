@@ -1,0 +1,232 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.998
+Bonjour !
+
+00:00:00.998 --> 00:00:06.599
+Dans cette vidéo, on apprend à passer d'une équation à un Vect, et inversement.
+
+00:00:06.599 --> 00:00:09.861
+C'est la méthode de l'exercice C soixante-dix.
+
+00:00:09.861 --> 00:00:13.690
+Prenons F, l'ensemble des triplets x, y, z, tels que :
+
+00:00:13.690 --> 00:00:16.030
+x plus deux y moins z égale zéro.
+
+00:00:16.030 --> 00:00:18.937
+On veut écrire F sous la forme d'un Vect.
+
+00:00:18.937 --> 00:00:22.310
+La méthode a trois étapes.
+
+00:00:22.360 --> 00:00:23.580
+Première étape :
+
+00:00:23.580 --> 00:00:27.163
+on exprime une inconnue en fonction des autres.
+
+00:00:27.163 --> 00:00:29.832
+Ici, le plus simple est d'isoler z.
+
+00:00:29.832 --> 00:00:30.747
+On obtient :
+
+00:00:30.747 --> 00:00:32.424
+z égale x plus deux y.
+
+00:00:32.424 --> 00:00:35.245
+Les inconnues x et y restent libres :
+
+00:00:35.245 --> 00:00:38.910
+ce sont nos deux paramètres.
+
+00:00:38.960 --> 00:00:40.267
+Deuxième étape :
+
+00:00:40.267 --> 00:00:42.717
+on remplace z dans le vecteur.
+
+00:00:42.717 --> 00:00:45.167
+Un vecteur de F s'écrit donc :
+
+00:00:45.167 --> 00:00:48.350
+x, y, x plus deux y.
+
+00:00:48.400 --> 00:00:49.680
+Troisième étape :
+
+00:00:49.680 --> 00:00:51.561
+on sépare les paramètres.
+
+00:00:51.561 --> 00:00:57.583
+On met d'un côté tout ce qui dépend de x, et de l'autre tout ce qui dépend de y.
+
+00:00:57.583 --> 00:00:59.615
+Ce qui dépend de x, c'est :
+
+00:00:59.615 --> 00:01:00.443
+x, zéro, x.
+
+00:01:00.443 --> 00:01:03.228
+C'est x fois le vecteur un, zéro, un.
+
+00:01:03.228 --> 00:01:05.260
+Ce qui dépend de y, c'est :
+
+00:01:05.260 --> 00:01:06.465
+zéro, y, deux y.
+
+00:01:06.465 --> 00:01:10.950
+C'est y fois le vecteur zéro, un, deux.
+
+00:01:11.000 --> 00:01:15.466
+Tout vecteur de F est donc une combinaison linéaire de ces deux vecteurs.
+
+00:01:15.466 --> 00:01:16.200
+On conclut :
+
+00:01:16.200 --> 00:01:20.850
+F égale Vect de un, zéro, un, et de zéro, un, deux.
+
+00:01:20.900 --> 00:01:24.878
+On vérifie rapidement que ces deux vecteurs sont bien dans F.
+
+00:01:24.878 --> 00:01:25.986
+Pour le premier :
+
+00:01:25.986 --> 00:01:28.334
+un, plus zéro, moins un, égale zéro.
+
+00:01:28.334 --> 00:01:29.377
+Pour le second :
+
+00:01:29.377 --> 00:01:31.985
+zéro, plus deux, moins deux, égale zéro.
+
+00:01:31.985 --> 00:01:32.637
+C'est bon.
+
+00:01:32.637 --> 00:01:33.746
+Et retiens ceci :
+
+00:01:33.746 --> 00:01:38.250
+deux paramètres libres donnent deux vecteurs.
+
+00:01:38.300 --> 00:01:40.391
+Passons au cas de deux équations.
+
+00:01:40.391 --> 00:01:43.876
+C'est ce qui arrive quand on cherche une intersection :
+
+00:01:43.876 --> 00:01:46.537
+il faut les deux conditions en même temps.
+
+00:01:46.537 --> 00:01:49.388
+Prenons G, l'ensemble des triplets tels que :
+
+00:01:49.388 --> 00:01:54.150
+x plus deux y moins z égale zéro, et, y égale zéro.
+
+00:01:54.200 --> 00:01:58.347
+On écrit un système avec les deux équations, et on le résout.
+
+00:01:58.347 --> 00:02:01.066
+La deuxième équation donne y égale zéro.
+
+00:02:01.066 --> 00:02:03.105
+On remplace dans la première :
+
+00:02:03.105 --> 00:02:07.190
+x moins z égale zéro, donc z égale x.
+
+00:02:07.240 --> 00:02:09.978
+Il reste un seul paramètre libre :
+
+00:02:09.978 --> 00:02:10.139
+x.
+
+00:02:10.139 --> 00:02:12.555
+Un vecteur de G s'écrit donc :
+
+00:02:12.555 --> 00:02:13.441
+x, zéro, x.
+
+00:02:13.441 --> 00:02:17.950
+C'est x fois le vecteur un, zéro, un.
+
+00:02:18.000 --> 00:02:20.716
+Donc G égale Vect du vecteur un, zéro, un.
+
+00:02:20.716 --> 00:02:22.592
+C'est une droite vectorielle.
+
+00:02:22.592 --> 00:02:26.490
+Un paramètre libre donne un vecteur.
+
+00:02:26.540 --> 00:02:28.741
+Voyons maintenant le chemin inverse :
+
+00:02:28.741 --> 00:02:31.536
+on connaît un Vect, et on cherche une équation.
+
+00:02:31.536 --> 00:02:37.190
+Reprenons les vecteurs u égale un, un, zéro, et v égale un, zéro, un.
+
+00:02:37.240 --> 00:02:41.288
+Un vecteur x, y, z, est dans Vect de u, v, s'il s'écrit :
+
+00:02:41.288 --> 00:02:42.638
+lambda u plus mu v.
+
+00:02:42.638 --> 00:02:43.632
+C'est-à-dire :
+
+00:02:43.632 --> 00:02:47.810
+lambda plus mu, puis lambda, puis mu.
+
+00:02:47.860 --> 00:02:50.472
+On écrit les trois coordonnées.
+
+00:02:50.472 --> 00:02:52.410
+x égale lambda plus mu.
+
+00:02:52.410 --> 00:02:53.673
+y égale lambda.
+
+00:02:53.673 --> 00:02:56.150
+z égale mu.
+
+00:02:56.200 --> 00:03:00.549
+Les deux dernières lignes donnent directement lambda et mu :
+
+00:03:00.549 --> 00:03:02.724
+lambda égale y, et mu égale z.
+
+00:03:02.724 --> 00:03:05.261
+On remplace dans la première ligne.
+
+00:03:05.261 --> 00:03:08.088
+Il reste une relation entre x, y et z :
+
+00:03:08.088 --> 00:03:10.850
+x égale y plus z.
+
+00:03:10.900 --> 00:03:14.852
+Donc Vect de u, v, c'est l'ensemble des triplets tels que :
+
+00:03:14.852 --> 00:03:16.794
+x moins y moins z égale zéro.
+
+00:03:16.794 --> 00:03:18.067
+Retiens bien ceci :
+
+00:03:18.067 --> 00:03:23.960
+l'écriture avec une équation, et l'écriture avec un Vect, décrivent le même sous-espace.
+
+00:03:23.960 --> 00:03:27.443
+On passe de l'une à l'autre en résolvant un système.
+
+00:03:27.443 --> 00:03:29.180
+À bientôt !

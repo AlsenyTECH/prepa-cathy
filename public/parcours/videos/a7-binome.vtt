@@ -1,0 +1,166 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.955
+Bonjour !
+
+00:00:00.955 --> 00:00:07.761
+Dans cette vidéo, on calcule la puissance n-ième d'une matrice, grâce à la formule du binôme de Newton.
+
+00:00:07.761 --> 00:00:11.131
+C'est exactement l'exercice quatre de l'évaluation.
+
+00:00:11.131 --> 00:00:15.426
+On a une matrice T, triangulaire, avec des deux sur la diagonale.
+
+00:00:15.426 --> 00:00:19.910
+Et on veut T puissance n, pour tout entier n.
+
+00:00:19.960 --> 00:00:20.930
+Première idée :
+
+00:00:20.930 --> 00:00:22.806
+on sépare T en deux morceaux.
+
+00:00:22.806 --> 00:00:26.040
+La diagonale, c'est deux fois la matrice identité.
+
+00:00:26.040 --> 00:00:27.851
+Et le reste, on l'appelle N.
+
+00:00:27.851 --> 00:00:30.956
+Pour trouver N, une simple soustraction suffit :
+
+00:00:30.956 --> 00:00:32.444
+N égale T moins deux I.
+
+00:00:32.444 --> 00:00:34.514
+On retire deux sur la diagonale.
+
+00:00:34.514 --> 00:00:41.910
+Il reste une matrice avec seulement deux coefficients égaux à un, dans la dernière colonne.
+
+00:00:41.960 --> 00:00:45.221
+On calcule ensuite N au carré, c'est-à-dire N fois N.
+
+00:00:45.221 --> 00:00:47.313
+Tous les coefficients valent zéro.
+
+00:00:47.313 --> 00:00:49.282
+N au carré est la matrice nulle.
+
+00:00:49.282 --> 00:00:53.150
+C'est le point clé de tout l'exercice.
+
+00:00:53.200 --> 00:00:57.354
+Avant d'utiliser le binôme, il y a une condition indispensable :
+
+00:00:57.354 --> 00:00:59.625
+les deux matrices doivent commuter.
+
+00:00:59.625 --> 00:01:03.908
+Ici c'est vrai, parce que deux I commute avec toutes les matrices.
+
+00:01:03.908 --> 00:01:05.855
+Deux I fois N, ça fait deux N.
+
+00:01:05.855 --> 00:01:08.386
+Et N fois deux I, ça fait aussi deux N.
+
+00:01:08.386 --> 00:01:10.658
+Sur la copie, on écrit cette ligne.
+
+00:01:10.658 --> 00:01:12.216
+On n'écrit surtout pas :
+
+00:01:12.216 --> 00:01:14.090
+soit.
+
+00:01:14.140 --> 00:01:15.851
+Les deux matrices commutent.
+
+00:01:15.851 --> 00:01:21.150
+On a donc le droit d'appliquer la formule du binôme de Newton.
+
+00:01:21.200 --> 00:01:21.882
+On écrit :
+
+00:01:21.882 --> 00:01:25.699
+T puissance n égale, deux I plus N, le tout puissance n.
+
+00:01:25.699 --> 00:01:30.403
+Et d'après le binôme, c'est la somme, pour k allant de zéro à n, de :
+
+00:01:30.403 --> 00:01:34.697
+k parmi n, fois N puissance k, fois deux I puissance n moins k.
+
+00:01:34.697 --> 00:01:35.447
+Attention :
+
+00:01:35.447 --> 00:01:40.630
+on garde la lettre de l'énoncé, n, du début à la fin.
+
+00:01:40.680 --> 00:01:44.300
+C'est maintenant que N au carré égale zéro devient très utile.
+
+00:01:44.300 --> 00:01:50.898
+Si N au carré est nul, alors N au cube, N puissance quatre, et toutes les puissances suivantes sont nulles aussi.
+
+00:01:50.898 --> 00:01:54.985
+Dans la somme, tous les termes disparaissent, sauf les deux premiers :
+
+00:01:54.985 --> 00:01:58.150
+k égale zéro, et k égale un.
+
+00:01:58.200 --> 00:01:59.996
+On écrit ces deux termes.
+
+00:01:59.996 --> 00:02:01.362
+Pour k égale zéro :
+
+00:02:01.362 --> 00:02:04.092
+zéro parmi n, fois deux I puissance n.
+
+00:02:04.092 --> 00:02:05.314
+Pour k égale un :
+
+00:02:05.314 --> 00:02:09.122
+un parmi n, fois N, fois deux I puissance n moins un.
+
+00:02:09.122 --> 00:02:11.350
+Et il faut connaître par cœur :
+
+00:02:11.350 --> 00:02:15.990
+zéro parmi n vaut un, et un parmi n vaut n.
+
+00:02:16.040 --> 00:02:19.484
+Deux I puissance n, c'est deux puissance n, fois I.
+
+00:02:19.484 --> 00:02:21.442
+On obtient donc le résultat :
+
+00:02:21.442 --> 00:02:27.722
+T puissance n égale, deux puissance n fois I, plus, n fois deux puissance n moins un, fois N.
+
+00:02:27.722 --> 00:02:30.150
+On l'encadre.
+
+00:02:30.200 --> 00:02:31.386
+Dernier réflexe :
+
+00:02:31.386 --> 00:02:32.502
+la vérification.
+
+00:02:32.502 --> 00:02:35.222
+Pour n égale zéro, la formule donne I :
+
+00:02:35.222 --> 00:02:36.199
+c'est correct.
+
+00:02:36.199 --> 00:02:40.315
+Pour n égale un, elle donne deux I plus N, c'est-à-dire T :
+
+00:02:40.315 --> 00:02:41.710
+c'est correct aussi.
+
+00:02:41.710 --> 00:02:45.500
+Dix secondes, et on est sûr du résultat.

@@ -1,0 +1,130 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.961
+Bonjour !
+
+00:00:00.961 --> 00:00:03.563
+Dans cette vidéo, les limites infinies.
+
+00:00:03.563 --> 00:00:15.590
+u n tend vers plus l'infini, quand pour tout réel A, il existe un rang n zéro, tel que pour tout n supérieur ou égal à n zéro, u n est supérieur ou égal à A.
+
+00:00:15.640 --> 00:00:17.933
+C'est le même jeu que pour la convergence :
+
+00:00:17.933 --> 00:00:21.827
+on te donne un niveau A, aussi grand qu'on veut, un million, un milliard.
+
+00:00:21.827 --> 00:00:26.910
+Et à partir d'un certain rang, tous les termes doivent le dépasser.
+
+00:00:26.960 --> 00:00:27.694
+Exemple :
+
+00:00:27.694 --> 00:00:28.672
+u n égale n.
+
+00:00:28.672 --> 00:00:29.895
+Soit A un réel.
+
+00:00:29.895 --> 00:00:36.990
+On pose n zéro égale partie entière de valeur absolue de A, plus un.
+
+00:00:37.040 --> 00:00:39.530
+Pour tout n supérieur ou égal à n zéro :
+
+00:00:39.530 --> 00:00:43.763
+n est plus grand que valeur absolue de A, qui est plus grande que A.
+
+00:00:43.763 --> 00:00:44.946
+Donc u n dépasse A.
+
+00:00:44.946 --> 00:00:48.550
+La suite tend vers plus l'infini.
+
+00:00:48.600 --> 00:00:50.324
+Pourquoi la valeur absolue ?
+
+00:00:50.324 --> 00:00:52.171
+Parce que A peut être négatif.
+
+00:00:52.171 --> 00:00:55.557
+Et la partie entière d'un nombre négatif est négative :
+
+00:00:55.557 --> 00:01:00.350
+ce ne serait pas un entier naturel, donc pas un rang.
+
+00:01:00.400 --> 00:01:04.781
+Pour moins l'infini, c'est la même chose avec l'inégalité dans l'autre sens :
+
+00:01:04.781 --> 00:01:07.810
+u n inférieur ou égal à A.
+
+00:01:07.860 --> 00:01:09.683
+Deuxième exemple, du cours :
+
+00:01:09.683 --> 00:01:15.545
+la limite d'une suite arithmétique, u n égale u zéro plus n r, avec r strictement positif.
+
+00:01:15.545 --> 00:01:19.810
+On montre qu'elle tend vers plus l'infini.
+
+00:01:19.860 --> 00:01:20.806
+Au brouillon :
+
+00:01:20.806 --> 00:01:29.045
+u zéro plus n r supérieur à A équivaut à n r supérieur à A moins u zéro, c'est-à-dire n supérieur à A moins u zéro, sur r.
+
+00:01:29.045 --> 00:01:35.390
+On a le droit de diviser par r sans changer le sens, car r est positif.
+
+00:01:35.440 --> 00:01:36.375
+Sur la copie.
+
+00:01:36.375 --> 00:01:37.454
+Soit A un réel.
+
+00:01:37.454 --> 00:01:43.783
+On pose n zéro égale partie entière de valeur absolue de A moins u zéro, sur r, plus un.
+
+00:01:43.783 --> 00:01:48.550
+La valeur absolue garantit un entier naturel.
+
+00:01:48.600 --> 00:01:50.865
+Pour n supérieur ou égal à n zéro :
+
+00:01:50.865 --> 00:01:53.583
+n est plus grand que A moins u zéro sur r.
+
+00:01:53.583 --> 00:01:55.460
+On multiplie par r, positif :
+
+00:01:55.460 --> 00:01:57.919
+n r est plus grand que A moins u zéro.
+
+00:01:57.919 --> 00:02:01.410
+Donc u n est plus grand que A.
+
+00:02:01.460 --> 00:02:04.210
+Si r est négatif, pas besoin de tout refaire :
+
+00:02:04.210 --> 00:02:07.856
+moins u est arithmétique de raison moins r, qui est positive.
+
+00:02:07.856 --> 00:02:13.710
+Donc moins u n tend vers plus l'infini, et u n tend vers moins l'infini.
+
+00:02:13.760 --> 00:02:16.314
+Si r est nul, la suite est constante.
+
+00:02:16.314 --> 00:02:17.280
+Et attention :
+
+00:02:17.280 --> 00:02:23.424
+si on divise par r négatif, le sens de l'inégalité change, et le rang obtenu est négatif.
+
+00:02:23.424 --> 00:02:26.461
+C'est l'erreur qui se trouve dans les notes.
+
+00:02:26.461 --> 00:02:28.220
+À bientôt !

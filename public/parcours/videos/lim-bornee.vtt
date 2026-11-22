@@ -1,0 +1,127 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:01.006
+Bonjour !
+
+00:00:01.006 --> 00:00:04.666
+Deux démonstrations de la proposition quatre trois.
+
+00:00:04.666 --> 00:00:05.312
+D'abord :
+
+00:00:05.312 --> 00:00:09.230
+une suite convergente est bornée.
+
+00:00:09.280 --> 00:00:11.776
+Soit u une suite qui converge vers l.
+
+00:00:11.776 --> 00:00:15.013
+On applique la définition avec epsilon égale un.
+
+00:00:15.013 --> 00:00:24.050
+Il existe un rang n zéro tel que pour tout n supérieur ou égal à n zéro, u n est entre l moins un et l plus un.
+
+00:00:24.100 --> 00:00:24.968
+Le problème :
+
+00:00:24.968 --> 00:00:27.239
+les termes d'avant le rang n zéro.
+
+00:00:27.239 --> 00:00:29.243
+Ils peuvent être n'importe où.
+
+00:00:29.243 --> 00:00:32.710
+Mais ils sont en nombre fini.
+
+00:00:32.760 --> 00:00:38.670
+On pose petit m égale le minimum de u zéro, jusqu'à u, n zéro moins un, et de l moins un.
+
+00:00:38.670 --> 00:00:42.920
+Et grand M égale le maximum de ces mêmes termes et de l plus un.
+
+00:00:42.920 --> 00:00:49.650
+Ils existent, car on prend le minimum et le maximum d'un nombre fini de réels.
+
+00:00:49.700 --> 00:00:50.368
+Deux cas.
+
+00:00:50.368 --> 00:00:56.080
+Si n est avant n zéro, u n fait partie de la liste, donc il est entre m et M.
+
+00:00:56.080 --> 00:01:03.990
+Si n est après n zéro, u n est entre l moins un et l plus un, donc aussi entre m et M.
+
+00:01:04.040 --> 00:01:04.935
+Conclusion :
+
+00:01:04.935 --> 00:01:07.469
+pour tout n, u n est entre m et M.
+
+00:01:07.469 --> 00:01:10.510
+La suite est bornée.
+
+00:01:10.560 --> 00:01:11.261
+Attention :
+
+00:01:11.261 --> 00:01:12.855
+la réciproque est fausse.
+
+00:01:12.855 --> 00:01:16.298
+Moins un puissance n est bornée, mais ne converge pas.
+
+00:01:16.298 --> 00:01:19.103
+En revanche, la contraposée est très utile :
+
+00:01:19.103 --> 00:01:23.610
+une suite qui n'est pas bornée ne converge pas.
+
+00:01:23.660 --> 00:01:24.670
+Deuxième point :
+
+00:01:24.670 --> 00:01:32.850
+si u converge vers l, non nul, alors à partir d'un certain rang, u n est non nul, et du même signe que l.
+
+00:01:32.900 --> 00:01:34.572
+Cas l strictement positif.
+
+00:01:34.572 --> 00:01:36.886
+On choisit epsilon égale l sur deux.
+
+00:01:36.886 --> 00:01:39.972
+C'est la moitié de la distance entre l et zéro :
+
+00:01:39.972 --> 00:01:45.810
+la marge est assez petite pour que l'intervalle ne touche pas zéro.
+
+00:01:45.860 --> 00:01:57.690
+Il existe un rang n zéro tel que pour tout n supérieur ou égal à n zéro, u n est plus grand que l moins l sur deux, c'est-à-dire l sur deux, qui est strictement positif.
+
+00:01:57.740 --> 00:01:58.688
+Cas l négatif.
+
+00:01:58.688 --> 00:02:02.547
+On prend epsilon égale moins l sur deux, qui est positif.
+
+00:02:02.547 --> 00:02:10.510
+Alors u n est inférieur à l plus epsilon, c'est-à-dire l sur deux, qui est strictement négatif.
+
+00:02:10.560 --> 00:02:14.326
+La proposition quatre quatre se démontre avec la même idée.
+
+00:02:14.326 --> 00:02:17.709
+Si u n tend vers plus l'infini, on prend A égale un :
+
+00:02:17.709 --> 00:02:22.450
+à partir d'un rang n zéro, u n est supérieur à un.
+
+00:02:22.500 --> 00:02:28.111
+Et le minimum de u zéro, jusqu'à u, n zéro moins un, et de un, minore toute la suite.
+
+00:02:28.111 --> 00:02:29.233
+Encore une fois :
+
+00:02:29.233 --> 00:02:31.874
+les premiers termes sont en nombre fini.
+
+00:02:31.874 --> 00:02:33.600
+À bientôt !

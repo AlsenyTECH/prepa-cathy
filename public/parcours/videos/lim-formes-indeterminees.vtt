@@ -1,0 +1,148 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.961
+Bonjour !
+
+00:00:00.961 --> 00:00:04.965
+Dans cette vidéo, on apprend à lever une forme indéterminée.
+
+00:00:04.965 --> 00:00:06.167
+Il y en a quatre :
+
+00:00:06.167 --> 00:00:13.390
+l'infini moins l'infini, zéro fois l'infini, l'infini sur l'infini, et zéro sur zéro.
+
+00:00:13.440 --> 00:00:15.468
+Dans ces cas, tout peut arriver.
+
+00:00:15.468 --> 00:00:17.940
+Deux n moins n tend vers plus l'infini.
+
+00:00:17.940 --> 00:00:20.475
+n moins deux n tend vers moins l'infini.
+
+00:00:20.475 --> 00:00:22.630
+n plus trois, moins n, vaut trois.
+
+00:00:22.630 --> 00:00:26.370
+Et n plus moins un puissance n, moins n, n'a pas de limite.
+
+00:00:26.370 --> 00:00:28.715
+Les règles de calcul ne disent rien :
+
+00:00:28.715 --> 00:00:32.210
+il faut transformer l'écriture.
+
+00:00:32.260 --> 00:00:33.500
+Première méthode :
+
+00:00:33.500 --> 00:00:34.741
+le terme dominant.
+
+00:00:34.741 --> 00:00:39.530
+On factorise par la plus grande puissance de n.
+
+00:00:39.580 --> 00:00:40.171
+Exemple :
+
+00:00:40.171 --> 00:00:42.140
+n carré moins trois n plus un.
+
+00:00:42.140 --> 00:00:43.846
+On factorise par n carré :
+
+00:00:43.846 --> 00:00:47.390
+n carré fois un moins trois sur n plus un sur n carré.
+
+00:00:47.390 --> 00:00:51.263
+La parenthèse tend vers un, et n carré vers plus l'infini :
+
+00:00:51.263 --> 00:00:55.110
+le produit tend vers plus l'infini.
+
+00:00:55.160 --> 00:00:56.357
+Pour une fraction :
+
+00:00:56.357 --> 00:00:59.002
+deux n carré plus un, sur n carré moins n.
+
+00:00:59.002 --> 00:01:01.711
+On factorise par n carré en haut et en bas.
+
+00:01:01.711 --> 00:01:03.412
+Les n carré se simplifient.
+
+00:01:03.412 --> 00:01:11.410
+Il reste deux plus un sur n carré, sur un moins un sur n, qui tend vers deux sur un, c'est-à-dire deux.
+
+00:01:11.460 --> 00:01:13.224
+Le réflexe pour les fractions :
+
+00:01:13.224 --> 00:01:18.850
+on factorise par le terme dominant en haut et en bas, puis on simplifie.
+
+00:01:18.900 --> 00:01:20.056
+Deuxième méthode :
+
+00:01:20.056 --> 00:01:21.470
+la quantité conjuguée.
+
+00:01:21.470 --> 00:01:27.690
+On l'utilise pour une forme infini moins infini avec des racines carrées.
+
+00:01:27.740 --> 00:01:28.358
+Exemple :
+
+00:01:28.358 --> 00:01:31.723
+w n égale racine de n plus un, moins racine de n.
+
+00:01:31.723 --> 00:01:34.814
+Les deux racines tendent vers plus l'infini :
+
+00:01:34.814 --> 00:01:36.806
+c'est une forme indéterminée.
+
+00:01:36.806 --> 00:01:43.850
+On va utiliser l'identité a moins b, fois a plus b, égale a carré moins b carré.
+
+00:01:43.900 --> 00:01:47.410
+On multiplie et on divise par la somme des deux racines.
+
+00:01:47.410 --> 00:01:51.296
+Au numérateur, on obtient n plus un, moins n, c'est-à-dire un.
+
+00:01:51.296 --> 00:01:56.210
+Il reste un, sur racine de n plus un plus racine de n.
+
+00:01:56.260 --> 00:01:59.019
+Le dénominateur tend vers plus l'infini :
+
+00:01:59.019 --> 00:02:00.297
+w n tend vers zéro.
+
+00:02:00.297 --> 00:02:04.250
+Il n'y a plus de forme indéterminée.
+
+00:02:04.300 --> 00:02:06.130
+Un exemple plus difficile :
+
+00:02:06.130 --> 00:02:08.435
+racine de n carré plus n, moins n.
+
+00:02:08.435 --> 00:02:13.789
+Après la quantité conjuguée, on obtient n sur racine de n carré plus n, plus n.
+
+00:02:13.789 --> 00:02:17.382
+On factorise par n en bas, en sortant n de la racine.
+
+00:02:17.382 --> 00:02:25.710
+Les n se simplifient, et il reste un sur racine de un plus un sur n, plus un, qui tend vers un demi.
+
+00:02:25.760 --> 00:02:26.723
+Sur la copie :
+
+00:02:26.723 --> 00:02:31.743
+on écrit d'abord forme indéterminée, puis on transforme, puis on conclut.
+
+00:02:31.743 --> 00:02:33.500
+À bientôt !

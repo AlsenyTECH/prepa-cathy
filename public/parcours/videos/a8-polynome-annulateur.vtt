@@ -1,0 +1,259 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:01.007
+Bonjour !
+
+00:00:01.007 --> 00:00:07.546
+Dans cette vidéo, on calcule la puissance n-ième d'une matrice avec un polynôme annulateur.
+
+00:00:07.546 --> 00:00:10.277
+C'est l'exercice cinq de l'évaluation.
+
+00:00:10.277 --> 00:00:13.295
+La méthode comporte toujours trois étapes.
+
+00:00:13.295 --> 00:00:13.583
+Un :
+
+00:00:13.583 --> 00:00:15.810
+trouver un polynôme annulateur.
+
+00:00:15.810 --> 00:00:16.242
+Deux :
+
+00:00:16.242 --> 00:00:18.469
+faire une division euclidienne.
+
+00:00:18.469 --> 00:00:18.972
+Trois :
+
+00:00:18.972 --> 00:00:22.750
+en déduire la puissance n-ième.
+
+00:00:22.800 --> 00:00:23.809
+Première étape.
+
+00:00:23.809 --> 00:00:26.834
+On calcule A au carré, c'est-à-dire A fois A.
+
+00:00:26.834 --> 00:00:27.574
+On trouve :
+
+00:00:27.574 --> 00:00:30.398
+cinq, moins quatre, sur la première ligne.
+
+00:00:30.398 --> 00:00:34.550
+Et moins quatre, cinq, sur la deuxième.
+
+00:00:34.600 --> 00:00:38.944
+On cherche maintenant à écrire A au carré avec A et la matrice identité.
+
+00:00:38.944 --> 00:00:44.495
+On cherche donc deux nombres, alpha et bêta, tels que A au carré égale alpha A, plus bêta I.
+
+00:00:44.495 --> 00:00:47.633
+La matrice alpha A plus bêta I a pour coefficients :
+
+00:00:47.633 --> 00:00:53.990
+alpha plus bêta sur la diagonale, et moins deux alpha en dehors de la diagonale.
+
+00:00:54.040 --> 00:00:55.883
+On compare les coefficients.
+
+00:00:55.883 --> 00:00:57.660
+En dehors de la diagonale :
+
+00:00:57.660 --> 00:01:01.544
+moins deux alpha égale moins quatre, donc alpha égale deux.
+
+00:01:01.544 --> 00:01:02.729
+Sur la diagonale :
+
+00:01:02.729 --> 00:01:07.550
+alpha plus bêta égale cinq, donc bêta égale trois.
+
+00:01:07.600 --> 00:01:08.294
+On a donc :
+
+00:01:08.294 --> 00:01:10.628
+A au carré égale deux A plus trois I.
+
+00:01:10.628 --> 00:01:12.395
+On passe tout du même côté :
+
+00:01:12.395 --> 00:01:16.432
+A au carré, moins deux A, moins trois I, égale la matrice nulle.
+
+00:01:16.432 --> 00:01:22.551
+Le polynôme P de x, égale x au carré, moins deux x, moins trois, est un polynôme annulateur de A.
+
+00:01:22.551 --> 00:01:29.590
+Annulateur, cela veut dire que, quand on remplace x par A, on obtient la matrice nulle.
+
+00:01:29.640 --> 00:01:30.614
+Deuxième étape.
+
+00:01:30.614 --> 00:01:32.367
+On factorise le polynôme P.
+
+00:01:32.367 --> 00:01:34.704
+Ses racines sont moins un, et trois.
+
+00:01:34.704 --> 00:01:36.068
+On peut le vérifier :
+
+00:01:36.068 --> 00:01:39.834
+moins un au carré, plus deux, moins trois, cela fait zéro.
+
+00:01:39.834 --> 00:01:44.610
+Ces deux racines vont nous servir dans un instant.
+
+00:01:44.660 --> 00:01:48.839
+On effectue la division euclidienne de x puissance n par P.
+
+00:01:48.839 --> 00:01:51.035
+On ne la calcule pas vraiment :
+
+00:01:51.035 --> 00:01:53.019
+on écrit seulement sa forme.
+
+00:01:53.019 --> 00:01:56.915
+x puissance n égale, P de x fois Q de x, plus un reste.
+
+00:01:56.915 --> 00:02:01.165
+Comme P est de degré deux, le reste est de degré au plus un.
+
+00:02:01.165 --> 00:02:02.370
+Il s'écrit donc :
+
+00:02:02.370 --> 00:02:03.857
+a n fois x, plus b n.
+
+00:02:03.857 --> 00:02:08.150
+Notre but, c'est de trouver a n et b n.
+
+00:02:08.200 --> 00:02:09.303
+Voici l'astuce.
+
+00:02:09.303 --> 00:02:11.802
+On remplace x par une racine de P.
+
+00:02:11.802 --> 00:02:17.756
+Avec x égale moins un, P de moins un vaut zéro, donc le terme P fois Q disparaît.
+
+00:02:17.756 --> 00:02:18.491
+Il reste :
+
+00:02:18.491 --> 00:02:23.550
+moins un puissance n égale, moins a n, plus b n.
+
+00:02:23.600 --> 00:02:26.340
+On fait la même chose avec l'autre racine.
+
+00:02:26.340 --> 00:02:27.644
+Avec x égale trois :
+
+00:02:27.644 --> 00:02:32.110
+trois puissance n égale, trois a n, plus b n.
+
+00:02:32.160 --> 00:02:34.598
+On a deux équations, et deux inconnues.
+
+00:02:34.598 --> 00:02:37.161
+On soustrait la première de la deuxième :
+
+00:02:37.161 --> 00:02:41.225
+quatre a n égale, trois puissance n, moins, moins un puissance n.
+
+00:02:41.225 --> 00:02:44.150
+Puis on en déduit b n.
+
+00:02:44.200 --> 00:02:44.948
+On obtient :
+
+00:02:44.948 --> 00:02:49.751
+a n égale, trois puissance n moins, moins un puissance n, le tout sur quatre.
+
+00:02:49.751 --> 00:02:55.301
+Et b n égale, trois puissance n plus trois fois moins un puissance n, le tout sur quatre.
+
+00:02:55.301 --> 00:03:01.010
+Remarque bien qu'on n'a jamais eu besoin de calculer le quotient Q.
+
+00:03:01.060 --> 00:03:02.816
+Troisième et dernière étape.
+
+00:03:02.816 --> 00:03:09.550
+On reprend l'égalité de la division euclidienne, et on remplace x par la matrice A.
+
+00:03:09.600 --> 00:03:10.432
+On obtient :
+
+00:03:10.432 --> 00:03:15.563
+A puissance n égale, P de A fois Q de A, plus a n fois A, plus b n fois I.
+
+00:03:15.563 --> 00:03:17.504
+Attention au dernier terme :
+
+00:03:17.504 --> 00:03:22.590
+le nombre b n devient b n fois la matrice identité.
+
+00:03:22.640 --> 00:03:26.383
+Et c'est ici que le mot annulateur prend tout son sens.
+
+00:03:26.383 --> 00:03:28.288
+P de A est la matrice nulle.
+
+00:03:28.288 --> 00:03:30.125
+Le premier terme disparaît.
+
+00:03:30.125 --> 00:03:30.806
+Il reste :
+
+00:03:30.806 --> 00:03:35.690
+A puissance n égale, a n fois A, plus b n fois I.
+
+00:03:35.740 --> 00:03:41.390
+On remplace a n et b n par leurs valeurs, et on écrit les deux matrices.
+
+00:03:41.440 --> 00:03:44.545
+Après calcul, on obtient le résultat final.
+
+00:03:44.545 --> 00:03:45.845
+Sur la diagonale :
+
+00:03:45.845 --> 00:03:49.022
+trois puissance n plus moins un puissance n.
+
+00:03:49.022 --> 00:03:50.971
+En dehors de la diagonale :
+
+00:03:50.971 --> 00:03:54.293
+moins un puissance n, moins trois puissance n.
+
+00:03:54.293 --> 00:03:56.026
+Le tout divisé par deux.
+
+00:03:56.026 --> 00:03:58.390
+On encadre.
+
+00:03:58.440 --> 00:04:00.557
+Et, comme toujours, on vérifie.
+
+00:04:00.557 --> 00:04:03.903
+Pour n égale zéro, on trouve la matrice identité.
+
+00:04:03.903 --> 00:04:07.112
+Pour n égale un, on retrouve bien la matrice A.
+
+00:04:07.112 --> 00:04:08.750
+La formule est correcte.
+
+00:04:08.750 --> 00:04:10.526
+Retiens les trois étapes :
+
+00:04:10.526 --> 00:04:15.169
+polynôme annulateur, division euclidienne, puis on remplace x par A.
+
+00:04:15.169 --> 00:04:16.920
+À bientôt !

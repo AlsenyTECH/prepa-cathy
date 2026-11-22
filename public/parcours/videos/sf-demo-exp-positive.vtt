@@ -1,0 +1,139 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.954
+Bonjour !
+
+00:00:00.954 --> 00:00:09.607
+Dans cette vidéo, on démontre que l'exponentielle est strictement positive, puis ses limites en plus l'infini et en moins l'infini.
+
+00:00:09.607 --> 00:00:11.720
+Ce qu'on a le droit d'utiliser :
+
+00:00:11.720 --> 00:00:17.665
+la définition, exponentielle prime égale exponentielle, et exponentielle de zéro égale un.
+
+00:00:17.665 --> 00:00:20.043
+Et deux propriétés déjà démontrées :
+
+00:00:20.043 --> 00:00:28.990
+e puissance x fois e puissance moins x égale un, et e puissance x plus y égale e puissance x fois e puissance y.
+
+00:00:29.040 --> 00:00:30.402
+Ce qu'on veut montrer :
+
+00:00:30.402 --> 00:00:38.310
+pour tout réel x, e puissance x est strictement positif, et donc l'exponentielle est strictement croissante.
+
+00:00:38.360 --> 00:00:39.044
+L'astuce :
+
+00:00:39.044 --> 00:00:40.893
+on coupe x en deux moitiés.
+
+00:00:40.893 --> 00:00:43.357
+x, c'est x sur deux plus x sur deux.
+
+00:00:43.357 --> 00:00:48.627
+Donc e puissance x égale e puissance x sur deux, fois e puissance x sur deux.
+
+00:00:48.627 --> 00:00:49.722
+C'est un carré !
+
+00:00:49.722 --> 00:00:53.990
+Et un carré est toujours positif ou nul.
+
+00:00:54.040 --> 00:00:56.165
+Mais on veut strictement positif.
+
+00:00:56.165 --> 00:01:02.282
+On sait que e puissance x n'est jamais nul, car e puissance x fois e puissance moins x vaut un.
+
+00:01:02.282 --> 00:01:06.710
+Positif et non nul, donc strictement positif.
+
+00:01:06.760 --> 00:01:07.960
+Pour la croissance :
+
+00:01:07.960 --> 00:01:14.680
+la dérivée de l'exponentielle, c'est l'exponentielle elle-même, qui est strictement positive sur l'intervalle R.
+
+00:01:14.680 --> 00:01:21.090
+Donc, d'après le théorème deux douze, l'exponentielle est strictement croissante.
+
+00:01:21.140 --> 00:01:21.988
+Conséquence :
+
+00:01:21.988 --> 00:01:24.793
+on compare à e puissance zéro, qui vaut un.
+
+00:01:24.793 --> 00:01:28.315
+Si x est positif, e puissance x est plus grand que un.
+
+00:01:28.315 --> 00:01:32.650
+Si x est négatif, il est plus petit que un.
+
+00:01:32.700 --> 00:01:33.761
+Deuxième partie :
+
+00:01:33.761 --> 00:01:34.510
+les limites.
+
+00:01:34.510 --> 00:01:43.050
+On veut montrer que e puissance x tend vers plus l'infini en plus l'infini, et vers zéro plus en moins l'infini.
+
+00:01:43.100 --> 00:01:44.251
+En plus l'infini.
+
+00:01:44.251 --> 00:01:50.275
+On a démontré, dans une autre vidéo, que e puissance x est supérieur ou égal à un plus x.
+
+00:01:50.275 --> 00:01:52.576
+Et un plus x est plus grand que x.
+
+00:01:52.576 --> 00:01:58.390
+Donc e puissance x est supérieur ou égal à x, pour tout réel x.
+
+00:01:58.440 --> 00:02:01.966
+Quand x tend vers plus l'infini, x tend vers plus l'infini.
+
+00:02:01.966 --> 00:02:04.238
+Et e puissance x est plus grand que x.
+
+00:02:04.238 --> 00:02:10.310
+Par le théorème de comparaison, e puissance x tend aussi vers plus l'infini.
+
+00:02:10.360 --> 00:02:11.457
+En moins l'infini.
+
+00:02:11.457 --> 00:02:15.237
+On écrit e puissance x comme l'inverse de e puissance moins x.
+
+00:02:15.237 --> 00:02:20.810
+Quand x tend vers moins l'infini, moins x tend vers plus l'infini.
+
+00:02:20.860 --> 00:02:25.582
+Donc e puissance moins x tend vers plus l'infini, d'après ce qu'on vient de démontrer.
+
+00:02:25.582 --> 00:02:31.010
+Et l'inverse d'une quantité qui tend vers plus l'infini tend vers zéro.
+
+00:02:31.060 --> 00:02:34.100
+Enfin, e puissance x est strictement positif :
+
+00:02:34.100 --> 00:02:37.404
+la limite zéro est atteinte par valeurs positives.
+
+00:02:37.404 --> 00:02:40.210
+On écrit zéro plus.
+
+00:02:40.260 --> 00:02:41.897
+Pourquoi c'est important ?
+
+00:02:41.897 --> 00:02:50.967
+Avec ces deux limites, la continuité, et le théorème des valeurs intermédiaires, l'exponentielle prend toutes les valeurs strictement positives.
+
+00:02:50.967 --> 00:02:55.627
+C'est ce qui permet de définir le logarithme comme sa fonction réciproque.
+
+00:02:55.627 --> 00:02:57.320
+À bientôt !

@@ -1,0 +1,151 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.952
+Bonjour !
+
+00:00:00.952 --> 00:00:05.229
+Dans cette vidéo, on traite les suites arithmético-géométriques :
+
+00:00:05.229 --> 00:00:07.795
+u, n plus un, égale a fois u n, plus b.
+
+00:00:07.795 --> 00:00:09.770
+C'est la proposition deux six.
+
+00:00:09.770 --> 00:00:17.090
+On commence par comprendre pourquoi la méthode marche, puis on la rédige sur un exemple.
+
+00:00:17.140 --> 00:00:17.647
+L'idée :
+
+00:00:17.647 --> 00:00:21.765
+on cherche un nombre l qui vérifie la même relation que la suite.
+
+00:00:21.765 --> 00:00:26.210
+On écrit les deux égalités l'une sous l'autre.
+
+00:00:26.260 --> 00:00:27.234
+La première :
+
+00:00:27.234 --> 00:00:31.310
+u, n plus un, égale a u n, plus b.
+
+00:00:31.360 --> 00:00:32.265
+La deuxième :
+
+00:00:32.265 --> 00:00:33.658
+l égale a l, plus b.
+
+00:00:33.658 --> 00:00:37.279
+Ce nombre l existe parce que a est différent de un :
+
+00:00:37.279 --> 00:00:40.590
+l égale b sur un moins a.
+
+00:00:40.640 --> 00:00:43.000
+On soustrait les deux lignes.
+
+00:00:43.000 --> 00:00:43.814
+À gauche :
+
+00:00:43.814 --> 00:00:45.605
+u, n plus un, moins l.
+
+00:00:45.605 --> 00:00:46.419
+À droite :
+
+00:00:46.419 --> 00:00:47.803
+a u n, moins a l.
+
+00:00:47.803 --> 00:00:49.349
+Les b ont disparu !
+
+00:00:49.349 --> 00:00:52.690
+Et on factorise par a.
+
+00:00:52.740 --> 00:00:55.666
+Si on pose v n égale u n moins l, on lit :
+
+00:00:55.666 --> 00:00:57.826
+v, n plus un, égale a fois v n.
+
+00:00:57.826 --> 00:01:00.614
+C'est une suite géométrique de raison a.
+
+00:01:00.614 --> 00:01:05.090
+Donc v n égale a puissance n, fois v zéro.
+
+00:01:05.140 --> 00:01:06.462
+Et on revient à u :
+
+00:01:06.462 --> 00:01:11.610
+u n égale l, plus a puissance n fois u zéro moins l.
+
+00:01:11.660 --> 00:01:14.868
+Maintenant, un exemple, rédigé comme sur une copie.
+
+00:01:14.868 --> 00:01:20.550
+u zéro égale cinq, et u, n plus un, égale un demi u n, plus trois.
+
+00:01:20.600 --> 00:01:23.889
+On cherche l tel que l égale un demi l plus trois.
+
+00:01:23.889 --> 00:01:28.050
+Un demi l égale trois, donc l égale six.
+
+00:01:28.100 --> 00:01:31.450
+Sur la copie, on ne cite pas simplement la formule :
+
+00:01:31.450 --> 00:01:34.543
+on redémontre que u n moins six est géométrique.
+
+00:01:34.543 --> 00:01:38.795
+u, n plus un, moins six, égale un demi u n, plus trois, moins six.
+
+00:01:38.795 --> 00:01:40.728
+C'est un demi u n moins trois.
+
+00:01:40.728 --> 00:01:42.596
+Et on factorise par un demi :
+
+00:01:42.596 --> 00:01:45.910
+un demi, fois u n moins six.
+
+00:01:45.960 --> 00:01:49.914
+Donc la suite u n moins six est géométrique de raison un demi.
+
+00:01:49.914 --> 00:01:53.868
+Son premier terme est u zéro moins six, c'est-à-dire moins un.
+
+00:01:53.868 --> 00:01:58.650
+Donc u n moins six égale moins un demi puissance n.
+
+00:01:58.700 --> 00:01:59.597
+Conclusion :
+
+00:01:59.597 --> 00:02:04.190
+u n égale six, moins un demi puissance n.
+
+00:02:04.240 --> 00:02:05.227
+Et on vérifie.
+
+00:02:05.227 --> 00:02:06.567
+Pour n égale zéro :
+
+00:02:06.567 --> 00:02:09.953
+six moins un, cela fait cinq, c'est bien u zéro.
+
+00:02:09.953 --> 00:02:11.152
+Pour n égale un :
+
+00:02:11.152 --> 00:02:15.031
+on calcule u un avec la relation, on trouve onze demis.
+
+00:02:15.031 --> 00:02:18.980
+Et la formule donne six moins un demi, onze demis aussi.
+
+00:02:18.980 --> 00:02:19.544
+Parfait.
+
+00:02:19.544 --> 00:02:21.320
+À bientôt !

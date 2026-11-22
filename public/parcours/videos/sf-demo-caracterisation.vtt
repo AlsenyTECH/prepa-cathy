@@ -1,0 +1,148 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.918
+Bonjour !
+
+00:00:00.918 --> 00:00:04.017
+Dans cette vidéo, une démonstration en deux sens :
+
+00:00:04.017 --> 00:00:13.110
+une suite est arithmétique si et seulement si chaque terme est la moyenne du terme qui le précède et de celui qui le suit.
+
+00:00:13.160 --> 00:00:14.214
+Première chose :
+
+00:00:14.214 --> 00:00:16.321
+on traduit la phrase en formule.
+
+00:00:16.321 --> 00:00:20.405
+La moyenne de deux nombres, c'est leur somme divisée par deux.
+
+00:00:20.405 --> 00:00:22.315
+La propriété étoile s'écrit :
+
+00:00:22.315 --> 00:00:28.967
+pour tout n supérieur ou égal à n zéro plus un, u n égale u, n moins un, plus u, n plus un, sur deux.
+
+00:00:28.967 --> 00:00:34.910
+On demande n supérieur à n zéro pour que le terme précédent existe.
+
+00:00:34.960 --> 00:00:35.717
+Un exemple :
+
+00:00:35.717 --> 00:00:37.106
+un, quatre, sept, dix.
+
+00:00:37.106 --> 00:00:41.777
+Quatre est la moyenne de un et sept, sept est la moyenne de quatre et dix.
+
+00:00:41.777 --> 00:00:48.210
+Et comme l'énoncé dit si et seulement si, il faut démontrer deux implications.
+
+00:00:48.260 --> 00:00:49.159
+Sens direct.
+
+00:00:49.159 --> 00:00:52.079
+On suppose u arithmétique, de raison b.
+
+00:00:52.079 --> 00:00:55.224
+Soit n supérieur ou égal à n zéro plus un.
+
+00:00:55.224 --> 00:00:57.919
+On a u, n plus un, égale u n plus b.
+
+00:00:57.919 --> 00:01:05.010
+Et u n égale u, n moins un, plus b, donc u, n moins un, égale u n moins b.
+
+00:01:05.060 --> 00:01:06.683
+On calcule la moyenne :
+
+00:01:06.683 --> 00:01:09.436
+u n moins b, plus u n plus b, sur deux.
+
+00:01:09.436 --> 00:01:10.847
+Les b se compensent.
+
+00:01:10.847 --> 00:01:14.023
+Il reste deux u n sur deux, c'est-à-dire u n.
+
+00:01:14.023 --> 00:01:17.690
+La propriété étoile est vraie.
+
+00:01:17.740 --> 00:01:18.853
+Sens réciproque.
+
+00:01:18.853 --> 00:01:24.486
+On suppose la propriété étoile, et on veut montrer que la suite est arithmétique.
+
+00:01:24.486 --> 00:01:25.043
+L'idée :
+
+00:01:25.043 --> 00:01:28.451
+on regarde l'écart entre deux termes consécutifs.
+
+00:01:28.451 --> 00:01:31.372
+On pose d n égale u, n plus un, moins u n.
+
+00:01:31.372 --> 00:01:36.290
+Il faut montrer que cet écart ne dépend pas de n.
+
+00:01:36.340 --> 00:01:38.799
+On transforme la propriété étoile.
+
+00:01:38.799 --> 00:01:40.462
+On multiplie par deux :
+
+00:01:40.462 --> 00:01:43.934
+deux u n égale u, n moins un, plus u, n plus un.
+
+00:01:43.934 --> 00:01:45.091
+On fait passer :
+
+00:01:45.091 --> 00:01:49.068
+u, n plus un, moins u n, égale u n moins u, n moins un.
+
+00:01:49.068 --> 00:01:50.153
+Autrement dit :
+
+00:01:50.153 --> 00:01:51.889
+d n égale d, n moins un.
+
+00:01:51.889 --> 00:01:55.950
+Deux écarts consécutifs sont égaux.
+
+00:01:56.000 --> 00:02:00.384
+Par récurrence, tous les écarts sont égaux au premier, d, n zéro.
+
+00:02:00.384 --> 00:02:02.474
+C'est vrai pour n égale n zéro.
+
+00:02:02.474 --> 00:02:11.490
+Et si d n égale d, n zéro, alors d, n plus un, égale d n, d'après ce qu'on vient de voir, donc égale d, n zéro.
+
+00:02:11.540 --> 00:02:13.474
+On appelle b ce premier écart.
+
+00:02:13.474 --> 00:02:17.990
+Pour tout n, u, n plus un, moins u n, égale b.
+
+00:02:18.040 --> 00:02:21.400
+C'est la définition d'une suite arithmétique de raison b.
+
+00:02:21.400 --> 00:02:25.150
+Les deux implications sont démontrées.
+
+00:02:25.200 --> 00:02:28.050
+Sur ta copie, annonce clairement chaque sens :
+
+00:02:28.050 --> 00:02:31.519
+flèche vers la droite, supposons que u est arithmétique.
+
+00:02:31.519 --> 00:02:34.679
+Puis flèche vers la gauche, supposons la propriété.
+
+00:02:34.679 --> 00:02:37.219
+Le correcteur doit voir les deux parties.
+
+00:02:37.219 --> 00:02:38.900
+À bientôt !

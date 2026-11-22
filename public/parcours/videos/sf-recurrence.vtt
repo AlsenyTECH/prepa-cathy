@@ -1,0 +1,154 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.925
+Bonjour !
+
+00:00:00.925 --> 00:00:07.322
+Aujourd'hui, une démonstration par récurrence, comme on en trouve dans presque toutes les évaluations.
+
+00:00:07.322 --> 00:00:12.717
+La suite commence à u zéro égale zéro, et u, n plus un, égale racine de deux plus u n.
+
+00:00:12.717 --> 00:00:18.030
+On veut montrer que tous les termes sont entre zéro et deux.
+
+00:00:18.080 --> 00:00:19.268
+Première chose :
+
+00:00:19.268 --> 00:00:21.643
+on écrit la propriété en entier.
+
+00:00:21.643 --> 00:00:22.237
+P de n :
+
+00:00:22.237 --> 00:00:27.850
+zéro inférieur ou égal à u n, inférieur ou égal à deux.
+
+00:00:27.900 --> 00:00:29.027
+Initialisation.
+
+00:00:29.027 --> 00:00:30.304
+u zéro vaut zéro.
+
+00:00:30.304 --> 00:00:32.782
+Zéro est bien entre zéro et deux.
+
+00:00:32.782 --> 00:00:36.230
+Donc P de zéro est vraie.
+
+00:00:36.280 --> 00:00:36.879
+Hérédité.
+
+00:00:36.879 --> 00:00:38.411
+Attention à la phrase :
+
+00:00:38.411 --> 00:00:41.208
+soit n un entier tel que P de n est vraie.
+
+00:00:41.208 --> 00:00:42.540
+On fixe un entier n.
+
+00:00:42.540 --> 00:00:50.550
+On ne suppose surtout pas la propriété pour tout n, sinon on supposerait ce qu'on veut démontrer.
+
+00:00:50.600 --> 00:00:54.838
+On part de l'hypothèse, et on fabrique u, n plus un, étape par étape.
+
+00:00:54.838 --> 00:00:56.865
+D'abord, on ajoute deux partout :
+
+00:00:56.865 --> 00:01:00.790
+deux plus u n est entre deux et quatre.
+
+00:01:00.840 --> 00:01:02.707
+Ensuite, on prend la racine.
+
+00:01:02.707 --> 00:01:03.775
+On le justifie :
+
+00:01:03.775 --> 00:01:10.978
+la fonction racine carrée est croissante sur zéro, plus l'infini, donc elle conserve le sens des inégalités.
+
+00:01:10.978 --> 00:01:11.778
+On obtient :
+
+00:01:11.778 --> 00:01:18.310
+racine de deux, inférieur ou égal à u, n plus un, inférieur ou égal à deux.
+
+00:01:18.360 --> 00:01:22.920
+Racine de deux est positif, donc u, n plus un est bien entre zéro et deux.
+
+00:01:22.920 --> 00:01:26.010
+P de n plus un est vraie.
+
+00:01:26.060 --> 00:01:26.806
+Conclusion :
+
+00:01:26.806 --> 00:01:31.217
+par récurrence, pour tout entier n, u n est compris entre zéro et deux.
+
+00:01:31.217 --> 00:01:38.090
+Les trois mots initialisation, hérédité et conclusion doivent apparaître sur ta copie.
+
+00:01:38.140 --> 00:01:42.987
+Avec exactement le même schéma, on peut aussi montrer que cette suite est croissante.
+
+00:01:42.987 --> 00:01:48.110
+C'est-à-dire que chaque terme est inférieur ou égal au suivant.
+
+00:01:48.160 --> 00:01:50.288
+La propriété s'écrit cette fois :
+
+00:01:50.288 --> 00:01:53.191
+Q de n, u n inférieur ou égal à u, n plus un.
+
+00:01:53.191 --> 00:01:57.410
+Elle porte sur deux termes qui se suivent.
+
+00:01:57.460 --> 00:01:58.498
+Initialisation :
+
+00:01:58.498 --> 00:02:01.481
+u zéro vaut zéro, et u un vaut racine de deux.
+
+00:02:01.481 --> 00:02:05.690
+Zéro est bien inférieur à racine de deux.
+
+00:02:05.740 --> 00:02:06.428
+Hérédité :
+
+00:02:06.428 --> 00:02:10.278
+soit n tel que u n est inférieur ou égal à u, n plus un.
+
+00:02:10.278 --> 00:02:13.890
+On ajoute deux des deux côtés.
+
+00:02:13.940 --> 00:02:17.155
+La racine est croissante, donc on peut l'appliquer.
+
+00:02:17.155 --> 00:02:19.928
+Racine de deux plus u n, c'est u, n plus un.
+
+00:02:19.928 --> 00:02:23.395
+Racine de deux plus u, n plus un, c'est u, n plus deux.
+
+00:02:23.395 --> 00:02:27.510
+On a obtenu la propriété au rang suivant.
+
+00:02:27.560 --> 00:02:28.354
+Conclusion :
+
+00:02:28.354 --> 00:02:32.550
+par récurrence, la suite est croissante.
+
+00:02:32.600 --> 00:02:33.249
+Remarque :
+
+00:02:33.249 --> 00:02:36.171
+la suite est croissante, et majorée par deux.
+
+00:02:36.171 --> 00:02:40.846
+Au chapitre suivant, on verra qu'une telle suite a forcément une limite.
+
+00:02:40.846 --> 00:02:42.560
+À bientôt !

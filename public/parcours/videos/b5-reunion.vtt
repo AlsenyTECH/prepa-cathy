@@ -1,0 +1,193 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.931
+Bonjour !
+
+00:00:00.931 --> 00:00:05.878
+Dans cette vidéo, on s'intéresse à la réunion de deux sous-espaces vectoriels.
+
+00:00:05.878 --> 00:00:10.698
+On sait que l'intersection de deux sous-espaces est toujours un sous-espace.
+
+00:00:10.698 --> 00:00:13.108
+Pour la réunion, c'est très différent.
+
+00:00:13.108 --> 00:00:15.074
+Le résultat du cours dit ceci :
+
+00:00:15.074 --> 00:00:23.193
+F un union F deux est un sous-espace vectoriel, si et seulement si, F un est inclus dans F deux, ou F deux est inclus dans F un.
+
+00:00:23.193 --> 00:00:27.450
+Autrement dit, ça ne marche presque jamais.
+
+00:00:27.500 --> 00:00:31.427
+Pour bien comprendre, regardons d'abord un exemple, dans le plan.
+
+00:00:31.427 --> 00:00:36.986
+On prend pour F un l'axe des abscisses, c'est-à-dire tous les multiples du vecteur un, zéro.
+
+00:00:36.986 --> 00:00:39.221
+Et pour F deux, l'axe des ordonnées :
+
+00:00:39.221 --> 00:00:41.578
+tous les multiples du vecteur zéro, un.
+
+00:00:41.578 --> 00:00:46.310
+Chacun de ces deux axes est un sous-espace vectoriel.
+
+00:00:46.360 --> 00:00:48.573
+On choisit un vecteur sur chaque axe.
+
+00:00:48.573 --> 00:00:52.460
+Le vecteur un, zéro, est sur l'axe des abscisses, donc dans F un.
+
+00:00:52.460 --> 00:00:56.468
+Le vecteur zéro, un, est sur l'axe des ordonnées, donc dans F deux.
+
+00:00:56.468 --> 00:01:00.350
+Ils sont tous les deux dans la réunion.
+
+00:01:00.400 --> 00:01:02.307
+Maintenant, on les additionne.
+
+00:01:02.307 --> 00:01:03.896
+Un, zéro, plus zéro, un :
+
+00:01:03.896 --> 00:01:07.290
+cela donne le vecteur un, un.
+
+00:01:07.340 --> 00:01:08.410
+Regarde le dessin.
+
+00:01:08.410 --> 00:01:10.787
+Le vecteur un, un, est sur la diagonale.
+
+00:01:10.787 --> 00:01:15.422
+Il n'est pas sur l'axe des abscisses, et il n'est pas sur l'axe des ordonnées.
+
+00:01:15.422 --> 00:01:19.210
+Il n'appartient donc pas à la réunion.
+
+00:01:19.260 --> 00:01:23.710
+On a pris deux vecteurs de la réunion, et leur somme est sortie de la réunion.
+
+00:01:23.710 --> 00:01:26.847
+La réunion des deux axes n'est pas stable par addition.
+
+00:01:26.847 --> 00:01:30.810
+Ce n'est donc pas un sous-espace vectoriel.
+
+00:01:30.860 --> 00:01:33.684
+Passons maintenant à la démonstration générale.
+
+00:01:33.684 --> 00:01:37.590
+On va montrer le sens direct, avec un raisonnement par l'absurde.
+
+00:01:37.590 --> 00:01:39.032
+Le principe est simple :
+
+00:01:39.032 --> 00:01:45.610
+on suppose le contraire de ce qu'on veut démontrer, et on cherche une contradiction.
+
+00:01:45.660 --> 00:01:47.516
+On suppose donc trois choses.
+
+00:01:47.516 --> 00:01:51.356
+La réunion, F un union F deux, est un sous-espace vectoriel.
+
+00:01:51.356 --> 00:01:53.532
+F un n'est pas inclus dans F deux.
+
+00:01:53.532 --> 00:01:57.450
+Et F deux n'est pas inclus dans F un.
+
+00:01:57.500 --> 00:01:59.571
+F un n'est pas inclus dans F deux.
+
+00:01:59.571 --> 00:02:04.506
+Cela veut dire qu'il existe un vecteur x qui est dans F un, mais pas dans F deux.
+
+00:02:04.506 --> 00:02:10.990
+De la même façon, il existe un vecteur y qui est dans F deux, mais pas dans F un.
+
+00:02:11.040 --> 00:02:13.939
+On fait comme dans l'exemple des deux axes :
+
+00:02:13.939 --> 00:02:15.323
+on additionne x et y.
+
+00:02:15.323 --> 00:02:21.911
+Ces deux vecteurs sont dans la réunion, et on a supposé que la réunion est un sous-espace vectoriel.
+
+00:02:21.911 --> 00:02:26.690
+Donc la somme, x plus y, appartient à la réunion.
+
+00:02:26.740 --> 00:02:31.091
+Être dans la réunion, c'est être dans F un, ou dans F deux.
+
+00:02:31.091 --> 00:02:32.049
+Premier cas :
+
+00:02:32.049 --> 00:02:33.745
+x plus y est dans F un.
+
+00:02:33.745 --> 00:02:34.925
+On écrit alors :
+
+00:02:34.925 --> 00:02:36.916
+y égale, x plus y, moins x.
+
+00:02:36.916 --> 00:02:43.111
+C'est une différence de deux vecteurs de F un, et F un est un sous-espace vectoriel.
+
+00:02:43.111 --> 00:02:44.880
+Donc y serait dans F un.
+
+00:02:44.880 --> 00:02:49.990
+C'est impossible, puisque y n'est pas dans F un.
+
+00:02:50.040 --> 00:02:51.135
+Deuxième cas :
+
+00:02:51.135 --> 00:02:53.090
+x plus y est dans F deux.
+
+00:02:53.090 --> 00:02:54.576
+C'est la même idée.
+
+00:02:54.576 --> 00:02:56.687
+x égale, x plus y, moins y.
+
+00:02:56.687 --> 00:03:01.301
+Ce sont deux vecteurs de F deux, donc x serait dans F deux.
+
+00:03:01.301 --> 00:03:04.650
+C'est impossible aussi.
+
+00:03:04.700 --> 00:03:07.753
+Dans les deux cas, on arrive à une contradiction.
+
+00:03:07.753 --> 00:03:10.494
+Notre hypothèse de départ était donc fausse.
+
+00:03:10.494 --> 00:03:11.242
+Conclusion :
+
+00:03:11.242 --> 00:03:16.510
+F un est inclus dans F deux, ou F deux est inclus dans F un.
+
+00:03:16.560 --> 00:03:19.669
+Il reste le sens réciproque, qui est immédiat.
+
+00:03:19.669 --> 00:03:27.102
+Si F un est inclus dans F deux, alors la réunion est tout simplement F deux, qui est un sous-espace vectoriel.
+
+00:03:27.102 --> 00:03:27.846
+À retenir :
+
+00:03:27.846 --> 00:03:29.535
+l'intersection, toujours.
+
+00:03:29.535 --> 00:03:32.360
+La réunion, presque jamais.

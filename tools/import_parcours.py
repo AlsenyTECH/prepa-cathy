@@ -6,9 +6,13 @@ DST = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'public', '
 VIDEOS = 'https://alsenytech.github.io/parcours-algebre-lineaire/videos/'
 FILES = ['suites-fonctions.html', 'algebre-lineaire.html', 'limites.html']
 os.makedirs(DST, exist_ok=True)
+# sous-titres : servis par l'application (même origine que la page, sinon le navigateur les refuse)
+os.makedirs(os.path.join(DST, 'videos'), exist_ok=True)
+for v in os.listdir(os.path.join(SRC, 'videos')):
+    if v.endswith('.vtt'): shutil.copy(os.path.join(SRC, 'videos', v), os.path.join(DST, 'videos', v))
 for f in FILES:
     s = open(os.path.join(SRC, f), encoding='utf8').read()
-    s = s.replace('src="videos/', 'src="' + VIDEOS)
+    s = re.sub(r'src="videos/([^"]+\.mp4)"', lambda m: 'src="' + VIDEOS + m.group(1) + '"', s)
     s = s.replace('<a href="index.html">← Tous les parcours</a>', '<a href="/">← Mon espace</a>')
     s = s.replace('href="algebre-lineaire.html"', 'href="/parcours/algebre-lineaire.html"')
     # synchronisation avec le compte (chargée avant le script de la page)

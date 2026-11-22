@@ -1,0 +1,235 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.961
+Bonjour !
+
+00:00:00.961 --> 00:00:06.507
+Dans cette vidéo, on apprend à montrer qu'un ensemble est un sous-espace vectoriel.
+
+00:00:06.507 --> 00:00:09.714
+C'est la question la plus fréquente du chapitre.
+
+00:00:09.714 --> 00:00:12.387
+Partons de la définition trois quatorze.
+
+00:00:12.387 --> 00:00:24.146
+Une partie F de E est un sous-espace vectoriel si elle n'est pas vide, et si, pour tous vecteurs x et y de F, et tout réel lambda, le vecteur lambda x plus y est encore dans F.
+
+00:00:24.146 --> 00:00:28.990
+On dit que F est stable par combinaison linéaire.
+
+00:00:29.040 --> 00:00:30.360
+Prenons un exemple.
+
+00:00:30.360 --> 00:00:34.944
+F est l'ensemble des triplets x, y, z, de R trois, qui vérifient :
+
+00:00:34.944 --> 00:00:36.333
+x plus z égale zéro.
+
+00:00:36.333 --> 00:00:40.890
+La méthode se fait toujours en deux points.
+
+00:00:40.940 --> 00:00:42.003
+Premier point :
+
+00:00:42.003 --> 00:00:43.065
+F est non vide.
+
+00:00:43.065 --> 00:00:46.183
+Le plus simple est de tester le vecteur nul.
+
+00:00:46.183 --> 00:00:47.812
+Pour zéro, zéro, zéro :
+
+00:00:47.812 --> 00:00:50.646
+x plus z vaut zéro plus zéro, donc zéro.
+
+00:00:50.646 --> 00:00:52.488
+La condition est vérifiée.
+
+00:00:52.488 --> 00:00:57.490
+Le vecteur nul est dans F, donc F n'est pas vide.
+
+00:00:57.540 --> 00:00:58.720
+Deuxième point :
+
+00:00:58.720 --> 00:00:59.679
+la stabilité.
+
+00:00:59.679 --> 00:01:02.703
+On prend deux vecteurs quelconques de F :
+
+00:01:02.703 --> 00:01:04.620
+u, de coordonnées x, y, z.
+
+00:01:04.620 --> 00:01:08.086
+Et v, de coordonnées x prime, y prime, z prime.
+
+00:01:08.086 --> 00:01:09.414
+Et un réel lambda.
+
+00:01:09.414 --> 00:01:13.765
+Il faut écrire tout de suite ce que veut dire être dans F :
+
+00:01:13.765 --> 00:01:17.895
+x plus z égale zéro, et x prime plus z prime égale zéro.
+
+00:01:17.895 --> 00:01:21.490
+Ce sont nos deux hypothèses.
+
+00:01:21.540 --> 00:01:26.410
+On calcule le vecteur lambda u plus v, coordonnée par coordonnée.
+
+00:01:26.410 --> 00:01:30.081
+La première coordonnée est lambda x plus x prime.
+
+00:01:30.081 --> 00:01:32.703
+La deuxième, lambda y plus y prime.
+
+00:01:32.703 --> 00:01:36.910
+La troisième, lambda z plus z prime.
+
+00:01:36.960 --> 00:01:40.615
+Maintenant, on teste la condition de F sur ce vecteur :
+
+00:01:40.615 --> 00:01:43.405
+la première coordonnée, plus la troisième.
+
+00:01:43.405 --> 00:01:47.791
+On regroupe les termes pour faire apparaître nos deux hypothèses :
+
+00:01:47.791 --> 00:01:49.253
+lambda fois, x plus z.
+
+00:01:49.253 --> 00:01:51.180
+Plusse, x prime plus z prime.
+
+00:01:51.180 --> 00:01:53.372
+Les deux parenthèses valent zéro.
+
+00:01:53.372 --> 00:01:56.650
+Le résultat est donc zéro.
+
+00:01:56.700 --> 00:01:58.424
+La condition est vérifiée :
+
+00:01:58.424 --> 00:02:00.403
+lambda u plus v appartient à F.
+
+00:02:00.403 --> 00:02:03.212
+Et on n'oublie pas la phrase de conclusion :
+
+00:02:03.212 --> 00:02:06.213
+donc F est un sous-espace vectoriel de R trois.
+
+00:02:06.213 --> 00:02:08.064
+C'est toujours le même plan :
+
+00:02:08.064 --> 00:02:14.510
+le vecteur nul, puis soit u, v et lambda, puis le calcul, puis la conclusion.
+
+00:02:14.560 --> 00:02:17.929
+Et si l'ensemble n'est pas un sous-espace vectoriel ?
+
+00:02:17.929 --> 00:02:20.725
+Dans ce cas, un seul argument précis suffit.
+
+00:02:20.725 --> 00:02:23.610
+Il y a deux méthodes.
+
+00:02:23.660 --> 00:02:24.912
+Première méthode :
+
+00:02:24.912 --> 00:02:28.320
+on regarde si le vecteur nul est dans l'ensemble.
+
+00:02:28.320 --> 00:02:34.510
+Prenons G, l'ensemble des couples x, y, tels que x plus y égale un.
+
+00:02:34.560 --> 00:02:36.322
+Pour le couple zéro, zéro :
+
+00:02:36.322 --> 00:02:38.280
+zéro plus zéro ne vaut pas un.
+
+00:02:38.280 --> 00:02:40.694
+Le vecteur nul n'est donc pas dans G.
+
+00:02:40.694 --> 00:02:44.740
+Or, un sous-espace vectoriel contient toujours le vecteur nul.
+
+00:02:44.740 --> 00:02:47.481
+Donc G n'est pas un sous-espace vectoriel.
+
+00:02:47.481 --> 00:02:51.250
+C'est terminé, en une seule ligne.
+
+00:02:51.300 --> 00:02:52.604
+Deuxième méthode :
+
+00:02:52.604 --> 00:02:53.908
+le contre-exemple.
+
+00:02:53.908 --> 00:02:58.906
+Prenons H, l'ensemble des couples x, y, tels que x fois y égale zéro.
+
+00:02:58.906 --> 00:03:03.615
+Ici, le vecteur nul est dans H, puisque zéro fois zéro vaut zéro.
+
+00:03:03.615 --> 00:03:07.990
+La première méthode ne marche donc pas.
+
+00:03:08.040 --> 00:03:11.894
+On cherche alors deux vecteurs de H dont la somme sort de H.
+
+00:03:11.894 --> 00:03:13.950
+Le couple un, zéro, est dans H :
+
+00:03:13.950 --> 00:03:15.427
+un fois zéro vaut zéro.
+
+00:03:15.427 --> 00:03:17.097
+Le couple zéro, un, aussi.
+
+00:03:17.097 --> 00:03:19.474
+Mais leur somme est le couple un, un.
+
+00:03:19.474 --> 00:03:21.530
+Et un fois un vaut un, pas zéro.
+
+00:03:21.530 --> 00:03:24.750
+La somme n'est pas dans H.
+
+00:03:24.800 --> 00:03:26.898
+H n'est pas stable par addition.
+
+00:03:26.898 --> 00:03:29.653
+Donc H n'est pas un sous-espace vectoriel.
+
+00:03:29.653 --> 00:03:30.374
+Attention :
+
+00:03:30.374 --> 00:03:33.391
+il faut donner les vecteurs, avec des nombres.
+
+00:03:33.391 --> 00:03:34.571
+Écrire seulement :
+
+00:03:34.571 --> 00:03:39.990
+ce n'est pas stable, sans exemple, ne rapporte aucun point.
+
+00:03:40.040 --> 00:03:41.094
+Retiens l'ordre.
+
+00:03:41.094 --> 00:03:43.136
+D'abord, tester le vecteur nul.
+
+00:03:43.136 --> 00:03:45.969
+S'il n'est pas dans l'ensemble, c'est fini.
+
+00:03:45.969 --> 00:03:49.855
+S'il y est, on cherche un contre-exemple, avec des nombres.
+
+00:03:49.855 --> 00:03:51.580
+À bientôt !

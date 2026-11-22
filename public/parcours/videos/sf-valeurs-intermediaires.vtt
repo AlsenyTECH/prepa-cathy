@@ -1,0 +1,127 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.919
+Bonjour !
+
+00:00:00.919 --> 00:00:05.457
+Dans cette vidéo, on montre qu'une équation a une solution, et une seule.
+
+00:00:05.457 --> 00:00:06.017
+Exemple :
+
+00:00:06.017 --> 00:00:09.995
+x cube, plus x, moins un, égale zéro, sur l'intervalle zéro, un.
+
+00:00:09.995 --> 00:00:17.410
+On ne sait pas calculer la solution, mais on peut prouver qu'elle existe et qu'elle est unique.
+
+00:00:17.460 --> 00:00:19.891
+On commence par poser la fonction :
+
+00:00:19.891 --> 00:00:22.391
+f de x égale x cube plus x moins un.
+
+00:00:22.391 --> 00:00:26.490
+L'équation devient f de x égale zéro.
+
+00:00:26.540 --> 00:00:27.720
+Première hypothèse :
+
+00:00:27.720 --> 00:00:31.496
+f est continue sur l'intervalle zéro, un, car c'est un polynôme.
+
+00:00:31.496 --> 00:00:34.801
+Sur le dessin, la courbe se trace sans lever le crayon :
+
+00:00:34.801 --> 00:00:38.750
+elle ne peut pas sauter par-dessus l'axe.
+
+00:00:38.800 --> 00:00:39.986
+Deuxième hypothèse :
+
+00:00:39.986 --> 00:00:42.239
+la dérivée vaut trois x carré plus un.
+
+00:00:42.239 --> 00:00:46.094
+Elle est strictement positive, donc f est strictement croissante.
+
+00:00:46.094 --> 00:00:47.992
+C'est elle qui donne l'unicité :
+
+00:00:47.992 --> 00:00:53.950
+une courbe qui monte tout le temps ne peut couper l'axe qu'une seule fois.
+
+00:00:54.000 --> 00:00:55.360
+Troisième hypothèse :
+
+00:00:55.360 --> 00:00:57.886
+f de zéro vaut moins un, c'est négatif.
+
+00:00:57.886 --> 00:00:59.893
+f de un vaut un, c'est positif.
+
+00:00:59.893 --> 00:01:03.067
+Donc zéro est compris entre f de zéro et f de un.
+
+00:01:03.067 --> 00:01:07.790
+La courbe commence sous l'axe et finit au-dessus.
+
+00:01:07.840 --> 00:01:08.548
+Conclusion :
+
+00:01:08.548 --> 00:01:18.990
+d'après le corollaire deux dix, du théorème des valeurs intermédiaires, l'équation a une unique solution, qu'on note alpha, dans l'intervalle zéro, un.
+
+00:01:19.040 --> 00:01:19.601
+Résumons.
+
+00:01:19.601 --> 00:01:22.404
+Sur ta copie, trois mots doivent apparaître :
+
+00:01:22.404 --> 00:01:29.210
+continue, strictement monotone, et le nombre visé est compris entre f de a et f de b.
+
+00:01:29.260 --> 00:01:32.116
+Que se passe-t-il si l'une des hypothèses manque ?
+
+00:01:32.116 --> 00:01:37.543
+Sans la stricte monotonie, le théorème des valeurs intermédiaires donne seulement l'existence :
+
+00:01:37.543 --> 00:01:40.350
+au moins une solution.
+
+00:01:40.400 --> 00:01:50.848
+Par exemple, si f est continue sur zéro, deux, avec f de zéro égale trois et f de deux égale moins un, alors l'équation f de x égale un a au moins une solution.
+
+00:01:50.848 --> 00:01:54.010
+Mais peut-être plusieurs.
+
+00:01:54.060 --> 00:01:56.319
+Sans la continuité, rien ne marche.
+
+00:01:56.319 --> 00:02:02.690
+La partie entière vaut zéro en zéro virgule cinq, et un en un virgule cinq.
+
+00:02:02.740 --> 00:02:05.674
+Pourtant, elle ne prend jamais la valeur un demi :
+
+00:02:05.674 --> 00:02:07.786
+elle saute directement de zéro à un.
+
+00:02:07.786 --> 00:02:12.250
+C'est pour ça que la continuité est indispensable.
+
+00:02:12.300 --> 00:02:13.046
+Un bonus :
+
+00:02:13.046 --> 00:02:15.211
+on peut encadrer la solution.
+
+00:02:15.211 --> 00:02:20.435
+f de zéro virgule six est négatif, f de zéro virgule sept est positif.
+
+00:02:20.435 --> 00:02:24.839
+Donc alpha est entre zéro virgule six et zéro virgule sept.
+
+00:02:24.839 --> 00:02:26.660
+À bientôt !

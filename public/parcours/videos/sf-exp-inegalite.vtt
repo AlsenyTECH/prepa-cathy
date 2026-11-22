@@ -1,0 +1,70 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.952
+Bonjour !
+
+00:00:00.952 --> 00:00:03.978
+Une inégalité du cours qui sert très souvent :
+
+00:00:03.978 --> 00:00:09.890
+pour tout réel x, e puissance x est supérieur ou égal à un plus x.
+
+00:00:09.940 --> 00:00:13.246
+La méthode classique pour comparer deux expressions :
+
+00:00:13.246 --> 00:00:14.867
+on étudie leur différence.
+
+00:00:14.867 --> 00:00:19.930
+On pose phi de x égale e puissance x, moins un, moins x.
+
+00:00:19.980 --> 00:00:20.737
+On dérive :
+
+00:00:20.737 --> 00:00:24.111
+la dérivée de e puissance x, c'est e puissance x.
+
+00:00:24.111 --> 00:00:27.347
+La dérivée de moins un moins x, c'est moins un.
+
+00:00:27.347 --> 00:00:32.250
+Donc phi prime de x égale e puissance x moins un.
+
+00:00:32.300 --> 00:00:32.959
+Le signe :
+
+00:00:32.959 --> 00:00:38.758
+e puissance x moins un est positif quand e puissance x est supérieur à e puissance zéro.
+
+00:00:38.758 --> 00:00:45.210
+Comme l'exponentielle est strictement croissante, cela revient à x positif.
+
+00:00:45.260 --> 00:00:46.446
+On dresse le tableau :
+
+00:00:46.446 --> 00:00:51.910
+phi décroît sur moins l'infini, zéro, puis croît sur zéro, plus l'infini.
+
+00:00:51.960 --> 00:00:54.175
+Donc phi atteint son minimum en zéro.
+
+00:00:54.175 --> 00:00:58.008
+Et phi de zéro vaut un, moins un, moins zéro, c'est-à-dire zéro.
+
+00:00:58.008 --> 00:01:03.190
+Le minimum est zéro, donc phi est toujours positive ou nulle.
+
+00:01:03.240 --> 00:01:04.051
+Conclusion :
+
+00:01:04.051 --> 00:01:09.456
+e puissance x est supérieur ou égal à un plus x, avec égalité seulement en zéro.
+
+00:01:09.456 --> 00:01:10.469
+Sur le dessin :
+
+00:01:10.469 --> 00:01:18.577
+la droite y égale un plus x est la tangente à la courbe de l'exponentielle en zéro, et la courbe est toujours au-dessus.
+
+00:01:18.577 --> 00:01:20.320
+À bientôt !

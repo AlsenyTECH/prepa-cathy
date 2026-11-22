@@ -1,0 +1,139 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.933
+Bonjour !
+
+00:00:00.933 --> 00:00:05.196
+Dans ce chapitre, on apprend à démontrer qu'une suite a une limite.
+
+00:00:05.196 --> 00:00:07.169
+Tout repose sur une définition.
+
+00:00:07.169 --> 00:00:07.678
+L'idée :
+
+00:00:07.678 --> 00:00:14.510
+u n tend vers l, quand les termes finissent par être aussi proches de l qu'on veut.
+
+00:00:14.560 --> 00:00:18.191
+Voici la définition quatre un, avec les quantificateurs.
+
+00:00:18.191 --> 00:00:30.056
+Pour tout epsilon strictement positif, il existe un rang n zéro, tel que pour tout n supérieur ou égal à n zéro, la valeur absolue de u n moins l est strictement inférieure à epsilon.
+
+00:00:30.056 --> 00:00:33.790
+On va la lire morceau par morceau.
+
+00:00:33.840 --> 00:00:36.194
+Pour tout epsilon strictement positif :
+
+00:00:36.194 --> 00:00:40.178
+imagine qu'on te donne une marge epsilon, aussi petite qu'on veut.
+
+00:00:40.178 --> 00:00:45.290
+Zéro virgule un, zéro virgule zéro zéro un, n'importe quoi.
+
+00:00:45.340 --> 00:00:46.455
+Il existe n zéro :
+
+00:00:46.455 --> 00:00:48.685
+toi, tu dois trouver un rang n zéro.
+
+00:00:48.685 --> 00:00:51.472
+Et ce rang a le droit de dépendre de epsilon.
+
+00:00:51.472 --> 00:00:57.090
+Plus la marge est petite, plus il faudra aller loin dans la suite.
+
+00:00:57.140 --> 00:01:02.860
+Pour tout n supérieur ou égal à n zéro, valeur absolue de u n moins l inférieure à epsilon :
+
+00:01:02.860 --> 00:01:09.550
+à partir de ce rang, tous les termes, sans exception, sont à moins de epsilon de l.
+
+00:01:09.600 --> 00:01:13.777
+La valeur absolue de u n moins l, c'est la distance entre u n et l.
+
+00:01:13.777 --> 00:01:22.290
+Dire qu'elle est inférieure à epsilon, c'est dire que u n est dans l'intervalle l moins epsilon, l plus epsilon.
+
+00:01:22.340 --> 00:01:24.644
+Et les termes d'avant le rang n zéro ?
+
+00:01:24.644 --> 00:01:26.462
+Ils peuvent être n'importe où.
+
+00:01:26.462 --> 00:01:29.750
+Mais ils sont en nombre fini.
+
+00:01:29.800 --> 00:01:33.170
+Appliquons la définition sur l'exemple le plus simple :
+
+00:01:33.170 --> 00:01:36.190
+un sur n tend vers zéro.
+
+00:01:36.240 --> 00:01:37.585
+D'abord, au brouillon.
+
+00:01:37.585 --> 00:01:42.414
+On veut que la valeur absolue de un sur n moins zéro soit inférieure à epsilon.
+
+00:01:42.414 --> 00:01:47.793
+C'est-à-dire un sur n inférieur à epsilon, c'est-à-dire n plus grand que un sur epsilon.
+
+00:01:47.793 --> 00:01:51.890
+Il faut donc que n dépasse un sur epsilon.
+
+00:01:51.940 --> 00:01:53.316
+Maintenant, la copie.
+
+00:01:53.316 --> 00:01:55.150
+Elle commence toujours par :
+
+00:01:55.150 --> 00:01:57.312
+soit epsilon strictement positif.
+
+00:01:57.312 --> 00:02:01.090
+Epsilon est fixé, mais quelconque.
+
+00:02:01.140 --> 00:02:04.970
+On pose n zéro égale partie entière de un sur epsilon, plus un.
+
+00:02:04.970 --> 00:02:13.490
+La partie entière donne un entier, et le plus un garantit que n zéro est strictement plus grand que un sur epsilon.
+
+00:02:13.540 --> 00:02:16.109
+Pour tout n supérieur ou égal à n zéro :
+
+00:02:16.109 --> 00:02:18.421
+n est plus grand que un sur epsilon.
+
+00:02:18.421 --> 00:02:20.990
+Donc un sur n est entre zéro et epsilon.
+
+00:02:20.990 --> 00:02:22.146
+C'est exactement :
+
+00:02:22.146 --> 00:02:27.510
+valeur absolue de un sur n moins zéro, inférieure à epsilon.
+
+00:02:27.560 --> 00:02:28.433
+Conclusion :
+
+00:02:28.433 --> 00:02:31.710
+un sur n tend vers zéro.
+
+00:02:31.760 --> 00:02:32.992
+Retiens la méthode.
+
+00:02:32.992 --> 00:02:38.568
+Au brouillon, on part de ce qu'on veut et on remonte pour trouver une condition sur n.
+
+00:02:38.568 --> 00:02:41.292
+Sur la copie, on écrit dans l'autre sens :
+
+00:02:41.292 --> 00:02:43.367
+on pose n zéro, puis on vérifie.
+
+00:02:43.367 --> 00:02:45.080
+À bientôt !

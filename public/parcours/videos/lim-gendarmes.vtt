@@ -1,0 +1,112 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:01.036
+Bonjour !
+
+00:00:01.036 --> 00:00:02.990
+Le théorème des gendarmes.
+
+00:00:02.990 --> 00:00:16.090
+Si u n est inférieur à v n, inférieur à w n, à partir d'un certain rang, et si u et w tendent vers la même limite l, alors v converge, et sa limite est l.
+
+00:00:16.140 --> 00:00:18.419
+Soit epsilon strictement positif.
+
+00:00:18.419 --> 00:00:19.801
+Le gendarme du bas :
+
+00:00:19.801 --> 00:00:28.790
+il existe n zéro tel que pour n supérieur ou égal à n zéro, u n est entre l moins epsilon et l plus epsilon.
+
+00:00:28.840 --> 00:00:30.292
+Le gendarme du haut :
+
+00:00:30.292 --> 00:00:39.010
+il existe n un tel que pour n supérieur ou égal à n un, w n est entre l moins epsilon et l plus epsilon.
+
+00:00:39.060 --> 00:00:40.356
+Et l'encadrement :
+
+00:00:40.356 --> 00:00:48.510
+il existe n deux tel que pour n supérieur ou égal à n deux, v n est coincé entre u n et w n.
+
+00:00:48.560 --> 00:00:52.137
+On pose grand N égale le maximum des trois rangs.
+
+00:00:52.137 --> 00:00:54.765
+Pour n supérieur ou égal à grand N :
+
+00:00:54.765 --> 00:01:03.450
+l moins epsilon est inférieur à u n, inférieur à v n, inférieur à w n, inférieur à l plus epsilon.
+
+00:01:03.500 --> 00:01:06.171
+Donc v n est à moins de epsilon de l.
+
+00:01:06.171 --> 00:01:09.650
+La suite v converge vers l.
+
+00:01:09.700 --> 00:01:10.389
+Attention :
+
+00:01:10.389 --> 00:01:12.706
+ce théorème donne les deux à la fois.
+
+00:01:12.706 --> 00:01:15.462
+L'existence de la limite de v, et sa valeur.
+
+00:01:15.462 --> 00:01:21.250
+La note qui dit de ne l'utiliser que pour la convergence est fausse.
+
+00:01:21.300 --> 00:01:22.754
+Un exemple du cours.
+
+00:01:22.754 --> 00:01:28.790
+u n égale la somme, pour k de un à n, de n sur n carré plus k.
+
+00:01:28.840 --> 00:01:35.507
+Pour k entre un et n, le dénominateur n carré plus k est entre n carré plus un et n carré plus n.
+
+00:01:35.507 --> 00:01:37.432
+Avec des inégalités larges :
+
+00:01:37.432 --> 00:01:42.310
+il y a égalité pour k égale un et pour k égale n.
+
+00:01:42.360 --> 00:01:48.115
+On passe à l'inverse, entre nombres positifs, donc le sens change, puis on multiplie par n.
+
+00:01:48.115 --> 00:01:54.850
+Chaque terme de la somme est entre n sur n carré plus n, et n sur n carré plus un.
+
+00:01:54.900 --> 00:01:57.051
+On additionne ces n inégalités.
+
+00:01:57.051 --> 00:02:00.798
+La somme de gauche, c'est n fois n sur n carré plus n.
+
+00:02:00.798 --> 00:02:03.989
+Celle de droite, n fois n sur n carré plus un.
+
+00:02:03.989 --> 00:02:11.090
+u n est coincé entre n carré sur n carré plus n, et n carré sur n carré plus un.
+
+00:02:11.140 --> 00:02:12.735
+On factorise par n carré :
+
+00:02:12.735 --> 00:02:16.846
+le premier gendarme vaut un sur un plus un sur n, qui tend vers un.
+
+00:02:16.846 --> 00:02:22.610
+Le second vaut un sur un plus un sur n carré, qui tend aussi vers un.
+
+00:02:22.660 --> 00:02:28.190
+D'après le théorème des gendarmes, u converge, et sa limite vaut un.
+
+00:02:28.240 --> 00:02:30.585
+La méthode pour une somme de n termes :
+
+00:02:30.585 --> 00:02:36.719
+on encadre chaque terme par le plus petit et le plus grand, puis on multiplie par le nombre de termes.
+
+00:02:36.719 --> 00:02:38.380
+À bientôt !

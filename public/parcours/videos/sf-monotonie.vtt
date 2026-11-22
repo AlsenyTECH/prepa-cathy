@@ -1,0 +1,166 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.959
+Bonjour !
+
+00:00:00.959 --> 00:00:05.749
+Dans cette vidéo, on apprend à étudier le sens de variation d'une suite.
+
+00:00:05.749 --> 00:00:07.146
+Il y a deux méthodes.
+
+00:00:07.146 --> 00:00:09.408
+La première, c'est la différence :
+
+00:00:09.408 --> 00:00:14.950
+on calcule u, n plus un, moins u n, et on regarde son signe.
+
+00:00:15.000 --> 00:00:16.281
+Prenons un exemple.
+
+00:00:16.281 --> 00:00:21.790
+u n égale un, plus un sur n, pour n supérieur ou égal à un.
+
+00:00:21.840 --> 00:00:23.807
+On calcule la différence.
+
+00:00:23.807 --> 00:00:25.617
+On écrit u, n plus un :
+
+00:00:25.617 --> 00:00:28.135
+c'est un, plus un sur n plus un.
+
+00:00:28.135 --> 00:00:29.315
+On retire u n :
+
+00:00:29.315 --> 00:00:30.731
+un, plus un sur n.
+
+00:00:30.731 --> 00:00:32.777
+Les deux un disparaissent.
+
+00:00:32.777 --> 00:00:33.564
+Il reste :
+
+00:00:33.564 --> 00:00:37.690
+un sur n plus un, moins un sur n.
+
+00:00:37.740 --> 00:00:41.155
+On met au même dénominateur, n fois n plus un.
+
+00:00:41.155 --> 00:00:42.269
+Au numérateur :
+
+00:00:42.269 --> 00:00:43.680
+n, moins n plus un.
+
+00:00:43.680 --> 00:00:45.016
+Il reste moins un.
+
+00:00:45.016 --> 00:00:50.650
+La différence vaut donc moins un, sur n fois n plus un.
+
+00:00:50.700 --> 00:00:52.100
+Maintenant, le signe.
+
+00:00:52.100 --> 00:00:56.033
+Le dénominateur, n fois n plus un, est strictement positif.
+
+00:00:56.033 --> 00:00:57.900
+Le numérateur vaut moins un.
+
+00:00:57.900 --> 00:01:03.250
+Donc la différence est strictement négative, pour tout n.
+
+00:01:03.300 --> 00:01:06.047
+Chaque terme est plus petit que le précédent.
+
+00:01:06.047 --> 00:01:06.780
+On conclut :
+
+00:01:06.780 --> 00:01:10.650
+la suite est strictement décroissante.
+
+00:01:10.700 --> 00:01:11.988
+Deuxième méthode :
+
+00:01:11.988 --> 00:01:12.847
+le quotient.
+
+00:01:12.847 --> 00:01:16.210
+On compare v, n plus un, sur v n, au nombre un.
+
+00:01:16.210 --> 00:01:16.997
+Attention :
+
+00:01:16.997 --> 00:01:23.750
+cette méthode ne marche que si tous les termes sont strictement positifs.
+
+00:01:23.800 --> 00:01:24.402
+Exemple :
+
+00:01:24.402 --> 00:01:27.279
+v n égale n puissance n, sur factorielle n.
+
+00:01:27.279 --> 00:01:31.695
+Les termes sont strictement positifs, et on l'écrit sur la copie :
+
+00:01:31.695 --> 00:01:36.390
+c'est ce qui justifiera la fin du raisonnement.
+
+00:01:36.440 --> 00:01:37.956
+On écrit le quotient.
+
+00:01:37.956 --> 00:01:41.638
+Diviser par v n, c'est multiplier par son inverse :
+
+00:01:41.638 --> 00:01:45.590
+factorielle n, sur n puissance n.
+
+00:01:45.640 --> 00:01:49.948
+Factorielle de n plus un, c'est n plus un, fois factorielle n.
+
+00:01:49.948 --> 00:01:54.603
+Les factorielles n se simplifient, puis un facteur n plus un aussi.
+
+00:01:54.603 --> 00:01:58.147
+Il reste n plus un, puissance n, sur n puissance n.
+
+00:01:58.147 --> 00:01:59.120
+C'est-à-dire :
+
+00:01:59.120 --> 00:02:03.290
+un plus un sur n, le tout puissance n.
+
+00:02:03.340 --> 00:02:06.332
+Un plus un sur n est strictement plus grand que un.
+
+00:02:06.332 --> 00:02:10.264
+Une puissance d'un nombre plus grand que un est plus grande que un.
+
+00:02:10.264 --> 00:02:14.610
+Donc le quotient est strictement supérieur à un.
+
+00:02:14.660 --> 00:02:17.392
+Et maintenant, l'étape qu'on oublie souvent :
+
+00:02:17.392 --> 00:02:23.220
+comme v n est strictement positif, on peut multiplier l'inégalité par v n sans changer son sens.
+
+00:02:23.220 --> 00:02:28.150
+On obtient v, n plus un, strictement plus grand que v n.
+
+00:02:28.200 --> 00:02:29.009
+Conclusion :
+
+00:02:29.009 --> 00:02:31.435
+la suite est strictement croissante.
+
+00:02:31.435 --> 00:02:32.041
+Retiens :
+
+00:02:32.041 --> 00:02:36.759
+dès que tu vois des puissances ou des factorielles, pense au quotient.
+
+00:02:36.759 --> 00:02:38.500
+À bientôt !

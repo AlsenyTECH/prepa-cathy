@@ -1,0 +1,124 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.979
+Bonjour !
+
+00:00:00.979 --> 00:00:05.516
+Dans cette vidéo, le lemme quatre six, puis la limite d'une somme.
+
+00:00:05.516 --> 00:00:06.203
+Le lemme :
+
+00:00:06.203 --> 00:00:13.390
+si u est bornée et si v n tend vers zéro, alors le produit u n v n tend vers zéro.
+
+00:00:13.440 --> 00:00:15.676
+On traduit la première hypothèse.
+
+00:00:15.676 --> 00:00:16.625
+u est bornée :
+
+00:00:16.625 --> 00:00:25.290
+il existe un réel K strictement positif tel que pour tout n, la valeur absolue de u n est inférieure à K.
+
+00:00:25.340 --> 00:00:27.503
+Soit epsilon strictement positif.
+
+00:00:27.503 --> 00:00:32.944
+On applique la définition de v n tend vers zéro, mais avec une marge bien choisie :
+
+00:00:32.944 --> 00:00:37.402
+epsilon prime égale epsilon sur K, qui est bien strictement positif.
+
+00:00:37.402 --> 00:00:46.950
+Il existe un rang n zéro tel que pour tout n supérieur ou égal à n zéro, valeur absolue de v n inférieure à epsilon sur K.
+
+00:00:47.000 --> 00:00:49.819
+Alors, pour n supérieur ou égal à n zéro :
+
+00:00:49.819 --> 00:00:55.525
+la valeur absolue de u n v n, c'est valeur absolue de u n fois valeur absolue de v n.
+
+00:00:55.525 --> 00:01:01.150
+C'est inférieur à K fois epsilon sur K, c'est-à-dire epsilon.
+
+00:01:01.200 --> 00:01:03.267
+Donc u n v n tend vers zéro.
+
+00:01:03.267 --> 00:01:03.931
+Exemple :
+
+00:01:03.931 --> 00:01:09.762
+sinus n sur n, c'est sinus n, qui est borné, fois un sur n, qui tend vers zéro.
+
+00:01:09.762 --> 00:01:13.010
+Donc ça tend vers zéro.
+
+00:01:13.060 --> 00:01:14.308
+L'astuce à retenir :
+
+00:01:14.308 --> 00:01:22.450
+on a choisi la marge epsilon sur K, pour qu'à la fin, le K se simplifie et qu'il reste exactement epsilon.
+
+00:01:22.500 --> 00:01:24.276
+Deuxième démonstration :
+
+00:01:24.276 --> 00:01:25.904
+la limite d'une somme.
+
+00:01:25.904 --> 00:01:33.650
+Si u n tend vers l et v n vers l prime, alors u n plus v n tend vers l plus l prime.
+
+00:01:33.700 --> 00:01:35.867
+Soit epsilon strictement positif.
+
+00:01:35.867 --> 00:01:38.954
+Cette fois, on prend la marge epsilon sur deux.
+
+00:01:38.954 --> 00:01:48.450
+Il existe n zéro tel que pour n supérieur ou égal à n zéro, la distance entre u n et l est inférieure à epsilon sur deux.
+
+00:01:48.500 --> 00:01:58.110
+Et il existe n un tel que pour n supérieur ou égal à n un, la distance entre v n et l prime est inférieure à epsilon sur deux.
+
+00:01:58.160 --> 00:02:01.460
+On pose grand N égale le maximum de n zéro et n un.
+
+00:02:01.460 --> 00:02:07.390
+Pour n supérieur ou égal à grand N, les deux inégalités sont vraies.
+
+00:02:07.440 --> 00:02:08.330
+On regroupe :
+
+00:02:08.330 --> 00:02:13.673
+u n plus v n, moins l plus l prime, c'est u n moins l, plus v n moins l prime.
+
+00:02:13.673 --> 00:02:21.710
+Par l'inégalité triangulaire, la valeur absolue est inférieure à la somme des valeurs absolues.
+
+00:02:21.760 --> 00:02:24.888
+Et chaque morceau est inférieur à epsilon sur deux :
+
+00:02:24.888 --> 00:02:26.873
+le total est inférieur à epsilon.
+
+00:02:26.873 --> 00:02:31.190
+Voilà pourquoi on avait pris epsilon sur deux.
+
+00:02:31.240 --> 00:02:35.810
+Donc u n plus v n tend vers l plus l prime.
+
+00:02:35.860 --> 00:02:37.684
+Pour le produit, l'astuce :
+
+00:02:37.684 --> 00:02:43.359
+u n v n moins l l prime, c'est u n moins l, fois v n, plus l fois v n moins l prime.
+
+00:02:43.359 --> 00:02:48.898
+Chaque terme est un produit d'une suite bornée et d'une suite qui tend vers zéro :
+
+00:02:48.898 --> 00:02:50.317
+on applique le lemme.
+
+00:02:50.317 --> 00:02:52.060
+À bientôt !

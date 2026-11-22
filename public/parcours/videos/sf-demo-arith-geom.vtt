@@ -1,0 +1,223 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.923
+Bonjour !
+
+00:00:00.923 --> 00:00:08.866
+Dans cette vidéo, on démontre les propositions deux deux et deux quatre du cours, sur les suites arithmétiques et géométriques.
+
+00:00:08.866 --> 00:00:12.555
+On commence par le terme général d'une suite arithmétique :
+
+00:00:12.555 --> 00:00:17.190
+u n égale u, n zéro, plus n moins n zéro, fois b.
+
+00:00:17.240 --> 00:00:19.208
+L'idée s'appelle le télescopage.
+
+00:00:19.208 --> 00:00:21.299
+On additionne toutes les marches :
+
+00:00:21.299 --> 00:00:27.010
+u, k plus un, moins u k, pour k allant de n zéro jusqu'à n moins un.
+
+00:00:27.060 --> 00:00:28.292
+Écrivons la somme.
+
+00:00:28.292 --> 00:00:29.456
+Première marche :
+
+00:00:29.456 --> 00:00:31.851
+u, n zéro plus un, moins u, n zéro.
+
+00:00:31.851 --> 00:00:32.536
+Deuxième :
+
+00:00:32.536 --> 00:00:35.616
+u, n zéro plus deux, moins u, n zéro plus un.
+
+00:00:35.616 --> 00:00:39.038
+Et ainsi de suite jusqu'à u n moins u, n moins un.
+
+00:00:39.038 --> 00:00:43.350
+Chaque terme apparaît une fois avec plus, une fois avec moins :
+
+00:00:43.350 --> 00:00:44.445
+ils s'éliminent.
+
+00:00:44.445 --> 00:00:50.150
+Il ne reste que le dernier, u n, moins le premier, u, n zéro.
+
+00:00:50.200 --> 00:00:52.008
+Mais chaque marche vaut b.
+
+00:00:52.008 --> 00:00:53.468
+Combien y en a-t-il ?
+
+00:00:53.468 --> 00:00:55.485
+k va de n zéro à n moins un :
+
+00:00:55.485 --> 00:00:57.779
+cela fait n moins n zéro marches.
+
+00:00:57.779 --> 00:01:02.250
+La somme vaut donc n moins n zéro, fois b.
+
+00:01:02.300 --> 00:01:05.193
+On égale les deux calculs de la même somme :
+
+00:01:05.193 --> 00:01:08.414
+u n moins u, n zéro, égale n moins n zéro fois b.
+
+00:01:08.414 --> 00:01:11.410
+D'où le terme général.
+
+00:01:11.460 --> 00:01:13.995
+Le point deux, la monotonie, est immédiat :
+
+00:01:13.995 --> 00:01:16.706
+la différence u, n plus un, moins u n, vaut b.
+
+00:01:16.706 --> 00:01:19.710
+Son signe est celui de b.
+
+00:01:19.760 --> 00:01:20.868
+Le point trois :
+
+00:01:20.868 --> 00:01:22.253
+la somme des termes.
+
+00:01:22.253 --> 00:01:27.655
+S égale u, n zéro, plus u, n zéro plus un, et cetera jusqu'à u, n zéro plus k.
+
+00:01:27.655 --> 00:01:28.763
+La formule dit :
+
+00:01:28.763 --> 00:01:34.310
+k plus un, fois la moyenne du premier et du dernier terme.
+
+00:01:34.360 --> 00:01:38.367
+On écrit chaque terme avec le premier, grâce au terme général :
+
+00:01:38.367 --> 00:01:44.750
+u, n zéro plus j, égale u, n zéro, plus j fois b, pour j allant de zéro à k.
+
+00:01:44.800 --> 00:01:46.024
+On sépare la somme.
+
+00:01:46.024 --> 00:01:48.796
+Le terme u, n zéro apparaît k plus un fois.
+
+00:01:48.796 --> 00:01:56.210
+Puis b fois la somme zéro plus un plus deux jusqu'à k, qui vaut k fois k plus un, sur deux.
+
+00:01:56.260 --> 00:01:59.518
+De l'autre côté, on développe la formule du cours.
+
+00:01:59.518 --> 00:02:03.429
+Le dernier terme, u, n zéro plus k, vaut u, n zéro plus k b.
+
+00:02:03.429 --> 00:02:09.390
+Donc la somme du premier et du dernier vaut deux u, n zéro plus k b.
+
+00:02:09.440 --> 00:02:11.836
+On multiplie par k plus un sur deux :
+
+00:02:11.836 --> 00:02:16.759
+on obtient k plus un fois u, n zéro, plus k fois k plus un sur deux, fois b.
+
+00:02:16.759 --> 00:02:18.961
+C'est exactement le même résultat.
+
+00:02:18.961 --> 00:02:22.150
+La formule est démontrée.
+
+00:02:22.200 --> 00:02:23.369
+Retiens la phrase :
+
+00:02:23.369 --> 00:02:28.550
+nombre de termes, fois la moyenne du premier et du dernier.
+
+00:02:28.600 --> 00:02:32.546
+Passons aux suites géométriques, la proposition deux quatre.
+
+00:02:32.546 --> 00:02:34.585
+u, n plus un, égale a fois u n.
+
+00:02:34.585 --> 00:02:38.794
+Le terme général est u, n zéro, fois a puissance n moins n zéro.
+
+00:02:38.794 --> 00:02:47.250
+Et si a est différent de un, la somme vaut u, n zéro fois un moins a puissance k plus un, sur un moins a.
+
+00:02:47.300 --> 00:02:50.467
+Le terme général se démontre par récurrence.
+
+00:02:50.467 --> 00:02:51.978
+Pour n égale n zéro :
+
+00:02:51.978 --> 00:02:55.433
+a puissance zéro vaut un, on retrouve u, n zéro.
+
+00:02:55.433 --> 00:02:56.152
+Hérédité :
+
+00:02:56.152 --> 00:03:07.830
+si u n égale u, n zéro, a puissance n moins n zéro, alors u, n plus un, égale a fois u n, donc u, n zéro, a puissance n plus un moins n zéro.
+
+00:03:07.880 --> 00:03:13.566
+Pour la somme, on écrit chaque terme avec le terme général et on factorise par u, n zéro.
+
+00:03:13.566 --> 00:03:17.590
+Il reste la somme un plus a plus a carré jusqu'à a puissance k.
+
+00:03:17.590 --> 00:03:20.290
+Appelons-la sigma.
+
+00:03:20.340 --> 00:03:22.169
+Voici l'astuce à connaître.
+
+00:03:22.169 --> 00:03:23.930
+On multiplie sigma par a :
+
+00:03:23.930 --> 00:03:27.046
+a plus a carré, jusqu'à a puissance k plus un.
+
+00:03:27.046 --> 00:03:27.994
+On soustrait :
+
+00:03:27.994 --> 00:03:29.349
+sigma moins a sigma.
+
+00:03:29.349 --> 00:03:31.923
+Tous les termes du milieu s'éliminent.
+
+00:03:31.923 --> 00:03:36.250
+Il reste un, moins a puissance k plus un.
+
+00:03:36.300 --> 00:03:37.199
+On factorise :
+
+00:03:37.199 --> 00:03:41.115
+un moins a, fois sigma, égale un moins a puissance k plus un.
+
+00:03:41.115 --> 00:03:44.968
+Comme a est différent de un, on peut diviser par un moins a.
+
+00:03:44.968 --> 00:03:47.910
+On obtient la formule.
+
+00:03:47.960 --> 00:03:50.691
+Et si a vaut un, la suite est constante :
+
+00:03:50.691 --> 00:03:54.021
+la somme vaut simplement k plus un fois u, n zéro.
+
+00:03:54.021 --> 00:03:54.953
+Retiens bien :
+
+00:03:54.953 --> 00:04:00.547
+la formule avec un moins a au dénominateur n'a de sens que si a est différent de un.
+
+00:04:00.547 --> 00:04:02.280
+À bientôt !

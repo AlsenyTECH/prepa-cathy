@@ -1,0 +1,106 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.996
+Bonjour !
+
+00:00:00.996 --> 00:00:04.249
+Dans cette vidéo, la proposition quatre cinq :
+
+00:00:04.249 --> 00:00:07.290
+le passage à la limite dans les inégalités.
+
+00:00:07.290 --> 00:00:18.810
+Si u n tend vers l, v n tend vers l prime, et si u n est inférieur à v n à partir d'un certain rang, alors l est inférieur ou égal à l prime.
+
+00:00:18.860 --> 00:00:20.668
+On raisonne par l'absurde :
+
+00:00:20.668 --> 00:00:23.816
+supposons l strictement plus grand que l prime.
+
+00:00:23.816 --> 00:00:31.910
+Par hypothèse, il existe n zéro tel que u n est inférieur à v n pour n supérieur ou égal à n zéro.
+
+00:00:31.960 --> 00:00:34.971
+On pose epsilon égale l moins l prime, sur trois.
+
+00:00:34.971 --> 00:00:38.166
+C'est la même idée que pour l'unicité de la limite :
+
+00:00:38.166 --> 00:00:43.690
+l prime plus epsilon est strictement inférieur à l moins epsilon.
+
+00:00:43.740 --> 00:00:49.945
+Il existe n un tel que, pour n supérieur ou égal à n un, u n est plus grand que l moins epsilon.
+
+00:00:49.945 --> 00:00:57.830
+Et n deux tel que, pour n supérieur ou égal à n deux, v n est plus petit que l prime plus epsilon.
+
+00:00:57.880 --> 00:01:00.894
+Pour n supérieur au maximum des trois rangs :
+
+00:01:00.894 --> 00:01:07.793
+v n est inférieur à l prime plus epsilon, qui est inférieur à l moins epsilon, qui est inférieur à u n.
+
+00:01:07.793 --> 00:01:12.290
+Donc v n est strictement plus petit que u n.
+
+00:01:12.340 --> 00:01:16.266
+C'est en contradiction avec u n inférieur ou égal à v n.
+
+00:01:16.266 --> 00:01:20.550
+Donc l est inférieur ou égal à l prime.
+
+00:01:20.600 --> 00:01:25.118
+Les deux autres points se déduisent du premier, avec une suite constante.
+
+00:01:25.118 --> 00:01:31.990
+Si u n est majoré par M, on compare u à la suite constante égale à M, qui tend vers M.
+
+00:01:32.040 --> 00:01:35.010
+Ce théorème a deux pièges.
+
+00:01:35.060 --> 00:01:35.998
+Premier piège :
+
+00:01:35.998 --> 00:01:38.623
+les inégalités strictes deviennent larges.
+
+00:01:38.623 --> 00:01:42.874
+Par exemple, moins un sur n est strictement plus petit que un sur n.
+
+00:01:42.874 --> 00:01:46.550
+Mais les deux limites valent zéro.
+
+00:01:46.600 --> 00:01:54.490
+Donc, après un passage à la limite, on écrit toujours inférieur ou égal, jamais strictement inférieur.
+
+00:01:54.540 --> 00:01:55.509
+Deuxième piège :
+
+00:01:55.509 --> 00:02:00.230
+il faut savoir avant que les deux suites convergent.
+
+00:02:00.280 --> 00:02:03.100
+Ce théorème compare des limites qui existent déjà.
+
+00:02:03.100 --> 00:02:06.850
+Il ne prouve pas qu'une suite converge.
+
+00:02:06.900 --> 00:02:11.133
+Pour prouver une convergence avec des inégalités, c'est un autre théorème :
+
+00:02:11.133 --> 00:02:14.150
+le théorème des gendarmes.
+
+00:02:14.200 --> 00:02:14.946
+Un exemple.
+
+00:02:14.946 --> 00:02:23.898
+Si u converge et si u n est strictement plus grand que un sur n plus un, on peut seulement dire que la limite est positive ou nulle.
+
+00:02:23.898 --> 00:02:25.594
+Pas strictement positive.
+
+00:02:25.594 --> 00:02:27.340
+À bientôt !

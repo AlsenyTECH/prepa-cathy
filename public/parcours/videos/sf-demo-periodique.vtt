@@ -1,0 +1,346 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.921
+Bonjour !
+
+00:00:00.921 --> 00:00:03.912
+Voici une démonstration qui tombe très souvent :
+
+00:00:03.912 --> 00:00:06.591
+montrer qu'une suite périodique est bornée.
+
+00:00:06.591 --> 00:00:11.050
+On va la faire très lentement, étape par étape.
+
+00:00:11.100 --> 00:00:12.607
+D'abord, la définition.
+
+00:00:12.607 --> 00:00:20.928
+Une suite u est périodique s'il existe un entier T, supérieur ou égal à un, tel que u, n plus T, égale u n, pour tout entier n.
+
+00:00:20.928 --> 00:00:22.500
+T s'appelle une période.
+
+00:00:22.500 --> 00:00:27.890
+Quand on avance de T rangs, on retombe sur la même valeur.
+
+00:00:27.940 --> 00:00:28.688
+Un exemple :
+
+00:00:28.688 --> 00:00:32.988
+un, deux, trois, un, deux, trois, un, deux, trois, et ainsi de suite.
+
+00:00:32.988 --> 00:00:34.297
+La période est trois.
+
+00:00:34.297 --> 00:00:39.150
+u trois égale u zéro, u quatre égale u un, et cetera.
+
+00:00:39.200 --> 00:00:40.910
+L'idée de la démonstration :
+
+00:00:40.910 --> 00:00:45.918
+une suite périodique ne prend que les valeurs u zéro, u un, jusqu'à u, T moins un.
+
+00:00:45.918 --> 00:00:48.606
+Tous les autres termes sont des répétitions.
+
+00:00:48.606 --> 00:00:50.805
+Cela fait un nombre fini de valeurs.
+
+00:00:50.805 --> 00:00:53.675
+Et un nombre fini de réels, on sait le borner :
+
+00:00:53.675 --> 00:00:56.650
+on prend le plus grand.
+
+00:00:56.700 --> 00:00:57.722
+Première étape.
+
+00:00:57.722 --> 00:01:03.651
+On pose K égale le maximum des valeurs absolues de u zéro, u un, jusqu'à u, T moins un.
+
+00:01:03.651 --> 00:01:07.535
+Ce maximum existe, puisqu'il y a un nombre fini de réels.
+
+00:01:07.535 --> 00:01:11.450
+C'est notre candidat pour la borne.
+
+00:01:11.500 --> 00:01:17.994
+Il reste à montrer que tous les termes, même très loin, sont inférieurs à K en valeur absolue.
+
+00:01:17.994 --> 00:01:19.583
+Le plan est le suivant.
+
+00:01:19.583 --> 00:01:20.412
+Étape deux :
+
+00:01:20.412 --> 00:01:24.833
+montrer qu'en avançant de q périodes, on retrouve le même terme.
+
+00:01:24.833 --> 00:01:25.731
+Étape trois :
+
+00:01:25.731 --> 00:01:29.531
+ramener n'importe quel indice entre zéro et T moins un.
+
+00:01:29.531 --> 00:01:30.498
+Étape quatre :
+
+00:01:30.498 --> 00:01:32.650
+conclure.
+
+00:01:32.700 --> 00:01:33.503
+Étape deux.
+
+00:01:33.503 --> 00:01:35.546
+On démontre un petit lemme :
+
+00:01:35.546 --> 00:01:40.070
+pour tout entier n et tout entier q, u, n plus q T, égale u n.
+
+00:01:40.070 --> 00:01:40.800
+En clair :
+
+00:01:40.800 --> 00:01:46.290
+si on avance de q périodes, on retrouve le même terme.
+
+00:01:46.340 --> 00:01:51.357
+On fixe n, et on raisonne par récurrence sur q, le nombre de périodes.
+
+00:01:51.357 --> 00:01:53.148
+La propriété P de q est :
+
+00:01:53.148 --> 00:01:56.490
+u, n plus q T, égale u n.
+
+00:01:56.540 --> 00:01:59.125
+Initialisation, pour q égale zéro :
+
+00:01:59.125 --> 00:02:01.046
+u, n plus zéro, c'est u n.
+
+00:02:01.046 --> 00:02:03.610
+C'est évident.
+
+00:02:03.660 --> 00:02:04.375
+Hérédité.
+
+00:02:04.375 --> 00:02:07.552
+On suppose que u, n plus q T, égale u n.
+
+00:02:07.552 --> 00:02:10.650
+On regarde u, n plus q plus un, fois T.
+
+00:02:10.650 --> 00:02:11.444
+L'astuce :
+
+00:02:11.444 --> 00:02:13.033
+on découpe l'indice.
+
+00:02:13.033 --> 00:02:19.190
+n plus q plus un fois T, c'est n plus q T, le tout plus T.
+
+00:02:19.240 --> 00:02:26.251
+Maintenant, on applique la définition de la périodicité, non pas à l'indice n, mais à l'indice n plus q T.
+
+00:02:26.251 --> 00:02:26.912
+Elle dit :
+
+00:02:26.912 --> 00:02:29.889
+quand on ajoute T, on retrouve le même terme.
+
+00:02:29.889 --> 00:02:31.542
+Donc c'est u, n plus q T.
+
+00:02:31.542 --> 00:02:35.850
+Et par hypothèse de récurrence, c'est u n.
+
+00:02:35.900 --> 00:02:36.744
+Conclusion :
+
+00:02:36.744 --> 00:02:42.090
+par récurrence, u, n plus q T, égale u n, pour tout q.
+
+00:02:42.140 --> 00:02:44.353
+Vérifions sur l'exemple un, deux, trois.
+
+00:02:44.353 --> 00:02:46.621
+u sept, c'est u, un plus deux fois trois.
+
+00:02:46.621 --> 00:02:49.165
+Cela doit être égal à u un, c'est-à-dire deux.
+
+00:02:49.165 --> 00:02:55.990
+Et en effet, la suite un, deux, trois, un, deux, trois, un, deux, donne bien deux au rang sept.
+
+00:02:56.040 --> 00:02:56.864
+Étape trois.
+
+00:02:56.864 --> 00:02:58.785
+Soit n un entier quelconque.
+
+00:02:58.785 --> 00:03:01.805
+On fait la division euclidienne de n par T :
+
+00:03:01.805 --> 00:03:10.150
+n égale q T plus r, où q est un entier naturel, et le reste r est compris entre zéro et T moins un.
+
+00:03:10.200 --> 00:03:10.999
+Un exemple :
+
+00:03:10.999 --> 00:03:13.662
+avec T égale trois, et n égale dix-sept.
+
+00:03:13.662 --> 00:03:16.458
+Dix-sept égale cinq fois trois, plus deux.
+
+00:03:16.458 --> 00:03:21.250
+Le quotient q vaut cinq, et le reste r vaut deux.
+
+00:03:21.300 --> 00:03:25.992
+On applique le lemme de l'étape deux, à l'indice r, avec q périodes.
+
+00:03:25.992 --> 00:03:27.716
+u n, c'est u, r plus q T.
+
+00:03:27.716 --> 00:03:30.269
+Et le lemme dit que c'est égal à u r.
+
+00:03:30.269 --> 00:03:31.304
+Sur l'exemple :
+
+00:03:31.304 --> 00:03:34.490
+u dix-sept égale u deux.
+
+00:03:34.540 --> 00:03:35.405
+Étape quatre.
+
+00:03:35.405 --> 00:03:38.066
+Le reste r est entre zéro et T moins un.
+
+00:03:38.066 --> 00:03:42.921
+Donc valeur absolue de u r fait partie de la liste dont K est le maximum.
+
+00:03:42.921 --> 00:03:48.110
+Donc valeur absolue de u r est inférieure ou égale à K.
+
+00:03:48.160 --> 00:03:50.522
+Et comme u n égale u r, on obtient :
+
+00:03:50.522 --> 00:03:55.090
+valeur absolue de u n inférieure ou égale à K.
+
+00:03:55.140 --> 00:03:58.610
+C'est vrai pour tout entier n, et K ne dépend pas de n.
+
+00:03:58.610 --> 00:03:59.367
+Conclusion :
+
+00:03:59.367 --> 00:04:04.450
+u n est compris entre moins K et K, la suite est bornée.
+
+00:04:04.500 --> 00:04:06.622
+Attention, la réciproque est fausse.
+
+00:04:06.622 --> 00:04:09.451
+Une suite bornée n'est pas forcément périodique.
+
+00:04:09.451 --> 00:04:14.814
+Par exemple, un sur n plus un est bornée entre zéro et un, mais elle n'est pas périodique :
+
+00:04:14.814 --> 00:04:18.250
+ses termes sont tous différents.
+
+00:04:18.300 --> 00:04:20.342
+Pour finir, l'exercice inverse :
+
+00:04:20.342 --> 00:04:22.639
+montrer qu'une suite est périodique.
+
+00:04:22.639 --> 00:04:30.890
+La suite commence à u zéro égale deux, et u, n plus un, égale moins u n au carré, plus deux u n, plus un.
+
+00:04:30.940 --> 00:04:37.476
+On pose f de x égale moins x carré plus deux x plus un, de sorte que u, n plus un, égale f de u n.
+
+00:04:37.476 --> 00:04:39.543
+On calcule les premiers termes.
+
+00:04:39.543 --> 00:04:41.010
+u un égale f de deux :
+
+00:04:41.010 --> 00:04:44.145
+moins quatre plus quatre plus un, cela fait un.
+
+00:04:44.145 --> 00:04:45.612
+u deux égale f de un :
+
+00:04:45.612 --> 00:04:50.010
+moins un plus deux plus un, cela fait deux.
+
+00:04:50.060 --> 00:04:51.506
+On retombe sur u zéro.
+
+00:04:51.506 --> 00:04:57.157
+Comme chaque terme ne dépend que du précédent, la suite va répéter deux, un, deux, un.
+
+00:04:57.157 --> 00:04:58.143
+On conjecture :
+
+00:04:58.143 --> 00:05:02.190
+u, n plus deux, égale u n pour tout n.
+
+00:05:02.240 --> 00:05:04.566
+On le démontre par récurrence.
+
+00:05:04.566 --> 00:05:05.187
+P de n :
+
+00:05:05.187 --> 00:05:07.203
+u, n plus deux, égale u n.
+
+00:05:07.203 --> 00:05:08.444
+Initialisation :
+
+00:05:08.444 --> 00:05:12.610
+u deux égale deux, qui est u zéro.
+
+00:05:12.660 --> 00:05:13.404
+Hérédité :
+
+00:05:13.404 --> 00:05:16.156
+on suppose u, n plus deux, égale u n.
+
+00:05:16.156 --> 00:05:19.800
+Alors u, n plus trois, c'est f de u, n plus deux.
+
+00:05:19.800 --> 00:05:22.032
+Par hypothèse, c'est f de u n.
+
+00:05:22.032 --> 00:05:24.412
+Et f de u n, c'est u, n plus un.
+
+00:05:24.412 --> 00:05:27.950
+On a obtenu P de n plus un.
+
+00:05:28.000 --> 00:05:28.692
+Conclusion :
+
+00:05:28.692 --> 00:05:31.000
+la suite est périodique de période deux.
+
+00:05:31.000 --> 00:05:36.050
+Et d'après ce qu'on vient de démontrer, elle est donc bornée.
+
+00:05:36.100 --> 00:05:36.748
+Le piège :
+
+00:05:36.748 --> 00:05:39.083
+calculer trois termes ne suffit pas.
+
+00:05:39.083 --> 00:05:43.947
+C'est la récurrence qui prouve que le motif continue pour tous les entiers.
+
+00:05:43.947 --> 00:05:45.660
+À bientôt !

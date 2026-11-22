@@ -1,0 +1,136 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.948
+Bonjour !
+
+00:00:00.948 --> 00:00:06.955
+Dans cette vidéo, on démontre la proposition trois dix-huit, sur la redondance d'un vecteur.
+
+00:00:06.955 --> 00:00:07.934
+Elle dit ceci :
+
+00:00:07.934 --> 00:00:14.920
+si, dans une famille génératrice, un vecteur est combinaison linéaire des autres, alors on peut le retirer.
+
+00:00:14.920 --> 00:00:16.814
+La famille reste génératrice.
+
+00:00:16.814 --> 00:00:20.890
+Ce vecteur n'apportait rien de nouveau.
+
+00:00:20.940 --> 00:00:23.507
+Commençons par un exemple, dans le plan.
+
+00:00:23.507 --> 00:00:25.111
+On prend trois vecteurs :
+
+00:00:25.111 --> 00:00:26.395
+e un égale un, zéro.
+
+00:00:26.395 --> 00:00:27.807
+e deux égale zéro, un.
+
+00:00:27.807 --> 00:00:29.347
+Et e trois égale un, un.
+
+00:00:29.347 --> 00:00:31.785
+Cette famille est génératrice du plan.
+
+00:00:31.785 --> 00:00:37.250
+Et on remarque que e trois est la somme de e un et de e deux.
+
+00:00:37.300 --> 00:00:43.252
+Génératrice, cela veut dire que tout vecteur x du plan s'écrit comme une combinaison linéaire des trois :
+
+00:00:43.252 --> 00:00:48.750
+mu un fois e un, plus mu deux fois e deux, plus mu trois fois e trois.
+
+00:00:48.800 --> 00:00:51.620
+Maintenant, on remplace e trois par ce qu'il vaut :
+
+00:00:51.620 --> 00:00:54.090
+e un plus e deux.
+
+00:00:54.140 --> 00:00:58.755
+On développe, et on regroupe les termes en e un, puis les termes en e deux.
+
+00:00:58.755 --> 00:00:59.494
+On obtient :
+
+00:00:59.494 --> 00:01:01.402
+mu un plus mu trois, fois e un.
+
+00:01:01.402 --> 00:01:04.048
+Plusse, mu deux plus mu trois, fois e deux.
+
+00:01:04.048 --> 00:01:07.494
+Le vecteur x s'écrit donc seulement avec e un et e deux.
+
+00:01:07.494 --> 00:01:10.890
+On n'a plus besoin de e trois.
+
+00:01:10.940 --> 00:01:12.350
+Passons au cas général.
+
+00:01:12.350 --> 00:01:14.189
+On a une famille génératrice :
+
+00:01:14.189 --> 00:01:15.293
+e un, jusqu'à e k.
+
+00:01:15.293 --> 00:01:20.074
+Et on suppose que l'un des vecteurs, e i, est combinaison linéaire des autres.
+
+00:01:20.074 --> 00:01:24.243
+C'est ce que dit cette somme, où j prend toutes les valeurs, sauf i.
+
+00:01:24.243 --> 00:01:29.390
+On va faire exactement les mêmes gestes que dans l'exemple.
+
+00:01:29.440 --> 00:01:31.139
+Soit x un vecteur quelconque.
+
+00:01:31.139 --> 00:01:40.810
+Comme la famille est génératrice, x s'écrit comme une combinaison linéaire de tous les vecteurs, avec des coefficients mu un, jusqu'à mu k.
+
+00:01:40.860 --> 00:01:41.786
+Premier geste :
+
+00:01:41.786 --> 00:01:43.948
+on isole le terme qui contient e i.
+
+00:01:43.948 --> 00:01:49.450
+On écrit la somme de tous les autres termes, plus mu i fois e i.
+
+00:01:49.500 --> 00:01:50.483
+Deuxième geste :
+
+00:01:50.483 --> 00:01:56.150
+on remplace e i par son expression en fonction des autres vecteurs.
+
+00:01:56.200 --> 00:01:57.396
+Troisième geste :
+
+00:01:57.396 --> 00:01:58.241
+on regroupe.
+
+00:01:58.241 --> 00:02:01.829
+Devant chaque vecteur e j, le coefficient devient :
+
+00:02:01.829 --> 00:02:05.490
+mu j, plus mu i fois lambda j.
+
+00:02:05.540 --> 00:02:11.779
+Le vecteur x s'écrit donc comme une combinaison linéaire des vecteurs e j, sans utiliser e i.
+
+00:02:11.779 --> 00:02:14.061
+Et c'est vrai pour tout vecteur x.
+
+00:02:14.061 --> 00:02:17.616
+La famille privée de e i est donc encore génératrice.
+
+00:02:17.616 --> 00:02:18.354
+À retenir :
+
+00:02:18.354 --> 00:02:21.300
+isoler, remplacer, regrouper.

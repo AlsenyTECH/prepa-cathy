@@ -1,0 +1,199 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.967
+Bonjour !
+
+00:00:00.967 --> 00:00:04.542
+Dans cette vidéo, on parle des familles génératrices.
+
+00:00:04.542 --> 00:00:07.510
+C'est la définition trois dix-sept du cours.
+
+00:00:07.510 --> 00:00:15.335
+Une famille de vecteurs, x un, jusqu'à x k, est une famille génératrice de F, si F est égal au Vect de ces vecteurs.
+
+00:00:15.335 --> 00:00:16.347
+Autrement dit :
+
+00:00:16.347 --> 00:00:21.609
+tout vecteur de F s'écrit comme une combinaison linéaire de x un, jusqu'à x k.
+
+00:00:21.609 --> 00:00:23.295
+Le mot important, c'est :
+
+00:00:23.295 --> 00:00:23.633
+tout.
+
+00:00:23.633 --> 00:00:29.210
+Avec ces vecteurs, on peut fabriquer tous les vecteurs de F.
+
+00:00:29.260 --> 00:00:33.750
+Voici trois exemples du cours, à connaître par cœur.
+
+00:00:33.800 --> 00:00:35.810
+Premier exemple, dans le plan.
+
+00:00:35.810 --> 00:00:38.087
+Un couple x, y, s'écrit toujours :
+
+00:00:38.087 --> 00:00:42.106
+x fois le vecteur un, zéro, plus y fois le vecteur zéro, un.
+
+00:00:42.106 --> 00:00:47.990
+Donc ces deux vecteurs forment une famille génératrice de R deux.
+
+00:00:48.040 --> 00:00:51.862
+Deuxième exemple, avec les polynômes de degré au plus n.
+
+00:00:51.862 --> 00:00:53.568
+Un tel polynôme s'écrit :
+
+00:00:53.568 --> 00:01:01.280
+un coefficient fois un, plus un coefficient fois x, et ainsi de suite, jusqu'à un coefficient fois x puissance n.
+
+00:01:01.280 --> 00:01:02.099
+La famille :
+
+00:01:02.099 --> 00:01:07.130
+un, x, jusqu'à x puissance n, est donc génératrice.
+
+00:01:07.180 --> 00:01:10.163
+Troisième exemple, avec les matrices deux deux.
+
+00:01:10.163 --> 00:01:13.273
+Une matrice de coefficients a, b, c, d, s'écrit :
+
+00:01:13.273 --> 00:01:18.731
+a fois E un un, plus b fois E un deux, plus c fois E deux un, plus d fois E deux deux.
+
+00:01:18.731 --> 00:01:22.729
+Les quatre matrices E i j forment donc une famille génératrice.
+
+00:01:22.729 --> 00:01:26.310
+On retrouve nos briques de base.
+
+00:01:26.360 --> 00:01:31.045
+Voyons maintenant la méthode, sur l'exercice C soixante-douze du cours.
+
+00:01:31.045 --> 00:01:33.156
+On a trois vecteurs de R trois :
+
+00:01:33.156 --> 00:01:34.542
+a égale zéro, un, un.
+
+00:01:34.542 --> 00:01:35.928
+b égale un, un, zéro.
+
+00:01:35.928 --> 00:01:37.379
+Et c égale un, un, un.
+
+00:01:37.379 --> 00:01:43.310
+On veut montrer que la famille a, b, c, est génératrice de R trois.
+
+00:01:43.360 --> 00:01:48.585
+Génératrice, cela veut dire que tout vecteur de R trois s'écrit avec a, b et c.
+
+00:01:48.585 --> 00:01:51.098
+On part donc d'un vecteur quelconque :
+
+00:01:51.098 --> 00:01:51.627
+x, y, z.
+
+00:01:51.627 --> 00:01:55.265
+Et on cherche trois réels, lambda, mu et nu, tels que :
+
+00:01:55.265 --> 00:01:58.505
+lambda a, plus mu b, plus nu c, égale ce vecteur.
+
+00:01:58.505 --> 00:02:03.210
+C'est la phrase d'annonce à écrire sur la copie.
+
+00:02:03.260 --> 00:02:08.169
+On traduit cette égalité en système, coordonnée par coordonnée.
+
+00:02:08.169 --> 00:02:09.805
+Première coordonnée :
+
+00:02:09.805 --> 00:02:11.286
+mu plus nu égale x.
+
+00:02:11.286 --> 00:02:12.065
+Deuxième :
+
+00:02:12.065 --> 00:02:14.480
+lambda plus mu plus nu égale y.
+
+00:02:14.480 --> 00:02:15.337
+Troisième :
+
+00:02:15.337 --> 00:02:17.129
+lambda plus nu égale z.
+
+00:02:17.129 --> 00:02:17.987
+Attention :
+
+00:02:17.987 --> 00:02:21.181
+ici, les inconnues sont lambda, mu et nu.
+
+00:02:21.181 --> 00:02:25.750
+Les nombres x, y et z sont des données.
+
+00:02:25.800 --> 00:02:26.521
+On résout.
+
+00:02:26.521 --> 00:02:29.476
+La ligne deux, moins la ligne un, donne :
+
+00:02:29.476 --> 00:02:31.133
+lambda égale y moins x.
+
+00:02:31.133 --> 00:02:32.935
+Avec la troisième ligne :
+
+00:02:32.935 --> 00:02:37.043
+nu égale z moins lambda, c'est-à-dire x, moins y, plus z.
+
+00:02:37.043 --> 00:02:38.989
+Et avec la première ligne :
+
+00:02:38.989 --> 00:02:43.710
+mu égale x moins nu, c'est-à-dire y moins z.
+
+00:02:43.760 --> 00:02:47.681
+Le système a une solution, quel que soit le vecteur x, y, z.
+
+00:02:47.681 --> 00:02:53.850
+Tout vecteur de R trois est donc une combinaison linéaire de a, b et c.
+
+00:02:53.900 --> 00:02:56.172
+On conclut avec les mots de l'énoncé :
+
+00:02:56.172 --> 00:03:00.910
+donc, a, b, c, est une famille génératrice de R trois.
+
+00:03:00.960 --> 00:03:04.892
+Une vérification rapide, avec le vecteur un, zéro, zéro.
+
+00:03:04.892 --> 00:03:06.436
+Les formules donnent :
+
+00:03:06.436 --> 00:03:09.947
+lambda égale moins un, mu égale zéro, nu égale un.
+
+00:03:09.947 --> 00:03:10.859
+Et en effet :
+
+00:03:10.859 --> 00:03:13.527
+moins a, plus c, égale un, zéro, zéro.
+
+00:03:13.527 --> 00:03:14.510
+C'est correct.
+
+00:03:14.510 --> 00:03:15.914
+Retiens la méthode :
+
+00:03:15.914 --> 00:03:20.408
+un vecteur quelconque, un système, puis la phrase de conclusion.
+
+00:03:20.408 --> 00:03:22.180
+À bientôt !

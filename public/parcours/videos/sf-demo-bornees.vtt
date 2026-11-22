@@ -1,0 +1,184 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.909
+Bonjour !
+
+00:00:00.909 --> 00:00:07.065
+Dans cette vidéo, deux démonstrations sur les suites bornées, qui tombent très souvent en évaluation.
+
+00:00:07.065 --> 00:00:07.857
+La première :
+
+00:00:07.857 --> 00:00:14.750
+si une suite est majorée à partir d'un certain rang, alors elle est majorée tout court.
+
+00:00:14.800 --> 00:00:17.759
+On commence toujours par traduire l'hypothèse.
+
+00:00:17.759 --> 00:00:21.105
+Majorée à partir d'un certain rang, cela veut dire :
+
+00:00:21.105 --> 00:00:30.310
+il existe un réel M et un entier n zéro, tels que u n est inférieur ou égal à M pour tout n supérieur ou égal à n zéro.
+
+00:00:30.360 --> 00:00:31.648
+Où est le problème ?
+
+00:00:31.648 --> 00:00:33.773
+Les termes avant le rang n zéro :
+
+00:00:33.773 --> 00:00:36.414
+u zéro, u un, jusqu'à u, n zéro moins un.
+
+00:00:36.414 --> 00:00:39.119
+Rien ne dit qu'ils sont plus petits que M.
+
+00:00:39.119 --> 00:00:42.710
+Peut-être que u zéro vaut mille.
+
+00:00:42.760 --> 00:00:43.583
+L'idée clé :
+
+00:00:43.583 --> 00:00:45.708
+ces termes sont en nombre fini.
+
+00:00:45.708 --> 00:00:49.822
+Et un nombre fini de réels a toujours un plus grand élément.
+
+00:00:49.822 --> 00:00:55.649
+On pose donc M prime égale le maximum de M, u zéro, u un, jusqu'à u, n zéro moins un.
+
+00:00:55.649 --> 00:01:01.910
+Ce maximum existe, car on prend le maximum d'un nombre fini de réels.
+
+00:01:01.960 --> 00:01:05.349
+On vérifie maintenant que M prime majore la suite.
+
+00:01:05.349 --> 00:01:06.501
+Soit n un entier.
+
+00:01:06.501 --> 00:01:07.383
+Premier cas :
+
+00:01:07.383 --> 00:01:10.094
+n est strictement plus petit que n zéro.
+
+00:01:10.094 --> 00:01:14.161
+Alors u n fait partie de la liste dont on a pris le maximum.
+
+00:01:14.161 --> 00:01:18.490
+Donc u n est inférieur ou égal à M prime.
+
+00:01:18.540 --> 00:01:19.527
+Deuxième cas :
+
+00:01:19.527 --> 00:01:21.853
+n est supérieur ou égal à n zéro.
+
+00:01:21.853 --> 00:01:25.519
+Alors, par hypothèse, u n est inférieur ou égal à M.
+
+00:01:25.519 --> 00:01:31.490
+Et M est dans la liste, donc M est inférieur ou égal à M prime.
+
+00:01:31.540 --> 00:01:35.139
+Dans les deux cas, u n est inférieur ou égal à M prime.
+
+00:01:35.139 --> 00:01:37.103
+Et M prime ne dépend pas de n.
+
+00:01:37.103 --> 00:01:38.804
+Donc la suite est majorée.
+
+00:01:38.804 --> 00:01:45.590
+La même démonstration marche pour minorée, avec un minimum, et donc pour bornée.
+
+00:01:45.640 --> 00:01:48.722
+Deuxième démonstration, c'est l'exercice C trente-six :
+
+00:01:48.722 --> 00:01:54.810
+si deux suites u et v sont bornées, alors leur somme et leur produit sont bornés.
+
+00:01:54.860 --> 00:01:58.018
+On traduit l'hypothèse, avec la valeur absolue.
+
+00:01:58.018 --> 00:02:04.333
+Il existe un réel K positif tel que valeur absolue de u n inférieure ou égale à K pour tout n.
+
+00:02:04.333 --> 00:02:10.984
+Et un réel K prime positif tel que valeur absolue de v n inférieure ou égale à K prime pour tout n.
+
+00:02:10.984 --> 00:02:11.723
+Attention :
+
+00:02:11.723 --> 00:02:18.090
+deux suites différentes, donc deux constantes différentes, K et K prime.
+
+00:02:18.140 --> 00:02:21.139
+Pour la somme, on utilise l'inégalité triangulaire :
+
+00:02:21.139 --> 00:02:27.650
+la valeur absolue d'une somme est inférieure ou égale à la somme des valeurs absolues.
+
+00:02:27.700 --> 00:02:31.202
+Puis on remplace chaque valeur absolue par son majorant :
+
+00:02:31.202 --> 00:02:34.310
+on obtient K plus K prime.
+
+00:02:34.360 --> 00:02:37.055
+Et voici la phrase qui rapporte les points :
+
+00:02:37.055 --> 00:02:39.137
+K plus K prime ne dépend pas de n.
+
+00:02:39.137 --> 00:02:42.750
+Donc la suite u plus v est bornée.
+
+00:02:42.800 --> 00:02:43.890
+Pour le produit :
+
+00:02:43.890 --> 00:02:48.185
+la valeur absolue d'un produit est le produit des valeurs absolues.
+
+00:02:48.185 --> 00:02:51.199
+Et on a deux encadrements de nombres positifs :
+
+00:02:51.199 --> 00:02:58.050
+valeur absolue de u n entre zéro et K, valeur absolue de v n entre zéro et K prime.
+
+00:02:58.100 --> 00:03:05.298
+On a le droit de multiplier des inégalités membre à membre, seulement parce que tous ces nombres sont positifs.
+
+00:03:05.298 --> 00:03:08.734
+C'est pour cela qu'on passe par les valeurs absolues.
+
+00:03:08.734 --> 00:03:09.513
+On obtient :
+
+00:03:09.513 --> 00:03:13.338
+valeur absolue de u n v n, inférieure ou égale à K K prime.
+
+00:03:13.338 --> 00:03:16.250
+Le produit est borné.
+
+00:03:16.300 --> 00:03:17.338
+Et le quotient ?
+
+00:03:17.338 --> 00:03:19.220
+Attention, ce n'est pas vrai.
+
+00:03:19.220 --> 00:03:22.530
+Prends u n égale un, et v n égale un sur n plus un.
+
+00:03:22.530 --> 00:03:23.958
+Les deux sont bornées.
+
+00:03:23.958 --> 00:03:27.463
+Mais le quotient vaut n plus un, qui n'est pas bornée.
+
+00:03:27.463 --> 00:03:31.746
+Un contre-exemple suffit pour montrer qu'une propriété est fausse.
+
+00:03:31.746 --> 00:03:33.460
+À bientôt !

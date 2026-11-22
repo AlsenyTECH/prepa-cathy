@@ -1,0 +1,94 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.968
+Bonjour !
+
+00:00:00.968 --> 00:00:05.490
+Dans cette vidéo, on démontre que la limite d'une suite est unique.
+
+00:00:05.490 --> 00:00:11.090
+Si u converge vers l et vers l prime, alors l égale l prime.
+
+00:00:11.140 --> 00:00:11.598
+L'idée :
+
+00:00:11.598 --> 00:00:19.490
+si l et l prime étaient différents, on pourrait les entourer de deux petits intervalles qui ne se touchent pas.
+
+00:00:19.540 --> 00:00:25.932
+Or, à partir d'un certain rang, les termes devraient être dans le premier intervalle, et aussi dans le second.
+
+00:00:25.932 --> 00:00:28.450
+C'est impossible.
+
+00:00:28.500 --> 00:00:30.299
+On raisonne par l'absurde.
+
+00:00:30.299 --> 00:00:33.345
+Supposons l strictement inférieur à l prime.
+
+00:00:33.345 --> 00:00:37.221
+On pose epsilon égale l prime moins l, divisé par trois.
+
+00:00:37.221 --> 00:00:40.550
+C'est strictement positif.
+
+00:00:40.600 --> 00:00:45.280
+Avec ce choix, l plus epsilon est strictement inférieur à l prime moins epsilon.
+
+00:00:45.280 --> 00:00:49.170
+Les deux intervalles ne se touchent pas.
+
+00:00:49.220 --> 00:00:50.903
+Pourquoi diviser par trois ?
+
+00:00:50.903 --> 00:00:54.028
+La distance entre l et l prime est coupée en trois :
+
+00:00:54.028 --> 00:01:02.850
+un tiers pour le demi-intervalle autour de l, un tiers pour celui autour de l prime, et un tiers d'espace entre les deux.
+
+00:01:02.900 --> 00:01:05.290
+On traduit maintenant les hypothèses.
+
+00:01:05.290 --> 00:01:15.930
+Comme u n tend vers l, il existe un rang n un, tel que pour tout n supérieur ou égal à n un, u n est entre l moins epsilon et l plus epsilon.
+
+00:01:15.980 --> 00:01:26.493
+Comme u n tend vers l prime, il existe un rang n deux, tel que pour tout n supérieur ou égal à n deux, u n est entre l prime moins epsilon et l prime plus epsilon.
+
+00:01:26.493 --> 00:01:27.202
+Attention :
+
+00:01:27.202 --> 00:01:31.590
+deux hypothèses, donc deux rangs différents.
+
+00:01:31.640 --> 00:01:34.573
+On pose grand N égale le maximum de n un et n deux.
+
+00:01:34.573 --> 00:01:39.610
+Pour ce rang, les deux encadrements sont vrais en même temps.
+
+00:01:39.660 --> 00:01:48.072
+Alors u grand N est inférieur à l plus epsilon, qui est inférieur à l prime moins epsilon, qui est inférieur à u grand N.
+
+00:01:48.072 --> 00:01:51.827
+On obtient u grand N strictement inférieur à lui-même.
+
+00:01:51.827 --> 00:01:54.350
+C'est absurde.
+
+00:01:54.400 --> 00:01:55.786
+Donc l égale l prime :
+
+00:01:55.786 --> 00:02:00.150
+la limite d'une suite convergente est unique.
+
+00:02:00.200 --> 00:02:03.395
+Retiens le schéma, il revient dans tout le chapitre :
+
+00:02:03.395 --> 00:02:07.917
+on écrit un rang pour chaque hypothèse, puis on prend le maximum des rangs.
+
+00:02:07.917 --> 00:02:09.580
+À bientôt !

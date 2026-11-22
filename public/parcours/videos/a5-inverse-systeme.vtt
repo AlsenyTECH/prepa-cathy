@@ -1,0 +1,220 @@
+WEBVTT
+
+00:00:00.360 --> 00:00:00.930
+Bonjour !
+
+00:00:00.930 --> 00:00:09.159
+Dans cette vidéo, on voit comment montrer qu'une matrice est inversible, et comment calculer son inverse, en résolvant un système.
+
+00:00:09.159 --> 00:00:12.830
+C'est la méthode à utiliser quand l'énoncé dit seulement :
+
+00:00:12.830 --> 00:00:17.071
+montrer que la matrice A est inversible, et déterminer son inverse.
+
+00:00:17.071 --> 00:00:21.490
+On va rédiger exactement comme sur une copie.
+
+00:00:21.540 --> 00:00:24.618
+On commence toujours par une phrase d'annonce.
+
+00:00:24.618 --> 00:00:27.764
+Soit grand X, la colonne des inconnues x, y, z.
+
+00:00:27.764 --> 00:00:31.578
+Et soit grand B, la colonne des seconds membres, a, b, c.
+
+00:00:31.578 --> 00:00:33.921
+Ces trois nombres sont quelconques.
+
+00:00:33.921 --> 00:00:34.925
+Puis on écrit :
+
+00:00:34.925 --> 00:00:38.750
+on résout le système, A X égale B.
+
+00:00:38.800 --> 00:00:42.973
+On traduit l'égalité en un système de trois équations.
+
+00:00:42.973 --> 00:00:45.987
+La première ligne de la matrice donne :
+
+00:00:45.987 --> 00:00:47.842
+x plus y plus z égale a.
+
+00:00:47.842 --> 00:00:48.847
+La deuxième :
+
+00:00:48.847 --> 00:00:51.088
+x plus deux y plus z égale b.
+
+00:00:51.088 --> 00:00:52.170
+La troisième :
+
+00:00:52.170 --> 00:00:54.411
+x plus y plus deux z égale c.
+
+00:00:54.411 --> 00:00:55.261
+Attention :
+
+00:00:55.261 --> 00:00:59.280
+entre deux systèmes, on écrit le symbole équivalent.
+
+00:00:59.280 --> 00:01:02.510
+Jamais le signe égale.
+
+00:01:02.560 --> 00:01:05.560
+On élimine x dans les lignes deux et trois.
+
+00:01:05.560 --> 00:01:07.723
+On remplace la ligne deux par :
+
+00:01:07.723 --> 00:01:09.537
+ligne deux moins ligne un.
+
+00:01:09.537 --> 00:01:10.235
+Il reste :
+
+00:01:10.235 --> 00:01:11.491
+y égale b moins a.
+
+00:01:11.491 --> 00:01:13.723
+On remplace la ligne trois par :
+
+00:01:13.723 --> 00:01:15.607
+ligne trois moins ligne un.
+
+00:01:15.607 --> 00:01:16.305
+Il reste :
+
+00:01:16.305 --> 00:01:17.561
+z égale c moins a.
+
+00:01:17.561 --> 00:01:22.390
+Et on note chaque opération à côté de la ligne.
+
+00:01:22.440 --> 00:01:23.722
+On connaît y et z.
+
+00:01:23.722 --> 00:01:27.212
+On remonte dans la première ligne pour trouver x.
+
+00:01:27.212 --> 00:01:29.206
+x égale a, moins y, moins z.
+
+00:01:29.206 --> 00:01:31.058
+En remplaçant, on trouve :
+
+00:01:31.058 --> 00:01:35.010
+x égale trois a, moins b, moins c.
+
+00:01:35.060 --> 00:01:36.619
+Le système est résolu :
+
+00:01:36.619 --> 00:01:39.872
+on a exprimé x, y et z en fonction de a, b et c.
+
+00:01:39.872 --> 00:01:40.956
+Mais attention :
+
+00:01:40.956 --> 00:01:42.921
+l'exercice n'est pas terminé.
+
+00:01:42.921 --> 00:01:48.450
+Il reste à conclure, et c'est là que se gagnent les points.
+
+00:01:48.500 --> 00:01:50.690
+Voici la phrase la plus importante.
+
+00:01:50.690 --> 00:01:54.444
+Pour tout second membre B, le système a une unique solution.
+
+00:01:54.444 --> 00:01:56.509
+Donc la matrice A est inversible.
+
+00:01:56.509 --> 00:01:59.325
+C'est cette phrase qui répond à la question :
+
+00:01:59.325 --> 00:02:01.140
+montrer que A est inversible.
+
+00:02:01.140 --> 00:02:05.110
+Sans elle, on n'a fait que des calculs.
+
+00:02:05.160 --> 00:02:07.974
+Ensuite, on sait que la solution s'écrit :
+
+00:02:07.974 --> 00:02:09.784
+X égale A moins un, fois B.
+
+00:02:09.784 --> 00:02:12.062
+On lit donc l'inverse directement.
+
+00:02:12.062 --> 00:02:16.284
+La première ligne contient les coefficients de a, b, c dans x :
+
+00:02:16.284 --> 00:02:18.026
+trois, moins un, moins un.
+
+00:02:18.026 --> 00:02:20.036
+La deuxième ligne, ceux de y :
+
+00:02:20.036 --> 00:02:21.309
+moins un, un, zéro.
+
+00:02:21.309 --> 00:02:22.985
+La troisième, ceux de z :
+
+00:02:22.985 --> 00:02:24.258
+moins un, zéro, un.
+
+00:02:24.258 --> 00:02:27.550
+Et on encadre le résultat.
+
+00:02:27.600 --> 00:02:30.223
+On termine par une vérification rapide.
+
+00:02:30.223 --> 00:02:34.392
+On multiplie la ligne un de A par la colonne un de l'inverse :
+
+00:02:34.392 --> 00:02:36.140
+trois, moins un, moins un.
+
+00:02:36.140 --> 00:02:37.014
+Cela fait un.
+
+00:02:37.014 --> 00:02:39.973
+C'est bien ce qu'on attend sur la diagonale.
+
+00:02:39.973 --> 00:02:42.529
+Puis la ligne un par la colonne deux :
+
+00:02:42.529 --> 00:02:44.479
+moins un, plus un, plus zéro.
+
+00:02:44.479 --> 00:02:45.488
+Cela fait zéro.
+
+00:02:45.488 --> 00:02:47.710
+C'est bon.
+
+00:02:47.760 --> 00:02:51.199
+Retiens les trois phrases à écrire à chaque fois.
+
+00:02:51.199 --> 00:02:51.479
+Un :
+
+00:02:51.479 --> 00:02:53.795
+on résout le système A X égale B.
+
+00:02:53.795 --> 00:02:54.216
+Deux :
+
+00:02:54.216 --> 00:02:58.146
+le système a une unique solution, donc A est inversible.
+
+00:02:58.146 --> 00:02:58.637
+Trois :
+
+00:02:58.637 --> 00:03:04.760
+X égale A moins un fois B, donc A moins un égale, et on donne la matrice.
